@@ -78,4 +78,15 @@ public class TestAlphaCiv {
     // Matchers may be combined, like is-not
     assertThat(l.get(0), is(not("Bumse")));
   }
+
+  @Test
+  public void redGoesFirst() {
+    assertThat(game.getPlayerInTurn(), is(Player.RED));
+  }
+
+  @Test
+  public void redOwnsCityAt11() {
+    Position pos = new Position(1, 1);
+    assertThat(game.getCityAt(pos).getOwner(), is(Player.RED));
+  }
 }

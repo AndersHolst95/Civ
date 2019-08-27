@@ -32,8 +32,8 @@ import hotciv.framework.*;
 public class GameImpl implements Game {
   public Tile getTileAt( Position p ) { return null; }
   public Unit getUnitAt( Position p ) { return null; }
-  public City getCityAt( Position p ) { return null; }
-  public Player getPlayerInTurn() { return null; }
+  public City getCityAt( Position p ) { return new CityImpl(); }
+  public Player getPlayerInTurn() { return Player.RED; }
   public Player getWinner() { return null; }
   public int getAge() { return 0; }
   public boolean moveUnit( Position from, Position to ) {
