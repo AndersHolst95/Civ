@@ -45,7 +45,7 @@ public class GameImpl implements Game {
     }
 
     public City getCityAt(Position p) {
-        return new CityImpl();
+        return map[p.getRow()][p.getColumn()].getCity();
     }
 
     public Player getPlayerInTurn() {
@@ -98,14 +98,16 @@ public class GameImpl implements Game {
       // Inserting special terrain
       map[1][0].setType("ocean");
       map[0][1].setType("hills");
-      map[2][2].setType("mountains");
+      map[2][2].setType("mountain");
 
       // Inserting special units
       map[2][0].setUnit(new UnitImpl("archer", Player.RED, 2, 3, 1));
       map[3][2].setUnit(new UnitImpl("legion", Player.BLUE, 4, 2, 1));
       map[4][3].setUnit(new UnitImpl("settler", Player.RED, 0, 3, 1));
 
-
+      // Inserting starting cities
+      map[1][1].setCity(new CityImpl(1, 0, Player.RED, null, null));
+      map[4][1].setCity(new CityImpl(1, 0, Player.BLUE, null, null));
 
       return map;
     }

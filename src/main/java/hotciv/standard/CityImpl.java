@@ -4,28 +4,42 @@ import hotciv.framework.City;
 import hotciv.framework.Player;
 
 public class CityImpl implements City {
+    int size;
+    int treasury;
+    Player owner;
+    String production;
+    String workforceFocus;
+
+    public CityImpl(int size, int treasury, Player owner, String production, String workforceFocus) {
+        this.size = size;
+        this.treasury = treasury;
+        this.owner = owner;
+        this.production = production;
+        this.workforceFocus = workforceFocus;
+    }
+
     @Override
     public int getSize() {
-        return 0;
+        return size;
     }
 
     @Override
     public int getTreasury() {
-        return 0;
+        return treasury;
     }
 
     @Override
     public Player getOwner() {
-        return Player.RED;
+        return owner;
     }
 
     @Override
     public String getProduction() {
-        return null;
+        return production;
     }
 
     @Override
     public String getWorkforceFocus() {
-        return null;
+        return workforceFocus;
     }
 }

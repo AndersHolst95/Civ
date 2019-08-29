@@ -36,4 +36,8 @@ public class TileImpl implements Tile{
     public UnitImpl getUnit() {
         return unit;
     }
+
+    public CityImpl getCity() {
+        return city;
+    }
 }

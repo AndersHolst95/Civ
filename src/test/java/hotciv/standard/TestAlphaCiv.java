@@ -90,18 +90,6 @@ public class TestAlphaCiv {
     }
 
     @Test
-    public void redOwnsCityAt11() {
-        Position pos = new Position(1, 1);
-        assertThat(game.getCityAt(pos).getOwner(), is(Player.RED));
-    }
-
-    @Test
-    public void oceanAt10() {
-        Position pos = new Position(1, 0);
-        assertThat(game.getTileAt(pos).getTypeString(), is("ocean"));
-    }
-
-    @Test
     public void gameStartYearIs4000BC() {
         assertThat(game.getAge(), is(-4000));
     }
@@ -139,17 +127,39 @@ public class TestAlphaCiv {
     }
 
     @Test
-    public void hillsAt01(){
-        Position pos = new Position(0, 1);
-        assertThat(game.getTileAt(pos).getTypeString(), is("hills"));
-    }
-
-    @Test
     public void correctStartingUnits() {
         assertThat(game.getUnitAt(new Position(2, 0)).getTypeString(), is("archer"));
         assertThat(game.getUnitAt(new Position(3, 2)).getTypeString(), is("legion"));
         assertThat(game.getUnitAt(new Position(4, 3)).getTypeString(), is("settler"));
     }
 
+    @Test
+    public void correctStartingCities() {
+        assertThat(game.getCityAt(new Position(1, 1)).getOwner(), is(Player.RED));
+        assertThat(game.getCityAt(new Position(4, 1)).getOwner(), is(Player.BLUE));
+    }
+
+    @Test
+    public void correctStartingTerrain() {
+        assertThat(game.getTileAt(new Position(1, 0)).getTypeString(), is("ocean"));
+        assertThat(game.getTileAt(new Position(0, 1)).getTypeString(), is("hills"));
+        assertThat(game.getTileAt(new Position(2, 2)).getTypeString(), is("mountain"));
+    }
+
+    @Test
+    public void noCityGrowth() {
+        while (game.getWinner() == null) {
+            game.endOfTurn();
+            for(int i = 0; i < GameConstants.WORLDSIZE; i++){
+                for(int j = 0; j< GameConstants.WORLDSIZE; j++){
+                    City city = game.getCityAt(new Position(i, j));
+                    if (city != null)
+                        assertThat(city.getSize(), is(1));
+                }
+            }
+        }
+        assertThat(game.getAge(), is(-3000));
+        assertThat(game.getWinner(), is(not(nullValue())));
+    }
 
 }
