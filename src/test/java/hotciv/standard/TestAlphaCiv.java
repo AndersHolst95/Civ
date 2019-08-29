@@ -121,4 +121,20 @@ public class TestAlphaCiv {
         assertThat(game.getWinner(), is(Player.RED));
     }
 
+    @Test
+    public void noWinnerBefore3000BC() {
+        while (game.getAge() < -3000) {
+            assertThat(game.getWinner(), is(nullValue()));
+            game.endOfTurn();
+        }
+        assertThat(game.getAge(), is(-3000));
+        assertThat(game.getWinner(), is(not(nullValue())));
+    }
+
+    @Test
+    public void blueAfterRed() {
+        assertThat(game.getPlayerInTurn(), is(Player.RED));
+        game.endOfTurn();
+        assertThat(game.getPlayerInTurn(), is(Player.BLUE));
+    }
 }

@@ -7,7 +7,7 @@ Test ideas
 [] Red cannot move blue´s units
 [] Cities produce 6 'productions' after a round has ended
 [] Cities' population size is always 1
-[] After Red it is Blue that is in turn
+[x] After Red it is Blue that is in turn
 [] Red wins in year 3000 BC
 [] Red' unit attack and destroy Blue´s unit
 ___ Our own tests____
@@ -15,5 +15,5 @@ ___ Our own tests____
 [x] We increment the age of the world by 100 at the end of each turn
 [] There is hills at (0,1)
 [] There is mountains at (2,2)
-[] There is no winner, until red wins in year 3000
+[x] There is no winner before year 3000 BC
 
