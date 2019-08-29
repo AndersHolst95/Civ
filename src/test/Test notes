@@ -16,4 +16,6 @@ ___ Our own tests____
 [x] There is hills at (0,1)
 [] There is mountains at (2,2)
 [x] There is no winner before year 3000 BC
+[] Starting units as the specifications require
+[] Starting units have the correct owner
 

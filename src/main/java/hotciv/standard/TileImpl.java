@@ -5,14 +5,15 @@ public class TileImpl implements Tile{
     Position pos;
     String type;
     CityImpl city;
-    // Missing unit implementation
+    UnitImpl unit;
 
     public TileImpl(){};
 
-    public TileImpl(Position position, String type, CityImpl city){
+    public TileImpl(Position position, String type, CityImpl city, UnitImpl unit){
         this.pos = position;
         this.type = type;
         this.city = city;
+        this.unit = unit;
     }
 
     @Override
@@ -26,5 +27,13 @@ public class TileImpl implements Tile{
 
     public void setCity(CityImpl city) {
         this.city = city;
+    }
+
+    public void setUnit(UnitImpl unit) {
+        this.unit = unit;
+    }
+
+    public UnitImpl getUnit() {
+        return unit;
     }
 }

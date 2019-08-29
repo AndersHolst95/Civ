@@ -41,7 +41,7 @@ public class GameImpl implements Game {
     }
 
     public Unit getUnitAt(Position p) {
-        return null;
+        return map[p.getRow()][p.getColumn()].getUnit();
     }
 
     public City getCityAt(Position p) {
@@ -92,13 +92,20 @@ public class GameImpl implements Game {
       // Inserting planes tiles everywhere
       for(int i = 0; i < GameConstants.WORLDSIZE; i++){
         for(int j = 0; j< GameConstants.WORLDSIZE; j++){
-          map[i][j] = new TileImpl(new Position(i,j), "planes", null);
+          map[i][j] = new TileImpl(new Position(i,j), "planes", null, null);
         }
       }
-      // Inserting special tiles
+      // Inserting special terrain
       map[1][0].setType("ocean");
       map[0][1].setType("hills");
       map[2][2].setType("mountains");
+
+      // Inserting special units
+      map[2][0].setUnit(new UnitImpl("archer", Player.RED, 2, 3, 1));
+      map[3][2].setUnit(new UnitImpl("legion", Player.BLUE, 4, 2, 1));
+      map[4][3].setUnit(new UnitImpl("settler", Player.RED, 0, 3, 1));
+
+
 
       return map;
     }

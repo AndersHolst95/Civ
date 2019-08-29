@@ -143,4 +143,13 @@ public class TestAlphaCiv {
         Position pos = new Position(0, 1);
         assertThat(game.getTileAt(pos).getTypeString(), is("hills"));
     }
+
+    @Test
+    public void correctStartingUnits() {
+        assertThat(game.getUnitAt(new Position(2, 0)).getTypeString(), is("archer"));
+        assertThat(game.getUnitAt(new Position(3, 2)).getTypeString(), is("legion"));
+        assertThat(game.getUnitAt(new Position(4, 3)).getTypeString(), is("settler"));
+    }
+
+
 }
