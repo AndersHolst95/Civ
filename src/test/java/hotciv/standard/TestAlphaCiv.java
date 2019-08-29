@@ -101,5 +101,24 @@ public class TestAlphaCiv {
         assertThat(game.getTileAt(pos).getTypeString(), is("ocean"));
     }
 
+    @Test
+    public void gameStartYearIs4000BC() {
+        assertThat(game.getAge(), is(-4000));
+    }
+
+    @Test
+    public void gameTimeIncrementsBy100Years() {
+        int age = game.getAge();
+        game.endOfTurn();
+        assertThat(game.getAge(), is(age + 100));
+    }
+
+    @Test
+    public void redWinsInYear3000BC() {
+        while (game.getAge() < -3000)
+            game.endOfTurn();
+        assertThat(game.getAge(), is(-3000));
+        assertThat(game.getWinner(), is(Player.RED));
+    }
 
 }

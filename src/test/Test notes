@@ -3,15 +3,17 @@ Test ideas
 [x] Red is the first player in turn
 [x] Red´s city is at (1,1)
 [x] There is ocean at (1,0)
-[] units cannot move over maountain
-[] Red cannot move blue´´ units
+[] units cannot move over mountains
+[] Red cannot move blue´s units
 [] Cities produce 6 'productions' after a round has ended
-[] Cities' population sixe ia always 1
+[] Cities' population size is always 1
 [] After Red it is Blue that is in turn
 [] Red wins in year 3000 BC
 [] Red' unit attack and destroy Blue´s unit
 ___ Our own tests____
-[] The starts in year 4000 BC
-[] We increment the age of the world by 100 at the end of each turn
+[x] The starts in year 4000 BC
+[x] We increment the age of the world by 100 at the end of each turn
 [] There is hills at (0,1)
 [] There is mountains at (2,2)
+[] There is no winner, until red wins in year 3000
+
