@@ -137,4 +137,10 @@ public class TestAlphaCiv {
         game.endOfTurn();
         assertThat(game.getPlayerInTurn(), is(Player.BLUE));
     }
+
+    @Test
+    public void hillsAt01(){
+        Position pos = new Position(0, 1);
+        assertThat(game.getTileAt(pos).getTypeString(), is("hills"));
+    }
 }

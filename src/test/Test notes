@@ -8,12 +8,12 @@ Test ideas
 [] Cities produce 6 'productions' after a round has ended
 [] Cities' population size is always 1
 [x] After Red it is Blue that is in turn
-[] Red wins in year 3000 BC
+[x] Red wins in year 3000 BC
 [] Red' unit attack and destroy Blue´s unit
 ___ Our own tests____
 [x] The starts in year 4000 BC
 [x] We increment the age of the world by 100 at the end of each turn
-[] There is hills at (0,1)
+[x] There is hills at (0,1)
 [] There is mountains at (2,2)
 [x] There is no winner before year 3000 BC
 
