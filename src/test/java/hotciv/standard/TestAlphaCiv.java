@@ -141,7 +141,7 @@ public class TestAlphaCiv {
         Position toto = new Position(4, 0);
         assertThat((game.getUnitAt(from).getMoveCount()), is(1));
         assertTrue(game.moveUnit(from, to));
-        assertFalse(game.moveUnit(to, toto));
+        assertFalse(game.moveUnit(to, toto)); // trying to move again
     }
 
     @Test
@@ -153,9 +153,21 @@ public class TestAlphaCiv {
 
         game.setTypeAt(mountain, GameConstants.MOUNTAINS);
         game.setUnitAt(unit, new UnitImpl(GameConstants.ARCHER, Player.RED, 2, 3, 1));
-        assertFalse(game.moveUnit(from, mountain));
-        assertFalse(game.moveUnit(from, unit));
-        assertFalse(game.moveUnit(from, tooLong));
+        assertFalse(game.moveUnit(from, mountain)); // trying to move onto a mountain
+        assertFalse(game.moveUnit(from, unit)); // trying to move onto a friendly unit
+        assertFalse(game.moveUnit(from, tooLong)); // trying to move too far
         assertFalse(game.moveUnit(new Position(5, 5), new Position(5, 4))); // trying to move nothing
+    }
+
+    @Test
+    public void canMoveDiagonally() {
+        Position from = new Position (2, 0);
+        Position to = new Position (3, 1);
+        assertTrue(game.moveUnit(from, to));
+    }
+
+    @Test
+    public void cannotMoveOpposingUnits() {
+        assertThat(game.getUnitAt(new Position(3, 2)).getTypeString(), is("legion"));
     }
 }
