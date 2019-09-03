@@ -62,26 +62,43 @@ public class GameImpl implements Game {
 
     public boolean moveUnit(Position from, Position to) {
         UnitImpl unit = map[from.getRow()][from.getColumn()].getUnit();
-        int moveCount = unit.getMoveCount();
 
-        if(moveCount > 0 ){
-            unit.substractMoveCount(1);
+        // Check if unit exists
+        if (unit == null)
+            return false;
+
+        // Check if unit has enough movement points left
+        if (unit.getMoveCount() > 0)
+            unit.setMoveCount(unit.getMoveCount() - 1);
+        else
+            return false;
+
+        // Check if terrain is impassable
+        String type = map[to.getRow()][to.getColumn()].getTypeString();
+        if (type.equals(GameConstants.MOUNTAINS) || type.equals(GameConstants.OCEANS))
+            return false;
+
+        // Check friendly unit collision
+        Unit toUnit = map[to.getRow()][to.getColumn()].getUnit();
+        if (toUnit != null && toUnit.getOwner() == currentPlayer)
+            return false;
+
+        // Check if destination is a single tile away
+        boolean valid = false;
+        if (Math.abs(from.getColumn() - to.getColumn()) == 1) {
+            if (Math.abs(from.getRow() - to.getRow()) <= 1)
+                valid = true;
         }
-        else return false;
+        if (Math.abs(from.getRow() - to.getRow()) == 1) {
+            if (Math.abs(from.getColumn() - to.getColumn()) == 0)
+                valid = true;
+        }
+        if (!valid)
+                return false;
 
-        map[to.getRow()][to.getColumn()].setUnit(unit);
-        map[from.getRow()][from.getColumn()].setUnit(null);
-
-        //Unit unit = map[from.getRow()][from.getColumn()].getUnit();
-        // If there is no player at position from, don't do anything:
-        //if(unit == null){return false;}
-
-        //Unit unitTo = map[to.getRow()][to.getColumn()].getUnit();
-        // If the player at position to is your own player, do not move:
-        //if(unitTo != null & unitTo.getOwner() == currentPlayer){return false;}
-
-    return true;
-
+        map[to.getRow()][to.getColumn()].setUnit(unit); // replaces unit on to
+        map[from.getRow()][from.getColumn()].setUnit(null); // removes unit on from
+        return true;
     }
 
     public void endOfTurn() {
@@ -101,8 +118,19 @@ public class GameImpl implements Game {
     public void performUnitActionAt(Position p) {
     }
 
+    public void setTypeAt(Position pos, String type) {
+        map[pos.getRow()][pos.getColumn()].setType(type);
+    }
 
-  /**
+    public void setUnitAt(Position pos, UnitImpl unit) {
+        map[pos.getRow()][pos.getColumn()].setUnit(unit);
+    }
+
+    public void setCityAt(Position pos, CityImpl city) {
+        map[pos.getRow()][pos.getColumn()].setCity(city);
+    }
+
+    /**
    * This method implements the basic map given at page 459.
    * @return the finished map as an array of tiles
    */
@@ -113,18 +141,18 @@ public class GameImpl implements Game {
       // Inserting planes tiles everywhere
       for(int i = 0; i < GameConstants.WORLDSIZE; i++){
         for(int j = 0; j< GameConstants.WORLDSIZE; j++){
-          map[i][j] = new TileImpl(new Position(i,j), "plains", null, null);
+          map[i][j] = new TileImpl(new Position(i,j), GameConstants.PLAINS, null, null);
         }
       }
       // Inserting special terrain
-      map[1][0].setType("ocean");
-      map[0][1].setType("hills");
-      map[2][2].setType("mountain");
+      map[1][0].setType(GameConstants.OCEANS);
+      map[0][1].setType(GameConstants.HILLS);
+      map[2][2].setType(GameConstants.MOUNTAINS);
 
       // Inserting special units
-      map[2][0].setUnit(new UnitImpl("archer", Player.RED, 2, 3, 1));
-      map[3][2].setUnit(new UnitImpl("legion", Player.BLUE, 4, 2, 1));
-      map[4][3].setUnit(new UnitImpl("settler", Player.RED, 0, 3, 1));
+      map[2][0].setUnit(new UnitImpl(GameConstants.ARCHER, Player.RED, 2, 3, 1));
+      map[3][2].setUnit(new UnitImpl(GameConstants.LEGION, Player.BLUE, 4, 2, 1));
+      map[4][3].setUnit(new UnitImpl(GameConstants.SETTLER, Player.RED, 0, 3, 1));
 
       // Inserting starting cities
       map[1][1].setCity(new CityImpl(1, 0, Player.RED, null, null));

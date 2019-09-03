@@ -2,11 +2,11 @@ package hotciv.standard;
 import hotciv.framework.*;
 
 public class UnitImpl implements Unit{
-    String type;
-    Player owner;
-    int attStrength;
-    int defStrength;
-    int moveCount;
+    private String type;
+    private Player owner;
+    private int attStrength;
+    private int defStrength;
+    private int moveCount;
 
     public UnitImpl(String type, Player owner, int attStrength, int defStrength, int moveCount){
         this.type = type;
@@ -40,7 +40,8 @@ public class UnitImpl implements Unit{
         return type;
     }
 
-    public void substractMoveCount(int move) {
-        moveCount-= move;
+    public void setMoveCount(int i) {
+        moveCount = i;
+        return;
     }
 }

@@ -38,7 +38,7 @@ import java.util.*;
  * limitations under the License.
  */
 public class TestAlphaCiv {
-    private Game game;
+    private GameImpl game;
 
     /**
      * Fixture for alphaciv testing.
@@ -54,34 +54,6 @@ public class TestAlphaCiv {
         assertThat(game, is(notNullValue()));
         // TODO: reenable the assert below to get started...
         // assertThat(game.getPlayerInTurn(), is(Player.RED));
-    }
-
-    /**
-     * REMOVE ME. Not a test of HotCiv, just an example of what
-     * matchers the hamcrest library has...
-     */
-    @Test
-    public void shouldDefinetelyBeRemoved() {
-        // Matching null and not null values
-        // 'is' require an exact match
-        String s = null;
-        assertThat(s, is(nullValue()));
-        s = "Ok";
-        assertThat(s, is(notNullValue()));
-        assertThat(s, is("Ok"));
-
-        // If you only validate substrings, use containsString
-        assertThat("This is a dummy test", containsString("dummy"));
-
-        // Match contents of Lists
-        List<String> l = new ArrayList<String>();
-        l.add("Bimse");
-        l.add("Bumse");
-        // Note - ordering is ignored when matching using hasItems
-        assertThat(l, hasItems(new String[]{"Bumse", "Bimse"}));
-
-        // Matchers may be combined, like is-not
-        assertThat(l.get(0), is(not("Bumse")));
     }
 
     @Test
@@ -163,18 +135,27 @@ public class TestAlphaCiv {
     }
 
     @Test
-    public void limitedMovementCount(){
-        Position from = new Position(2,0);
-        Position to = new Position(2,1);
-        Position toto = new Position(2,2);
-        int moveCount = game.getUnitAt(from).getMoveCount();
-        game.moveUnit(from, to);
-        assertThat(moveCount - 1, is(game.getUnitAt(to).getMoveCount()));
-        game.moveUnit(to, toto);
-        assertThat(game.getUnitAt(toto), is(nullValue())); // It has not moved away from to
-        assertThat(0, is(game.getUnitAt(to).getMoveCount()));
+    public void limitedMovementCount() {
+        Position from = new Position(2, 0);
+        Position to = new Position(3, 0);
+        Position toto = new Position(4, 0);
+        assertThat((game.getUnitAt(from).getMoveCount()), is(1));
+        assertTrue(game.moveUnit(from, to));
+        assertFalse(game.moveUnit(to, toto));
+    }
 
-        // Missing: Checking whether the move is illegal!
+    @Test
+    public void illegalMovement() {
+        Position from = new Position (2, 0); // starting position
+        Position unit = new Position (2, 1); // friendly unit
+        Position mountain = new Position (3, 0); // impassable mountain
+        Position tooLong = new Position(GameConstants.WORLDSIZE-1, GameConstants.WORLDSIZE-1); // too far away
 
+        game.setTypeAt(mountain, GameConstants.MOUNTAINS);
+        game.setUnitAt(unit, new UnitImpl(GameConstants.ARCHER, Player.RED, 2, 3, 1));
+        assertFalse(game.moveUnit(from, mountain));
+        assertFalse(game.moveUnit(from, unit));
+        assertFalse(game.moveUnit(from, tooLong));
+        assertFalse(game.moveUnit(new Position(5, 5), new Position(5, 4))); // trying to move nothing
     }
 }

@@ -4,11 +4,11 @@ import hotciv.framework.City;
 import hotciv.framework.Player;
 
 public class CityImpl implements City {
-    int size;
-    int treasury;
-    Player owner;
-    String production;
-    String workforceFocus;
+    private int size;
+    private int treasury;
+    private Player owner;
+    private String production;
+    private String workforceFocus;
 
     public CityImpl(int size, int treasury, Player owner, String production, String workforceFocus) {
         this.size = size;

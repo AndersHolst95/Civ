@@ -2,12 +2,10 @@ package hotciv.standard ;
 import hotciv.framework.*;
 
 public class TileImpl implements Tile{
-    Position pos;
-    String type;
-    CityImpl city;
-    UnitImpl unit;
-
-    public TileImpl(){};
+    private Position pos;
+    private String type;
+    private CityImpl city;
+    private UnitImpl unit;
 
     public TileImpl(Position position, String type, CityImpl city, UnitImpl unit){
         this.pos = position;
