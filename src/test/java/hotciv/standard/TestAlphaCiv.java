@@ -160,8 +160,15 @@ public class TestAlphaCiv {
         assertTrue(game.moveUnit(from, to));
     }
 
-//    @Test
-//    public void cannotMoveOpposingUnits() {
-//        assertFalse(game.moveUnit(new Position(3, 2), new Position(4, 2))); // trying to move blue unit while red is in turn
-//    }
+    @Test
+    public void cannotMoveOpposingUnits(){
+        // Red cannot move blues unit
+        assertFalse(game.moveUnit(new Position(3,2), new Position(4,2)));
+
+        game.endOfTurn();
+        // Blue cannot move reds units
+        assertFalse(game.moveUnit(new Position(2,0), new Position(2,1)));
+    }
+
+
 }

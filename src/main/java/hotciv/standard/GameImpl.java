@@ -67,6 +67,9 @@ public class GameImpl implements Game {
         if (unit == null)
             return false;
 
+        // Checking if the unit has the right owner
+        if(unit.getOwner() != currentPlayer){ return false;}
+
         // Check if unit has enough movement points left
         if (unit.getMoveCount() > 0)
             unit.setMoveCount(unit.getMoveCount() - 1);
