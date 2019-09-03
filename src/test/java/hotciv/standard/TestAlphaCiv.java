@@ -162,4 +162,19 @@ public class TestAlphaCiv {
         assertThat(game.getWinner(), is(not(nullValue())));
     }
 
+    @Test
+    public void limitedMovementCount(){
+        Position from = new Position(2,0);
+        Position to = new Position(2,1);
+        Position toto = new Position(2,2);
+        int moveCount = game.getUnitAt(from).getMoveCount();
+        game.moveUnit(from, to);
+        assertThat(moveCount - 1, is(game.getUnitAt(to).getMoveCount()));
+        game.moveUnit(to, toto);
+        assertThat(game.getUnitAt(toto), is(nullValue())); // It has not moved away from to
+        assertThat(0, is(game.getUnitAt(to).getMoveCount()));
+
+        // Missing: Checking whether the move is illegal!
+
+    }
 }

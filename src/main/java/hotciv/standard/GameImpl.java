@@ -61,7 +61,27 @@ public class GameImpl implements Game {
     }
 
     public boolean moveUnit(Position from, Position to) {
-        return false;
+        UnitImpl unit = map[from.getRow()][from.getColumn()].getUnit();
+        int moveCount = unit.getMoveCount();
+
+        if(moveCount > 0 ){
+            unit.substractMoveCount(1);
+        }
+        else return false;
+
+        map[to.getRow()][to.getColumn()].setUnit(unit);
+        map[from.getRow()][from.getColumn()].setUnit(null);
+
+        //Unit unit = map[from.getRow()][from.getColumn()].getUnit();
+        // If there is no player at position from, don't do anything:
+        //if(unit == null){return false;}
+
+        //Unit unitTo = map[to.getRow()][to.getColumn()].getUnit();
+        // If the player at position to is your own player, do not move:
+        //if(unitTo != null & unitTo.getOwner() == currentPlayer){return false;}
+
+    return true;
+
     }
 
     public void endOfTurn() {
@@ -81,18 +101,19 @@ public class GameImpl implements Game {
     public void performUnitActionAt(Position p) {
     }
 
+
   /**
    * This method implements the basic map given at page 459.
    * @return the finished map as an array of tiles
    */
-  private TileImpl[][] generateMap(){
+    private TileImpl[][] generateMap(){
 
       TileImpl[][] map = new TileImpl[GameConstants.WORLDSIZE][GameConstants.WORLDSIZE];
 
       // Inserting planes tiles everywhere
       for(int i = 0; i < GameConstants.WORLDSIZE; i++){
         for(int j = 0; j< GameConstants.WORLDSIZE; j++){
-          map[i][j] = new TileImpl(new Position(i,j), "planes", null, null);
+          map[i][j] = new TileImpl(new Position(i,j), "plains", null, null);
         }
       }
       // Inserting special terrain

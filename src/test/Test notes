@@ -1,10 +1,9 @@
 Test ideas
 
 [x] Red is the first player in turn
-[] units cannot move over mountains
 [] Red cannot move blue´s units
 [] Cities produce 6 'productions' after a round has ended
-[] Cities' population size is always 1
+[x] Cities' population size is always 1
 [x] After Red it is Blue that is in turn
 [x] Red wins in year 3000 BC
 [] Red' unit attack and destroy Blue´s unit
@@ -16,3 +15,6 @@ ___ Our own tests____
 [] Starting units have the correct owner
 [x] Correct starting cities (positions and owners)
 [x] Correct starting terrain (ocean, hill, mountain)
+[x] A unit can only move its movecount each turn
+[] Units cannot stack (with other units, mountains and ocean)
+[] The correct unit (the attacker) wins

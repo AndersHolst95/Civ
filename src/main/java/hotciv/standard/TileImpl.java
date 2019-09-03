@@ -14,6 +14,7 @@ public class TileImpl implements Tile{
         this.type = type;
         this.city = city;
         this.unit = unit;
+
     }
 
     @Override

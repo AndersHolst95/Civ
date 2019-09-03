@@ -39,4 +39,8 @@ public class UnitImpl implements Unit{
     public String getTypeString() {
         return type;
     }
+
+    public void substractMoveCount(int move) {
+        moveCount-= move;
+    }
 }
