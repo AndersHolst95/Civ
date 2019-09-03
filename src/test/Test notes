@@ -16,5 +16,5 @@ ___ Our own tests____
 [x] Correct starting cities (positions and owners)
 [x] Correct starting terrain (ocean, hill, mountain)
 [x] A unit can only move its movecount each turn
-[] Illegal movement: Units cannot stack (with other units, mountains and ocean)
+[x] Illegal movement: Units cannot stack (with other units, mountains and ocean)
 [] The correct unit (the attacker) wins

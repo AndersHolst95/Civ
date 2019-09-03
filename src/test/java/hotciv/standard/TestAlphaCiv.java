@@ -48,14 +48,6 @@ public class TestAlphaCiv {
         game = new GameImpl();
     }
 
-    // FRS p. 455 states that 'Red is the first player to take a turn'.
-    @Test
-    public void shouldBeRedAsStartingPlayer() {
-        assertThat(game, is(notNullValue()));
-        // TODO: reenable the assert below to get started...
-        // assertThat(game.getPlayerInTurn(), is(Player.RED));
-    }
-
     @Test
     public void redGoesFirst() {
         assertThat(game.getPlayerInTurn(), is(Player.RED));
@@ -149,14 +141,16 @@ public class TestAlphaCiv {
         Position from = new Position (2, 0); // starting position
         Position unit = new Position (2, 1); // friendly unit
         Position mountain = new Position (3, 0); // impassable mountain
+        Position ocean = new Position (1, 0); // impassable ocean
         Position tooLong = new Position(GameConstants.WORLDSIZE-1, GameConstants.WORLDSIZE-1); // too far away
 
         game.setTypeAt(mountain, GameConstants.MOUNTAINS);
         game.setUnitAt(unit, new UnitImpl(GameConstants.ARCHER, Player.RED, 2, 3, 1));
+        assertFalse(game.moveUnit(new Position(5, 5), new Position(5, 4))); // trying to move nothing
+        assertFalse(game.moveUnit(from, tooLong)); // trying to move too far
+        assertFalse(game.moveUnit(from, ocean)); // trying to move onto an ocean
         assertFalse(game.moveUnit(from, mountain)); // trying to move onto a mountain
         assertFalse(game.moveUnit(from, unit)); // trying to move onto a friendly unit
-        assertFalse(game.moveUnit(from, tooLong)); // trying to move too far
-        assertFalse(game.moveUnit(new Position(5, 5), new Position(5, 4))); // trying to move nothing
     }
 
     @Test
@@ -166,8 +160,8 @@ public class TestAlphaCiv {
         assertTrue(game.moveUnit(from, to));
     }
 
-    @Test
-    public void cannotMoveOpposingUnits() {
-        assertThat(game.getUnitAt(new Position(3, 2)).getTypeString(), is("legion"));
-    }
+//    @Test
+//    public void cannotMoveOpposingUnits() {
+//        assertFalse(game.moveUnit(new Position(3, 2), new Position(4, 2))); // trying to move blue unit while red is in turn
+//    }
 }

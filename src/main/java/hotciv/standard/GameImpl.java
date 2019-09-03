@@ -95,6 +95,7 @@ public class GameImpl implements Game {
         }
         if (!valid)
                 return false;
+
         // ANOTHER VERSION OF CALCULATING THE LENGTH OF MOVEMENT //
         // The unit has moved more than one tile
         //double d = Math.sqrt(java.lang.Double.sum(Math.pow(to.getRow()-from.getRow(), 2) , Math.pow(to.getColumn()-from.getColumn(), 2)));
