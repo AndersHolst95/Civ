@@ -1,0 +1,29 @@
+TESTS
+
+PLAYERS:
+- Blue goes after red
+
+GAME:
+- Red always goes first
+- Starts in year 4000BC
+- Red wins in year 3000BC
+- Nobody wins before this
+
+UNITS:
+- Starting units are generated correctly
+- Starting cities are generated correctly
+- Units can only move up to [moveCount] steps per turn
+- Units can move diagonally
+- Units cannot move to a tile if:
+	* it is a mountain
+	* it is an ocean
+	* it is occupied by a friendly unit
+	* the unit does not exist
+	* the destination is too far away
+
+WORLD:
+- World age is incremented by 100 at the end of each turn
+- Terrain is generated correctly
+
+CITIES:
+- No city growth
