@@ -1,12 +1,11 @@
 BACKLOG OF ALPHACIV 1
 
 Players:
-- Test that only two players participate in the game
 - Players cannot move the opponent's units
 
 Units:
-- Test that only one unit can occupy a given tile
 - Starting units have correct ownership
+- Units can not be produced on impassable terrain
 
 Attacking:
 - Test that attacking works as intended

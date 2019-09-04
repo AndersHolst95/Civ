@@ -170,5 +170,20 @@ public class TestAlphaCiv {
         assertFalse(game.moveUnit(new Position(2,0), new Position(2,1)));
     }
 
+    @Test
+    public void onlyTwoPlayersParticipating() {
+        while (game.getWinner() == null) {
+            assertTrue(game.getPlayerInTurn() == Player.BLUE || game.getPlayerInTurn() == Player.RED);
+            game.endOfTurn();
+        }
+    }
+
+    @Test
+    public void onlyOneUnitCanOccupyATile() {
+        Position pos = new Position(5, 5 );
+        assertTrue(game.setUnitAt(pos, new UnitImpl(GameConstants.ARCHER, Player.BLUE)));
+        assertFalse(game.setUnitAt(pos, new UnitImpl(GameConstants.ARCHER, Player.RED)));
+        assertFalse(game.setUnitAt(pos, new UnitImpl(GameConstants.ARCHER, Player.BLUE)));
+    }
 
 }

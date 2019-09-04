@@ -130,8 +130,12 @@ public class GameImpl implements Game {
         map[pos.getRow()][pos.getColumn()].setType(type);
     }
 
-    public void setUnitAt(Position pos, UnitImpl unit) {
-        map[pos.getRow()][pos.getColumn()].setUnit(unit);
+    public boolean setUnitAt(Position pos, UnitImpl unit) {
+        if (getUnitAt(pos) == null) {
+            map[pos.getRow()][pos.getColumn()].setUnit(unit);
+            return true;
+        }
+        return false;
     }
 
     public void setCityAt(Position pos, CityImpl city) {

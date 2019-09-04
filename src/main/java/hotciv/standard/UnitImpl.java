@@ -15,6 +15,31 @@ public class UnitImpl implements Unit{
         this.defStrength = defStrength;
         this.moveCount = moveCount;
     }
+    public UnitImpl(String type, Player owner){
+        this.type = type;
+        this.owner = owner;
+        switch (type) {
+            case GameConstants.ARCHER:
+                this.attStrength = 2;
+                this.defStrength = 3;
+                this.moveCount = 1;
+                break;
+
+            case GameConstants.LEGION:
+                this.attStrength = 4;
+                this.defStrength = 2;
+                this.moveCount = 1;
+                break;
+
+            case GameConstants.SETTLER:
+                this.attStrength = 0;
+                this.defStrength = 3;
+                this.moveCount = 1;
+                break;
+
+        }
+    }
+
     @Override
     public Player getOwner() {
         return owner;
