@@ -113,9 +113,20 @@ public class GameImpl implements Game {
         if (currentPlayer == Player.RED)
             currentPlayer = Player.BLUE;
         else { // resolve end-of-turn stuff and begin the next turn
-            worldAge += 100;
-
+            endOfRound();
             currentPlayer = Player.RED;
+        }
+    }
+    private void endOfRound(){
+        worldAge += 100;
+
+        // Iterating over map, ad # productionValue to cities
+        for(int i = 0; i < GameConstants.WORLDSIZE; i++){
+            for(int j = 0; j< GameConstants.WORLDSIZE; j++){
+                if (getCityAt(new Position(i,j)) != null){
+                    ((CityImpl) getCityAt(new Position(i,j))).addProductionValue();
+                }
+            }
         }
     }
 

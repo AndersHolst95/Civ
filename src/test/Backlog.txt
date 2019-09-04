@@ -1,5 +1,4 @@
 BACKLOG OF ALPHACIV 1
 
 Cities:
-- Production generation
 - Production of units

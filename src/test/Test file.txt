@@ -33,3 +33,4 @@ WORLD:
 
 CITIES:
 - No city growth
+= Production generation works as intended

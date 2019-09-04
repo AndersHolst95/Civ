@@ -40,6 +40,10 @@ import java.util.*;
 public class TestAlphaCiv {
     private GameImpl game;
 
+    private void endRound(){
+        game.endOfTurn();
+        game.endOfTurn();
+    }
     /**
      * Fixture for alphaciv testing.
      */
@@ -61,8 +65,7 @@ public class TestAlphaCiv {
     @Test
     public void gameTimeIncrementsBy100Years() {
         int age = game.getAge();
-        game.endOfTurn();
-        game.endOfTurn();
+        endRound();
         assertThat(game.getAge(), is(age + 100));
     }
 
@@ -211,8 +214,20 @@ public class TestAlphaCiv {
         assertFalse(game.setUnitAt(new Position(2, 2), new UnitImpl(GameConstants.ARCHER, Player.RED))); // mountain
     }
 
-//    @Test
-//    public void citiesProduce6ProductionPerRound() {
-//
-//    }
+    @Test
+    public void citiesProduce6ProductionPerRound() {
+
+        Position pos1 = new Position(1,1);
+        Position pos2 = new Position(4,1);
+        int city1Prod = ((CityImpl) game.getCityAt(pos1)).getProductionValue();
+        int city2Prod = ((CityImpl) game.getCityAt(pos2)).getProductionValue();
+        endRound();
+        assertEquals(((CityImpl) game.getCityAt(pos1)).getProductionValue(), city1Prod + 6);
+        assertEquals(((CityImpl) game.getCityAt(pos2)).getProductionValue(), city2Prod + 6);
+
+
+
+
+
+    }
 }

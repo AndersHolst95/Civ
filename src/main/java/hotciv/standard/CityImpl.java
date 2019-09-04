@@ -9,6 +9,7 @@ public class CityImpl implements City {
     private Player owner;
     private String production;
     private String workforceFocus;
+    private int productionValue;
 
     public CityImpl(int size, int treasury, Player owner, String production, String workforceFocus) {
         this.size = size;
@@ -16,6 +17,7 @@ public class CityImpl implements City {
         this.owner = owner;
         this.production = production;
         this.workforceFocus = workforceFocus;
+        productionValue = 0;
     }
 
     @Override
@@ -41,5 +43,13 @@ public class CityImpl implements City {
     @Override
     public String getWorkforceFocus() {
         return workforceFocus;
+    }
+
+    public int getProductionValue(){
+        return productionValue;
+    }
+
+    public void addProductionValue(){
+        productionValue += 6;
     }
 }
