@@ -10,14 +10,15 @@ public class CityImpl implements City {
     private String production;
     private String workforceFocus;
     private int productionValue;
+    private int productionCost;
 
     public CityImpl(int size, int treasury, Player owner, String production, String workforceFocus) {
         this.size = size;
         this.treasury = treasury;
         this.owner = owner;
-        this.production = production;
         this.workforceFocus = workforceFocus;
         productionValue = 0;
+        setProduction(production);
     }
 
     @Override
@@ -40,6 +41,15 @@ public class CityImpl implements City {
         return production;
     }
 
+    public void setProduction(String production) {
+        this.production = production;
+        productionCost = (new UnitImpl(production, Player.RED).getCost());
+    }
+
+    public int getProductionCost() {
+        return productionCost;
+    }
+
     @Override
     public String getWorkforceFocus() {
         return workforceFocus;
@@ -49,7 +59,9 @@ public class CityImpl implements City {
         return productionValue;
     }
 
-    public void addProductionValue(){
-        productionValue += 6;
+    public void addProductionValue(int value){
+        productionValue += value;
     }
+
+
 }

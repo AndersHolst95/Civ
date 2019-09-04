@@ -216,7 +216,6 @@ public class TestAlphaCiv {
 
     @Test
     public void citiesProduce6ProductionPerRound() {
-
         Position pos1 = new Position(1,1);
         Position pos2 = new Position(4,1);
         int city1Prod = ((CityImpl) game.getCityAt(pos1)).getProductionValue();
@@ -224,8 +223,15 @@ public class TestAlphaCiv {
         endRound();
         assertEquals(((CityImpl) game.getCityAt(pos1)).getProductionValue(), city1Prod + 6);
         assertEquals(((CityImpl) game.getCityAt(pos2)).getProductionValue(), city2Prod + 6);
+    }
 
-
+    @Test
+    public void cityCanProduceUnits() {
+        Position cityPos = new Position(1, 1);
+        ((CityImpl)game.getCityAt(cityPos)).setProduction(GameConstants.ARCHER);
+        endRound();
+        endRound();
+        assertThat(game.getUnitAt(cityPos).getTypeString(), is(GameConstants.ARCHER));
 
 
 

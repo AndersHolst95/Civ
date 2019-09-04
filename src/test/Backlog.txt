@@ -1,4 +1,4 @@
 BACKLOG OF ALPHACIV 1
 
 Cities:
-- Production of units
+- Units cannot be produced on impassable terrain

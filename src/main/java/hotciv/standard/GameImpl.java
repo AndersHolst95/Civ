@@ -117,6 +117,7 @@ public class GameImpl implements Game {
             currentPlayer = Player.RED;
         }
     }
+
     private void endOfRound(){
         worldAge += 100;
 
@@ -124,7 +125,12 @@ public class GameImpl implements Game {
         for(int i = 0; i < GameConstants.WORLDSIZE; i++){
             for(int j = 0; j< GameConstants.WORLDSIZE; j++){
                 if (getCityAt(new Position(i,j)) != null){
-                    ((CityImpl) getCityAt(new Position(i,j))).addProductionValue();
+                    CityImpl city = ((CityImpl) getCityAt(new Position(i,j)));
+                    city.addProductionValue(6);
+                    if (city.getProductionValue() >= city.getProductionCost()) {
+                        setUnitAt(new Position(i, j), new UnitImpl(city.getProduction(), city.getOwner()));
+                        city.addProductionValue(-city.getProductionCost());
+                    }
                 }
             }
         }
@@ -186,8 +192,8 @@ public class GameImpl implements Game {
       map[4][3].setUnit(new UnitImpl(GameConstants.SETTLER, Player.RED));
 
       // Inserting starting cities
-      map[1][1].setCity(new CityImpl(1, 0, Player.RED, null, null));
-      map[4][1].setCity(new CityImpl(1, 0, Player.BLUE, null, null));
+      map[1][1].setCity(new CityImpl(1, 0, Player.RED, GameConstants.ARCHER, null));
+      map[4][1].setCity(new CityImpl(1, 0, Player.BLUE, GameConstants.ARCHER, null));
 
       return map;
     }
