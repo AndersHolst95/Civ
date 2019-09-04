@@ -1,15 +1,5 @@
 BACKLOG OF ALPHACIV 1
 
-Players:
-- Players cannot move the opponent's units
-
-Units:
-- Starting units have correct ownership
-- Units can not be produced on impassable terrain
-
-Attacking:
-- Test that attacking works as intended
-
 Cities:
 - Production generation
 - Production of units

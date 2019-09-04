@@ -62,6 +62,7 @@ public class TestAlphaCiv {
     public void gameTimeIncrementsBy100Years() {
         int age = game.getAge();
         game.endOfTurn();
+        game.endOfTurn();
         assertThat(game.getAge(), is(age + 100));
     }
 
@@ -92,9 +93,14 @@ public class TestAlphaCiv {
 
     @Test
     public void correctStartingUnits() {
-        assertThat(game.getUnitAt(new Position(2, 0)).getTypeString(), is("archer"));
-        assertThat(game.getUnitAt(new Position(3, 2)).getTypeString(), is("legion"));
-        assertThat(game.getUnitAt(new Position(4, 3)).getTypeString(), is("settler"));
+        // check the units are created
+        assertThat(game.getUnitAt(new Position(2, 0)).getTypeString(), is(GameConstants.ARCHER));
+        assertThat(game.getUnitAt(new Position(3, 2)).getTypeString(), is(GameConstants.LEGION));
+        assertThat(game.getUnitAt(new Position(4, 3)).getTypeString(), is(GameConstants.SETTLER));
+        // check ownership
+        assertThat(game.getUnitAt(new Position(2, 0)).getOwner(), is(Player.RED));
+        assertThat(game.getUnitAt(new Position(3, 2)).getOwner(), is(Player.BLUE));
+        assertThat(game.getUnitAt(new Position(4, 3)).getOwner(), is(Player.RED));
     }
 
     @Test
@@ -105,9 +111,9 @@ public class TestAlphaCiv {
 
     @Test
     public void correctStartingTerrain() {
-        assertThat(game.getTileAt(new Position(1, 0)).getTypeString(), is("ocean"));
-        assertThat(game.getTileAt(new Position(0, 1)).getTypeString(), is("hills"));
-        assertThat(game.getTileAt(new Position(2, 2)).getTypeString(), is("mountain"));
+        assertThat(game.getTileAt(new Position(1, 0)).getTypeString(), is(GameConstants.OCEANS));
+        assertThat(game.getTileAt(new Position(0, 1)).getTypeString(), is(GameConstants.HILLS));
+        assertThat(game.getTileAt(new Position(2, 2)).getTypeString(), is(GameConstants.MOUNTAINS));
     }
 
     @Test
@@ -145,7 +151,7 @@ public class TestAlphaCiv {
         Position tooLong = new Position(GameConstants.WORLDSIZE-1, GameConstants.WORLDSIZE-1); // too far away
 
         game.setTypeAt(mountain, GameConstants.MOUNTAINS);
-        game.setUnitAt(unit, new UnitImpl(GameConstants.ARCHER, Player.RED, 2, 3, 1));
+        game.setUnitAt(unit, new UnitImpl(GameConstants.ARCHER, Player.RED));
         assertFalse(game.moveUnit(new Position(5, 5), new Position(5, 4))); // trying to move nothing
         assertFalse(game.moveUnit(from, tooLong)); // trying to move too far
         assertFalse(game.moveUnit(from, ocean)); // trying to move onto an ocean
@@ -162,12 +168,9 @@ public class TestAlphaCiv {
 
     @Test
     public void cannotMoveOpposingUnits(){
-        // Red cannot move blues unit
-        assertFalse(game.moveUnit(new Position(3,2), new Position(4,2)));
-
+        assertFalse(game.moveUnit(new Position(3,2), new Position(4,2))); // red cannot move blue
         game.endOfTurn();
-        // Blue cannot move reds units
-        assertFalse(game.moveUnit(new Position(2,0), new Position(2,1)));
+        assertFalse(game.moveUnit(new Position(2,0), new Position(2,1))); // blue cannot move red
     }
 
     @Test
@@ -181,9 +184,35 @@ public class TestAlphaCiv {
     @Test
     public void onlyOneUnitCanOccupyATile() {
         Position pos = new Position(5, 5 );
-        assertTrue(game.setUnitAt(pos, new UnitImpl(GameConstants.ARCHER, Player.BLUE)));
-        assertFalse(game.setUnitAt(pos, new UnitImpl(GameConstants.ARCHER, Player.RED)));
-        assertFalse(game.setUnitAt(pos, new UnitImpl(GameConstants.ARCHER, Player.BLUE)));
+        assertTrue(game.setUnitAt(pos, new UnitImpl(GameConstants.ARCHER, Player.BLUE))); // can place a unit on a free tile
+        assertFalse(game.setUnitAt(pos, new UnitImpl(GameConstants.ARCHER, Player.RED))); // cannot place another red unit on the same tile
+        assertFalse(game.setUnitAt(pos, new UnitImpl(GameConstants.ARCHER, Player.BLUE))); // nor another blue unit
     }
 
+    @Test
+    public void attackingUnitWins() {
+        Position redPos = new Position(5, 5);
+        Position bluePos1 = new Position(5, 6);
+        Position bluePos2 = new Position(5, 7);
+        game.setUnitAt(redPos, new UnitImpl(GameConstants.ARCHER, Player.RED));
+        game.setUnitAt(bluePos1, new UnitImpl(GameConstants.ARCHER, Player.BLUE));
+        game.setUnitAt(bluePos2, new UnitImpl(GameConstants.ARCHER, Player.BLUE));
+
+        assertTrue(game.moveUnit(redPos, bluePos1)); // red is moved
+        assertThat(game.getUnitAt(bluePos1).getOwner(), is(Player.RED)); // check that red won the fight
+        game.endOfTurn(); // change turn so the blue unit can be moved
+        assertTrue(game.moveUnit(bluePos2, bluePos1)); // blue is moved
+        assertThat(game.getUnitAt(bluePos1).getOwner(), is(Player.BLUE)); // check that blue won the fight
+    }
+
+    @Test
+    public void unitsCannotBePlacedOnImpassableTerrain() {
+        assertFalse(game.setUnitAt(new Position(1, 0), new UnitImpl(GameConstants.ARCHER, Player.RED))); // ocean
+        assertFalse(game.setUnitAt(new Position(2, 2), new UnitImpl(GameConstants.ARCHER, Player.RED))); // mountain
+    }
+
+//    @Test
+//    public void citiesProduce6ProductionPerRound() {
+//
+//    }
 }

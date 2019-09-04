@@ -110,11 +110,13 @@ public class GameImpl implements Game {
     }
 
     public void endOfTurn() {
-        worldAge += 100;
         if (currentPlayer == Player.RED)
             currentPlayer = Player.BLUE;
-        else if (currentPlayer == Player.BLUE)
+        else { // resolve end-of-turn stuff and begin the next turn
+            worldAge += 100;
+
             currentPlayer = Player.RED;
+        }
     }
 
     public void changeWorkForceFocusInCityAt(Position p, String balance) {
@@ -131,11 +133,17 @@ public class GameImpl implements Game {
     }
 
     public boolean setUnitAt(Position pos, UnitImpl unit) {
-        if (getUnitAt(pos) == null) {
-            map[pos.getRow()][pos.getColumn()].setUnit(unit);
-            return true;
-        }
-        return false;
+        // check that no unit occupies the tile already
+        if (getUnitAt(pos) != null)
+            return false;
+
+        // check that the tile is not impassable
+        if (getTileAt(pos).getTypeString().equals(GameConstants.OCEANS) ||
+                getTileAt(pos).getTypeString().equals(GameConstants.MOUNTAINS))
+            return false;
+
+        map[pos.getRow()][pos.getColumn()].setUnit(unit);
+        return true;
     }
 
     public void setCityAt(Position pos, CityImpl city) {
@@ -162,9 +170,9 @@ public class GameImpl implements Game {
       map[2][2].setType(GameConstants.MOUNTAINS);
 
       // Inserting special units
-      map[2][0].setUnit(new UnitImpl(GameConstants.ARCHER, Player.RED, 2, 3, 1));
-      map[3][2].setUnit(new UnitImpl(GameConstants.LEGION, Player.BLUE, 4, 2, 1));
-      map[4][3].setUnit(new UnitImpl(GameConstants.SETTLER, Player.RED, 0, 3, 1));
+      map[2][0].setUnit(new UnitImpl(GameConstants.ARCHER, Player.RED));
+      map[3][2].setUnit(new UnitImpl(GameConstants.LEGION, Player.BLUE));
+      map[4][3].setUnit(new UnitImpl(GameConstants.SETTLER, Player.RED));
 
       // Inserting starting cities
       map[1][1].setCity(new CityImpl(1, 0, Player.RED, null, null));

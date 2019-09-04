@@ -3,7 +3,7 @@ TESTS
 PLAYERS:
 - Blue goes after red
 = Only two players participate in the game
-
+= Players cannot move the opponent's units
 
 GAME:
 - Red always goes first
@@ -23,8 +23,9 @@ UNITS:
 	* the unit does not exist
 	* the destination is too far away
 = Only one unit can occupy a given tile
-
-
+= Attacking works as intended
+= Starting units have correct ownership
+= Units can not be placed on impassable terrain
 
 WORLD:
 - World age is incremented by 100 at the end of each turn
