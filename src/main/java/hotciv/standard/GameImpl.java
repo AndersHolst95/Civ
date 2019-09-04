@@ -31,11 +31,11 @@ import hotciv.framework.*;
 
 public class GameImpl implements Game {
     // ---------- Initialize the world ---------- \\
-    int worldAge = -4000;
-    Player currentPlayer = Player.RED;
-    TileImpl[][] map = generateMap();
-
+    private int worldAge = -4000;
+    private Player currentPlayer = Player.RED;
+    private TileImpl[][] map = generateMap();
     // ------------------------------------------ \\
+
     public Tile getTileAt(Position p) {
         return map[p.getRow()][p.getColumn()];
     }
@@ -118,6 +118,51 @@ public class GameImpl implements Game {
         }
     }
 
+    private Position getNearestAvailableTile(Position pos) {
+        Position[] posList = new Position[9];
+        // positions start at the right and runs clockwise
+        posList[0] = pos;
+        posList[1] = new Position(pos.getRow() - 1, pos.getColumn()); // north
+        posList[2] = new Position(pos.getRow() - 1, pos.getColumn() + 1); // northeast
+        posList[3] = new Position(pos.getRow(), pos.getColumn() + 1); // east
+        posList[4] = new Position(pos.getRow() + 1, pos.getColumn() + 1); // southeast
+        posList[5] = new Position(pos.getRow() + 1, pos.getColumn()); // south
+        posList[6] = new Position(pos.getRow() + 1, pos.getColumn() - 1); // southwest
+        posList[7] = new Position(pos.getRow(), pos.getColumn() - 1); // west
+        posList[8] = new Position(pos.getRow() - 1, pos.getColumn() - 1); // northwest
+
+        for (int i = 0; i < 9; i++) {
+            if (validUnitPosition(posList[i]) && (getUnitAt(posList[i]) == null))
+                return posList[i];
+        }
+        return null;
+    }
+
+    /**
+     * Checks if the given position is within the world border, and if a city or unit can be placed on it
+     * @param pos the parameter to be checked
+     * @return true if valid
+     */
+    private Boolean validUnitPosition(Position pos) {
+        // check for out-of-bounds
+        if (pos.getColumn() < 0 || GameConstants.WORLDSIZE < pos.getColumn())
+            return false;
+        if (pos.getRow() < 0 || GameConstants.WORLDSIZE < pos.getRow())
+            return false;
+
+        // check for mountains and ocean
+        if (getTileAt(pos).getTypeString().equals(GameConstants.MOUNTAINS) || getTileAt(pos).getTypeString().equals(GameConstants.OCEANS))
+            return false;
+
+        // check for other units
+        if (getUnitAt(pos) != null)
+            return false;
+        return true;
+    }
+
+    /**
+     * Resolves everything that happens at the end of every player's turn
+     */
     private void endOfRound(){
         worldAge += 100;
 
@@ -128,7 +173,7 @@ public class GameImpl implements Game {
                     CityImpl city = ((CityImpl) getCityAt(new Position(i,j)));
                     city.addProductionValue(6);
                     if (city.getProductionValue() >= city.getProductionCost()) {
-                        setUnitAt(new Position(i, j), new UnitImpl(city.getProduction(), city.getOwner()));
+                        setUnitAt(getNearestAvailableTile(new Position(i, j)), new UnitImpl(city.getProduction(), city.getOwner()));
                         city.addProductionValue(-city.getProductionCost());
                     }
                 }
@@ -150,15 +195,8 @@ public class GameImpl implements Game {
     }
 
     public boolean setUnitAt(Position pos, UnitImpl unit) {
-        // check that no unit occupies the tile already
-        if (getUnitAt(pos) != null)
+        if (!validUnitPosition(pos))
             return false;
-
-        // check that the tile is not impassable
-        if (getTileAt(pos).getTypeString().equals(GameConstants.OCEANS) ||
-                getTileAt(pos).getTypeString().equals(GameConstants.MOUNTAINS))
-            return false;
-
         map[pos.getRow()][pos.getColumn()].setUnit(unit);
         return true;
     }

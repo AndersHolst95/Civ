@@ -1,4 +1,4 @@
 BACKLOG OF ALPHACIV 1
 
-Cities:
-- Units cannot be produced on impassable terrain
+CITIES:
+    - Cities can produce other types of unit than archers

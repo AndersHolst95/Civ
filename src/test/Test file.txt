@@ -35,3 +35,4 @@ CITIES:
 - No city growth
 = Production generation works as intended
 = Production of units with no unit in the city
+= Units cannot be produced on impassable terrain

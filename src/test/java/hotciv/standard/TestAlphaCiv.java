@@ -122,7 +122,7 @@ public class TestAlphaCiv {
     @Test
     public void noCityGrowth() {
         while (game.getWinner() == null) {
-            game.endOfTurn();
+            endRound();
             for(int i = 0; i < GameConstants.WORLDSIZE; i++){
                 for(int j = 0; j< GameConstants.WORLDSIZE; j++){
                     City city = game.getCityAt(new Position(i, j));
@@ -228,12 +228,17 @@ public class TestAlphaCiv {
     @Test
     public void cityCanProduceUnits() {
         Position cityPos = new Position(1, 1);
-        ((CityImpl)game.getCityAt(cityPos)).setProduction(GameConstants.ARCHER);
         endRound();
         endRound();
         assertThat(game.getUnitAt(cityPos).getTypeString(), is(GameConstants.ARCHER));
+    }
 
-
-
+    @Test
+    public void cityPlacesProducedUnitCorrectly() {
+        for (int i = 0; i < 6; i++)
+            endRound();
+        assertThat(game.getUnitAt(new Position(1, 1)), is(notNullValue()));
+        assertThat(game.getUnitAt(new Position(0, 1)), is(notNullValue()));
+        assertThat(game.getUnitAt(new Position(0, 2)), is(notNullValue()));
     }
 }
