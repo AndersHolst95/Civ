@@ -241,4 +241,11 @@ public class TestAlphaCiv {
         assertThat(game.getUnitAt(new Position(0, 1)), is(notNullValue()));
         assertThat(game.getUnitAt(new Position(0, 2)), is(notNullValue()));
     }
+
+    @Test
+    public void refreshMovementAtEndOfRound() {
+        assertTrue(game.moveUnit(new Position(2, 0), new Position(3, 0))); // move the unit
+        endRound();
+        assertTrue(game.moveUnit(new Position(3, 0), new Position(4, 0))); // move the unit
+    }
 }

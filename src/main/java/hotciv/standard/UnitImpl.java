@@ -6,7 +6,8 @@ public class UnitImpl implements Unit{
     private Player owner;
     private int attStrength;
     private int defStrength;
-    private int moveCount;
+    private final int movement; // number of movement points for the unit
+    private int moveCount; // current number of movement points for the unit
     private int cost;
 
     public UnitImpl(String type, Player owner){
@@ -16,25 +17,31 @@ public class UnitImpl implements Unit{
             case GameConstants.ARCHER:
                 attStrength = 2;
                 defStrength = 3;
-                moveCount = 1;
+                movement = 1;
                 cost = 10;
                 break;
 
             case GameConstants.LEGION:
                 attStrength = 4;
                 defStrength = 2;
-                moveCount = 1;
+                movement = 1;
                 cost = 15;
                 break;
 
             case GameConstants.SETTLER:
                 attStrength = 0;
                 defStrength = 3;
-                moveCount = 1;
+                movement = 1;
                 cost = 30;
                 break;
 
+            default: // default unit is an archer - should probably throw an exception instead
+                attStrength = 2;
+                defStrength = 3;
+                movement = 1;
+                cost = 10;
         }
+        moveCount = movement;
     }
 
     @Override
@@ -60,6 +67,10 @@ public class UnitImpl implements Unit{
     @Override
     public String getTypeString() {
         return type;
+    }
+
+    public void refreshMoveCount() {
+        moveCount = movement;
     }
 
     public void setMoveCount(int i) {

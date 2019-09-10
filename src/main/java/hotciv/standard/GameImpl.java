@@ -166,16 +166,24 @@ public class GameImpl implements Game {
     private void endOfRound(){
         worldAge += 100;
 
-        // Iterating over map, ad # productionValue to cities
+        // Iterating over each tile on the map
         for(int i = 0; i < GameConstants.WORLDSIZE; i++){
             for(int j = 0; j< GameConstants.WORLDSIZE; j++){
+                // If the tile contains a city..
                 if (getCityAt(new Position(i,j)) != null){
                     CityImpl city = ((CityImpl) getCityAt(new Position(i,j)));
-                    city.addProductionValue(6);
+                    city.addProductionValue(6); // add production
+
+                    // check if it can produce a unit
                     if (city.getProductionValue() >= city.getProductionCost()) {
                         setUnitAt(getNearestAvailableTile(new Position(i, j)), new UnitImpl(city.getProduction(), city.getOwner()));
                         city.addProductionValue(-city.getProductionCost());
                     }
+                }
+                // If the tile contains a unit..
+                if (getUnitAt(new Position(i, j)) != null){
+                    UnitImpl unit = ((UnitImpl) getUnitAt(new Position(i, j)));
+                    unit.refreshMoveCount(); // refresh its movement
                 }
             }
         }
