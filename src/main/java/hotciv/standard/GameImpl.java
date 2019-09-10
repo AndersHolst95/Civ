@@ -76,9 +76,8 @@ public class GameImpl implements Game {
         else
             return false;
 
-        // Check if terrain is impassable
-        String type = map[to.getRow()][to.getColumn()].getTypeString();
-        if (type.equals(GameConstants.MOUNTAINS) || type.equals(GameConstants.OCEANS))
+        // Check if the "to" position is a valid position
+        if (!validUnitPosition(to))
             return false;
 
         // Check friendly unit collision
@@ -154,9 +153,6 @@ public class GameImpl implements Game {
         if (getTileAt(pos).getTypeString().equals(GameConstants.MOUNTAINS) || getTileAt(pos).getTypeString().equals(GameConstants.OCEANS))
             return false;
 
-        // check for other units
-        if (getUnitAt(pos) != null)
-            return false;
         return true;
     }
 
@@ -204,6 +200,9 @@ public class GameImpl implements Game {
 
     public boolean setUnitAt(Position pos, UnitImpl unit) {
         if (!validUnitPosition(pos))
+            return false;
+        // check for other units
+        if (getUnitAt(pos) != null)
             return false;
         map[pos.getRow()][pos.getColumn()].setUnit(unit);
         return true;

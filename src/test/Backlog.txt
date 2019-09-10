@@ -1,13 +1,9 @@
 BACKLOG OF ALPHACIV 1
 
 CITIES:
-    - Cities can produce other types of unit than archers
+
 
 UNITS:
-    - Movement is refreshed at the end of each round
-    - Units cannot move outside the world boundaries
+
 
 Questions for Martin
-* Vil du virkeligt have 1000 tests
-* Hvordan forsimpler vi at byerne aldrig gror - mere specifikt skal tests være generelle
-* Kan man lave en prædefineret liste over units og deres informationer

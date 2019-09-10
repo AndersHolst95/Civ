@@ -121,18 +121,12 @@ public class TestAlphaCiv {
 
     @Test
     public void noCityGrowth() {
-        while (game.getWinner() == null) {
+        City city11 = game.getCityAt(new Position(1, 1));
+        assertThat(city11.getSize(), is(1));
+        for (int i = 0; i < 10; i++) {
             endRound();
-            for(int i = 0; i < GameConstants.WORLDSIZE; i++){
-                for(int j = 0; j< GameConstants.WORLDSIZE; j++){
-                    City city = game.getCityAt(new Position(i, j));
-                    if (city != null)
-                        assertThat(city.getSize(), is(1));
-                }
-            }
         }
-        assertThat(game.getAge(), is(-3000));
-        assertThat(game.getWinner(), is(not(nullValue())));
+        assertThat(city11.getSize(), is(1));
     }
 
     @Test
@@ -170,10 +164,14 @@ public class TestAlphaCiv {
     }
 
     @Test
-    public void cannotMoveOpposingUnits(){
-        assertFalse(game.moveUnit(new Position(3,2), new Position(4,2))); // red cannot move blue
+    public void blueCannotMoveRed(){
         game.endOfTurn();
         assertFalse(game.moveUnit(new Position(2,0), new Position(2,1))); // blue cannot move red
+    }
+
+    @Test
+    public void redCannotMoveBlue(){
+        assertFalse(game.moveUnit(new Position(3,2), new Position(4,2))); // red cannot move blue
     }
 
     @Test
@@ -189,48 +187,75 @@ public class TestAlphaCiv {
         Position pos = new Position(5, 5 );
         assertTrue(game.setUnitAt(pos, new UnitImpl(GameConstants.ARCHER, Player.BLUE))); // can place a unit on a free tile
         assertFalse(game.setUnitAt(pos, new UnitImpl(GameConstants.ARCHER, Player.RED))); // cannot place another red unit on the same tile
-        assertFalse(game.setUnitAt(pos, new UnitImpl(GameConstants.ARCHER, Player.BLUE))); // nor another blue unit
     }
 
     @Test
-    public void attackingUnitWins() {
+    public void redAttackerWins() {
         Position redPos = new Position(5, 5);
-        Position bluePos1 = new Position(5, 6);
-        Position bluePos2 = new Position(5, 7);
+        Position bluePos = new Position(5, 6);
         game.setUnitAt(redPos, new UnitImpl(GameConstants.ARCHER, Player.RED));
-        game.setUnitAt(bluePos1, new UnitImpl(GameConstants.ARCHER, Player.BLUE));
-        game.setUnitAt(bluePos2, new UnitImpl(GameConstants.ARCHER, Player.BLUE));
+        game.setUnitAt(bluePos, new UnitImpl(GameConstants.ARCHER, Player.BLUE));
 
-        assertTrue(game.moveUnit(redPos, bluePos1)); // red is moved
-        assertThat(game.getUnitAt(bluePos1).getOwner(), is(Player.RED)); // check that red won the fight
-        game.endOfTurn(); // change turn so the blue unit can be moved
-        assertTrue(game.moveUnit(bluePos2, bluePos1)); // blue is moved
-        assertThat(game.getUnitAt(bluePos1).getOwner(), is(Player.BLUE)); // check that blue won the fight
+        assertTrue(game.moveUnit(redPos, bluePos)); // red is moved
+        assertThat(game.getUnitAt(bluePos).getOwner(), is(Player.RED)); // check that red won the fight
     }
 
     @Test
-    public void unitsCannotBePlacedOnImpassableTerrain() {
+    public void blueAttackerWins() {
+        Position redPos = new Position(5, 6);
+        Position bluePos = new Position(5, 7);
+        game.setUnitAt(redPos, new UnitImpl(GameConstants.ARCHER, Player.RED));
+        game.setUnitAt(bluePos, new UnitImpl(GameConstants.ARCHER, Player.BLUE));
+
+        game.endOfTurn(); // change turn so the blue unit can be moved
+        assertTrue(game.moveUnit(bluePos, redPos)); // blue is moved
+        assertThat(game.getUnitAt(redPos).getOwner(), is(Player.BLUE)); // check that blue won the fight
+    }
+
+    @Test
+    public void unitsCannotBePlacedOnOcean() {
         assertFalse(game.setUnitAt(new Position(1, 0), new UnitImpl(GameConstants.ARCHER, Player.RED))); // ocean
+    }
+
+    @Test
+    public void unitsCannotBePlacedOnMountain() {
         assertFalse(game.setUnitAt(new Position(2, 2), new UnitImpl(GameConstants.ARCHER, Player.RED))); // mountain
     }
 
     @Test
     public void citiesProduce6ProductionPerRound() {
         Position pos1 = new Position(1,1);
-        Position pos2 = new Position(4,1);
         int city1Prod = ((CityImpl) game.getCityAt(pos1)).getProductionValue();
-        int city2Prod = ((CityImpl) game.getCityAt(pos2)).getProductionValue();
         endRound();
         assertEquals(((CityImpl) game.getCityAt(pos1)).getProductionValue(), city1Prod + 6);
-        assertEquals(((CityImpl) game.getCityAt(pos2)).getProductionValue(), city2Prod + 6);
     }
 
     @Test
-    public void cityCanProduceUnits() {
+    public void cityCanProduceArcher() {
         Position cityPos = new Position(1, 1);
         endRound();
         endRound();
         assertThat(game.getUnitAt(cityPos).getTypeString(), is(GameConstants.ARCHER));
+    }
+
+    @Test
+    public void cityCanProduceLegion() {
+        Position cityPos = new Position(1, 1);
+        ((CityImpl)game.getCityAt(cityPos)).setProduction(GameConstants.LEGION);
+        endRound();
+        endRound();
+        endRound();
+        assertThat(game.getUnitAt(cityPos).getTypeString(), is(GameConstants.LEGION));
+    }
+
+    @Test
+    public void cityCanProduceSettler() {
+        Position cityPos = new Position(1, 1);
+        ((CityImpl)game.getCityAt(cityPos)).setProduction(GameConstants.SETTLER);
+        for (int i = 0; i < 5; i++) {
+            endRound();
+        }
+        assertThat(game.getUnitAt(cityPos).getTypeString(), is(GameConstants.SETTLER));
     }
 
     @Test
@@ -247,5 +272,10 @@ public class TestAlphaCiv {
         assertTrue(game.moveUnit(new Position(2, 0), new Position(3, 0))); // move the unit
         endRound();
         assertTrue(game.moveUnit(new Position(3, 0), new Position(4, 0))); // move the unit
+    }
+
+    @Test
+    public void canNotMoveOutsideOfTheMap() {
+        assertFalse(game.moveUnit(new Position(2, 0), new Position(2, -1)));
     }
 }

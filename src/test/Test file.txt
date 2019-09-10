@@ -26,6 +26,8 @@ UNITS:
 = Attacking works as intended
 = Starting units have correct ownership
 = Units can not be placed on impassable terrain
+= Movement is refreshed at the end of each round
+= Units cannot move outside the world boundaries
 
 WORLD:
 - World age is incremented by 100 at the end of each turn
@@ -36,3 +38,5 @@ CITIES:
 = Production generation works as intended
 = Production of units with no unit in the city
 = Units cannot be produced on impassable terrain
+= Cities can produce all types of units
+
