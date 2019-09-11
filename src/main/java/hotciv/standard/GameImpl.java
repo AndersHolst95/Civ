@@ -242,34 +242,103 @@ public class GameImpl implements Game {
         map[pos.getRow()][pos.getColumn()].setCity(city);
     }
 
-    /**
-   * This method implements the basic map given at page 459.
-   * @return the finished map as an array of tiles
-   */
-    private TileImpl[][] generateMap(){
-
-      TileImpl[][] map = new TileImpl[GameConstants.WORLDSIZE][GameConstants.WORLDSIZE];
-
-      // Inserting planes tiles everywhere
-      for(int i = 0; i < GameConstants.WORLDSIZE; i++){
-        for(int j = 0; j< GameConstants.WORLDSIZE; j++){
-          map[i][j] = new TileImpl(new Position(i,j), GameConstants.PLAINS, null, null);
+    private String tileInterpreter(char c) {
+        switch (c) {
+            case 'p': // plains
+                return GameConstants.PLAINS;
+            case 'o': // ocean
+                return GameConstants.OCEANS;
+            case 'm': // mountains
+                return GameConstants.MOUNTAINS;
+            case 'f': // forest
+                return GameConstants.FOREST;
+            case 'h': // hills
+                return GameConstants.HILLS;
+            default: // default is just plains
+                return GameConstants.PLAINS;
         }
+    }
+
+    private Player playerInterpreter(char c) {
+        switch (c) {
+            case '1':
+                return Player.RED;
+            case '2':
+                return Player.BLUE;
+            default: // default is just red
+                return Player.RED;
+        }
+    }
+
+    private String unitInterpreter(char c) {
+        switch (c) {
+            case 'a': // archer
+                return GameConstants.ARCHER;
+            case 'l': // legion
+                return GameConstants.LEGION;
+            case 's': // settler
+                return GameConstants.SETTLER;
+            default: // default is an archer
+                return GameConstants.ARCHER;
+        }
+    }
+
+    /**
+     * This method implements the basic map given at page 459.
+     * @return the finished map as an array of tiles
+     */
+    private TileImpl[][] generateMap(){
+        String[][] map = new String[GameConstants.WORLDSIZE][GameConstants.WORLDSIZE];
+        map[1][0] = "o";
+        map[0][1] = "h";
+        map[2][2] = "m";
+        map[2][0] = "pa1";
+        map[3][2] = "pl2";
+        map[4][3] = "ps1";
+        map[1][1] = "pc1";
+        map[4][1] = "pc2";
+//        switch (version) {
+//            case GameConstants.ALPHACIV:
+//            case GameConstants.BETACIV:
+//            case GameConstants.GAMMACIV:
+//                return generateSpecializedMap(map);
+//            case GameConstants.DELTACIV:
+//        }
+        return generateSpecializedMap(map);
+    }
+
+    private TileImpl[][] generateSpecializedMap(String[][] arrayMap){
+        TileImpl[][] map = new TileImpl[GameConstants.WORLDSIZE][GameConstants.WORLDSIZE];
+        for(int i = 0; i < GameConstants.WORLDSIZE; i++){
+            for(int j = 0; j< GameConstants.WORLDSIZE; j++){
+                String string = arrayMap[i][j];
+                String type = GameConstants.PLAINS;
+                CityImpl city = null;
+                UnitImpl unit = null;
+                if (string != null) {
+                    switch (string.length()) {
+                        case 1: // only a tile type is given
+                            type = tileInterpreter(string.charAt(0));
+                            break;
+                        case 3: // a tile type and a city or unit is given
+                            type = tileInterpreter(string.charAt(0));
+                            if (string.charAt(1) == 'c') // if the second string is a city, create one with owner based on the third character
+                                city = new CityImpl(1, 0, playerInterpreter(string.charAt(2)), GameConstants.ARCHER, null);
+                            else // otherwise it is a unit
+                                unit = new UnitImpl(unitInterpreter(string.charAt(1)), playerInterpreter(string.charAt(2)));
+                            break;
+                        case 5:
+                            type = tileInterpreter(string.charAt(0));
+                            city = new CityImpl(1, 0, playerInterpreter(string.charAt(2)), GameConstants.ARCHER, null);
+                            unit = new UnitImpl(unitInterpreter(string.charAt(3)), playerInterpreter(string.charAt(4)));
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                map[i][j] = new TileImpl(new Position(i,j), type, city, unit);
+            }
       }
-      // Inserting special terrain
-      map[1][0].setType(GameConstants.OCEANS);
-      map[0][1].setType(GameConstants.HILLS);
-      map[2][2].setType(GameConstants.MOUNTAINS);
-
-      // Inserting special units
-      map[2][0].setUnit(new UnitImpl(GameConstants.ARCHER, Player.RED));
-      map[3][2].setUnit(new UnitImpl(GameConstants.LEGION, Player.BLUE));
-      map[4][3].setUnit(new UnitImpl(GameConstants.SETTLER, Player.RED));
-
-      // Inserting starting cities
-      map[1][1].setCity(new CityImpl(1, 0, Player.RED, GameConstants.ARCHER, null));
-      map[4][1].setCity(new CityImpl(1, 0, Player.BLUE, GameConstants.ARCHER, null));
-
       return map;
     }
 }
