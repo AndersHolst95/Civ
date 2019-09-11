@@ -304,6 +304,24 @@ public class GameImpl implements Game {
         standardMap[1][1] = "pc1";
         standardMap[4][1] = "pc2";
 
+        String[][] deltaCivMap = new String[GameConstants.WORLDSIZE][GameConstants.WORLDSIZE];
+        deltaCivMap[0] = new String[]{"o", "o", "o", "3", "4", "m", "6", "7", "8" ,"9", "10", "o", "o", "o", "o", "o"};
+        deltaCivMap[1] = new String[]{"o", "o", "2", "h", "h", "5", "6", "7", "8" ,"f", "f", "f", "12", "13", "o", "o"};
+        deltaCivMap[2] = new String[]{"o", "1", "2", "3", "4", "5", "m", "7", "8" ,"9", "o", "o", "o", "13", "14", "o"};
+        deltaCivMap[3] = new String[]{"o", "1", "2", "m", "m", "m", "6", "7", "8" ,"9", "o", "o", "12", "13", "14", "15"};
+        deltaCivMap[4] = new String[]{"o", "o", "o", "3", "4", "pc2", "6", "7", "h" ,"h", "10", "11", "12", "13", "o", "o"};
+        deltaCivMap[5] = new String[]{"o", "1", "f", "3", "4", "5", "6", "7", "8" ,"9", "10", "h", "h", "13", "14", "o"};
+        deltaCivMap[6] = new String[]{"o", "o", "o", "3", "4", "5", "o", "o", "o" ,"o", "o", "o", "o", "o", "o", "o"};
+        deltaCivMap[7] = new String[]{"o", "1", "2", "3", "4", "5", "o", "7", "8" ,"9", "h", "11", "12", "m", "o", "o"};
+        deltaCivMap[8] = new String[]{"o", "1", "2", "3", "4", "5", "o", "7", "8" ,"h", "10", "11", "pc1", "f", "o", "o"};
+        deltaCivMap[9] = new String[]{"0", "f", "f", "f", "4", "5", "6", "7", "o" ,"9", "f", "f", "12", "13", "14", "15"};
+        deltaCivMap[10] = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "o" ,"o", "o", "11", "12", "13", "14", "15"};
+        deltaCivMap[11] = new String[]{"o", "1", "2", "m", "m", "m", "6", "7", "8" ,"9", "o", "o", "o", "o", "o", "o"};
+        deltaCivMap[12] = new String[]{"o", "o", "2", "3", "4", "5", "6", "7", "f" ,"f", "10", "11", "12", "13", "o", "o"};
+        deltaCivMap[13] = new String[]{"o", "o", "o", "o", "4", "5", "6", "7", "8" ,"9", "10", "11", "12", "o", "o", "o"};
+        deltaCivMap[14] = new String[]{"o", "o", "2", "3", "4", "h", "h", "7", "8" ,"o", "o", "o", "o", "o", "o", "o"};
+        deltaCivMap[15] = new String[]{"o", "o", "o", "o", "o", "5", "6", "7", "8" ,"9", "10", "11", "12", "13", "o", "o"};
+
         switch (version) {
             case GameConstants.ALPHACIV:
             case GameConstants.BETACIV:
