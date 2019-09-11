@@ -33,12 +33,18 @@ public class GameImpl implements Game {
     // ---------- Initialize the world ---------- \\
     private int worldAge = -4000;
     private Player currentPlayer = Player.RED;
-    private TileImpl[][] map = generateMap();
-    private String version = GameConstants.ALPHACIV;
+    private TileImpl[][] map;
+    private String version;
     // ------------------------------------------ \\
 
     public GameImpl(String version){
         this.version = version;
+        this.map = generateMap(null);
+    }
+
+    public GameImpl(String version, String[][] customMap){
+        this.version = version;
+        this.map = generateMap(customMap);
     }
 
     public Tile getTileAt(Position p) {
@@ -287,24 +293,29 @@ public class GameImpl implements Game {
      * This method implements the basic map given at page 459.
      * @return the finished map as an array of tiles
      */
-    private TileImpl[][] generateMap(){
-        String[][] map = new String[GameConstants.WORLDSIZE][GameConstants.WORLDSIZE];
-        map[1][0] = "o";
-        map[0][1] = "h";
-        map[2][2] = "m";
-        map[2][0] = "pa1";
-        map[3][2] = "pl2";
-        map[4][3] = "ps1";
-        map[1][1] = "pc1";
-        map[4][1] = "pc2";
-//        switch (version) {
-//            case GameConstants.ALPHACIV:
-//            case GameConstants.BETACIV:
-//            case GameConstants.GAMMACIV:
-//                return generateSpecializedMap(map);
-//            case GameConstants.DELTACIV:
-//        }
-        return generateSpecializedMap(map);
+    private TileImpl[][] generateMap(String[][] customMap){
+        String[][] standardMap = new String[GameConstants.WORLDSIZE][GameConstants.WORLDSIZE];
+        standardMap[1][0] = "o";
+        standardMap[0][1] = "h";
+        standardMap[2][2] = "m";
+        standardMap[2][0] = "pa1";
+        standardMap[3][2] = "pl2";
+        standardMap[4][3] = "ps1";
+        standardMap[1][1] = "pc1";
+        standardMap[4][1] = "pc2";
+
+        switch (version) {
+            case GameConstants.ALPHACIV:
+            case GameConstants.BETACIV:
+            case GameConstants.GAMMACIV:
+                return generateSpecializedMap(standardMap);
+            case GameConstants.DELTACIV:
+                if(map == null || (map.length != GameConstants.WORLDSIZE) || (map[0].length != GameConstants.WORLDSIZE))
+                    return generateSpecializedMap(standardMap);
+                return generateSpecializedMap(customMap);
+            default:
+                return generateSpecializedMap(standardMap);
+        }
     }
 
     private TileImpl[][] generateSpecializedMap(String[][] arrayMap){
