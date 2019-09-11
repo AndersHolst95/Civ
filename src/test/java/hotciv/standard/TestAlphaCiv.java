@@ -365,6 +365,11 @@ public class TestAlphaCiv {
         }
         assertThat(game.getAge(), is(2019));
     }
+
+    @Test
+    public void testGameConstants() {
+        System.out.println(GameConstants.UNITS.toClass(GameConstants.ARCHER).getAttStrength());
+    }
     
     
     
