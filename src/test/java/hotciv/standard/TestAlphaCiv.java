@@ -302,8 +302,74 @@ public class TestAlphaCiv {
         assertThat(game.getAge(), is(1));
         endRound();
         assertThat(game.getAge(), is(50));
-
     }
+
+    @Test
+    public void betaCivWorldAgeCond3(){
+        game = new GameImpl(GameConstants.BETACIV);
+        for (int i = 0; i < 42; i++) {
+            endRound();
+        }
+        assertThat(game.getAge(), is(50));
+        endRound();
+        assertThat(game.getAge(), is(100));
+        for (int i = 0; i < 32; i++) {
+            endRound();
+        }
+        assertThat(game.getAge(), is(1700));
+        endRound();
+        assertThat(game.getAge(), is(1750));
+    }
+
+    @Test
+    public void betaCivWorldAgeCond4(){
+        game = new GameImpl(GameConstants.BETACIV);
+        for (int i = 0; i < 76; i++) {
+            endRound();
+        }
+        assertThat(game.getAge(), is(1750));
+        endRound();
+        assertThat(game.getAge(), is(1775));
+        for (int i = 0; i < 5; i++) {
+            endRound();
+        }
+        assertThat(game.getAge(), is(1900));
+    }
+
+    @Test
+    public void betaCivWorldAgeCond5(){
+        game = new GameImpl(GameConstants.BETACIV);
+        for (int i = 0; i < 82; i++) {
+            endRound();
+        }
+        assertThat(game.getAge(), is(1900));
+        endRound();
+        assertThat(game.getAge(), is(1905));
+        for (int i = 0; i < 13; i++) {
+            endRound();
+        }
+        assertThat(game.getAge(), is(1970));
+    }
+
+    @Test
+    public void betaCivWorldAgeCond6(){
+        game = new GameImpl(GameConstants.BETACIV);
+        for (int i = 0; i < 96; i++) {
+            endRound();
+        }
+        assertThat(game.getAge(), is(1970));
+        endRound();
+        assertThat(game.getAge(), is(1971));
+        for (int i = 0; i < 48; i++) {
+            endRound();
+        }
+        assertThat(game.getAge(), is(2019));
+    }
+    
+    
+    
+
+
 
 
 

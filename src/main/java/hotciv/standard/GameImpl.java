@@ -169,7 +169,7 @@ public class GameImpl implements Game {
      * Resolves everything that happens at the end of every player's turn
      */
     private void endOfRound(){
-        worldAge += 100;
+        changeWorldAge();
 
         // Iterating over each tile on the map
         for(int i = 0; i < GameConstants.WORLDSIZE; i++){
@@ -191,6 +191,26 @@ public class GameImpl implements Game {
                     unit.refreshMoveCount(); // refresh its movement
                 }
             }
+        }
+    }
+
+    public void changeWorldAge() {
+        switch (version) {
+            case GameConstants.ALPHACIV:
+            case GameConstants.GAMMACIV:
+            case GameConstants.DELTACIV: {
+                worldAge += 100;
+                break;
+            }
+            case GameConstants.BETACIV:
+                if(worldAge < -100){worldAge += 100;} // While the world is younger than 100BC, the world increments by 100 years
+                else if(worldAge == -100){worldAge = -1;} // Around Christ the world goes -50, -1, 1 50
+                else if(worldAge == -1){worldAge = 1;} // Around Christ
+                else if(worldAge == 1){worldAge = 50;} // Around Christ
+                else if(worldAge >= 50 && worldAge < 1750){worldAge += 50;} //Between 50AD and 1750AD increment by 50
+                else if(worldAge >= 1750 && worldAge < 1900){worldAge += 25;} //Between 1750 and 1900 increment by 25
+                else if(worldAge >= 1900 && worldAge < 1970){worldAge += 5;} //Between 1900 and 1970 increment by 5
+                else if(worldAge >= 1970){worldAge += 1;} //After 1970 increment by 1
         }
     }
 
