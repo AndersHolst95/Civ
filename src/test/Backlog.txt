@@ -1,9 +1,2 @@
 BACKLOG OF ALPHACIV 1
-
-CITIES:
-
-
-UNITS:
-
-
-Questions for Martin
+-

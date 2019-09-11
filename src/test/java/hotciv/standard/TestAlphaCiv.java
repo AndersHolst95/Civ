@@ -49,7 +49,7 @@ public class TestAlphaCiv {
      */
     @Before
     public void setUp() {
-        game = new GameImpl();
+        game = new GameImpl(GameConstants.ALPHACIV);
     }
 
     @Test
@@ -278,4 +278,34 @@ public class TestAlphaCiv {
     public void canNotMoveOutsideOfTheMap() {
         assertFalse(game.moveUnit(new Position(2, 0), new Position(2, -1)));
     }
+
+    @Test
+    public void betaCivWorldAgeCond1() {
+        game = new GameImpl(GameConstants.BETACIV);
+        int worldage = game.getAge();
+        endRound();
+        assertThat(game.getAge(), is(worldage +100));
+        for (int i = 1; i< 10; i++){endRound();}
+        assertThat(game.getAge(), is(worldage +1000));
+    }
+
+    @Test
+    public void betaCivWorldAgeCond2() {
+        game = new GameImpl(GameConstants.BETACIV);
+        for (int i = 0; i< 39; i++){
+            endRound();
+            }
+        assertThat(game.getAge(), is(-100));
+        endRound();
+        assertThat(game.getAge(), is(-1));
+        endRound();
+        assertThat(game.getAge(), is(1));
+        endRound();
+        assertThat(game.getAge(), is(50));
+
+    }
+
+
+
+
 }

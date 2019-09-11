@@ -34,7 +34,12 @@ public class GameImpl implements Game {
     private int worldAge = -4000;
     private Player currentPlayer = Player.RED;
     private TileImpl[][] map = generateMap();
+    private String version = GameConstants.ALPHACIV;
     // ------------------------------------------ \\
+
+    public GameImpl(String version){
+        this.version = version;
+    }
 
     public Tile getTileAt(Position p) {
         return map[p.getRow()][p.getColumn()];
@@ -143,6 +148,10 @@ public class GameImpl implements Game {
      * @return true if valid
      */
     private Boolean validUnitPosition(Position pos) {
+        // Check for null-position
+        if(pos == null)
+            return false;
+
         // check for out-of-bounds
         if (pos.getColumn() < 0 || GameConstants.WORLDSIZE < pos.getColumn())
             return false;
@@ -172,8 +181,8 @@ public class GameImpl implements Game {
 
                     // check if it can produce a unit
                     if (city.getProductionValue() >= city.getProductionCost()) {
-                        setUnitAt(getNearestAvailableTile(new Position(i, j)), new UnitImpl(city.getProduction(), city.getOwner()));
-                        city.addProductionValue(-city.getProductionCost());
+                        if (setUnitAt(getNearestAvailableTile(new Position(i, j)), new UnitImpl(city.getProduction(), city.getOwner())))
+                            city.addProductionValue(-city.getProductionCost());
                     }
                 }
                 // If the tile contains a unit..
@@ -204,6 +213,7 @@ public class GameImpl implements Game {
         // check for other units
         if (getUnitAt(pos) != null)
             return false;
+
         map[pos.getRow()][pos.getColumn()].setUnit(unit);
         return true;
     }

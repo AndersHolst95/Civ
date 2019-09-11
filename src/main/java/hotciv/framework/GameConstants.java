@@ -45,4 +45,9 @@ public class GameConstants {
   // Valid production balance types
   public static final String productionFocus = "hammer";
   public static final String foodFocus = "apple";
+  // Civ versions
+  public static final String ALPHACIV = "alphaciv";
+  public static final String BETACIV = "betaciv";
+  public static final String GAMMACIV = "gammaciv";
+  public static final String DELTACIV = "deltaciv";
 }
