@@ -56,11 +56,11 @@ public interface Map {
      * @return the finished map as an array of tiles
      */
 
-    static TileImpl[][] generateMap(String[][] arrayMap){
+    static TileImpl[][] generateMap(String[][] layout){
         TileImpl[][] map = new TileImpl[GameConstants.WORLDSIZE][GameConstants.WORLDSIZE];
         for(int i = 0; i < GameConstants.WORLDSIZE; i++){
             for(int j = 0; j< GameConstants.WORLDSIZE; j++){
-                String string = arrayMap[i][j];
+                String string = layout[i][j];
                 String type = GameConstants.PLAINS;
                 CityImpl city = null;
                 UnitImpl unit = null;
