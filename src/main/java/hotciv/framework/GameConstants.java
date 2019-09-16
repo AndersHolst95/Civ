@@ -51,14 +51,14 @@ public class GameConstants {
     public static final String GAMMACIV = "gammaciv";
     public static final String DELTACIV = "deltaciv";
 
-    public static abstract class UNITS {
-        public String getString(){return null;};
-        public int getCost(){return 0;};
-        public int getDefStrength() { return 0; }
-        public int getMovement() { return 0; }
-        public int getAttStrength() { return 0; }
+    public interface UNITS {
+        String getString();
+        int getCost();
+        int getDefStrength();
+        int getMovement();
+        int getAttStrength();
 
-        public static UNITS toClass(String string) {
+        static UNITS toClass(String string) {
             switch (string) {
                 case GameConstants.ARCHER: return new ARCHER();
                 case GameConstants.LEGION: return new LEGION();
@@ -66,7 +66,7 @@ public class GameConstants {
             }
             return null;
         }
-        public static class ARCHER extends UNITS {
+        class ARCHER implements UNITS {
             public static final String string = GameConstants.ARCHER;
             public static final int attStrength = 2;
             public static final int defStrength = 3;
@@ -80,7 +80,7 @@ public class GameConstants {
             public int getAttStrength() { return attStrength; }
         }
 
-        public static class LEGION extends UNITS {
+        class LEGION implements UNITS {
             public static final String string = GameConstants.LEGION;
             public static final int attStrength = 4;
             public static final int defStrength = 2;
@@ -94,7 +94,7 @@ public class GameConstants {
             public int getAttStrength() { return attStrength; }
         }
 
-        public static class SETTLER extends UNITS {
+        class SETTLER implements UNITS {
             public static final String string = GameConstants.SETTLER;
             public static final int attStrength = 0;
             public static final int defStrength = 3;
