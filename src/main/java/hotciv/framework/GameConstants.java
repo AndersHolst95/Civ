@@ -32,6 +32,7 @@ package hotciv.framework;
 public class GameConstants {
     // The size of the world is set permanently to a 16x16 grid
     public static final int WORLDSIZE = 16;
+    public static final int STARTYEAR = -4000;  // This is the starting year for all games of civ
     // Valid unit types
     public static final String ARCHER = "archer";
     public static final String LEGION = "legion";
@@ -45,11 +46,6 @@ public class GameConstants {
     // Valid production balance types
     public static final String productionFocus = "hammer";
     public static final String foodFocus = "apple";
-    // Civ versions
-    public static final String ALPHACIV = "alphaciv";
-    public static final String BETACIV = "betaciv";
-    public static final String GAMMACIV = "gammaciv";
-    public static final String DELTACIV = "deltaciv";
 
     public interface UNITS {
         String getString();

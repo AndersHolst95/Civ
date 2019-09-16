@@ -1,6 +1,8 @@
 package hotciv.standard;
 
 import hotciv.framework.*;
+import hotciv.framework.age.*;
+import hotciv.framework.map.*;
 
 /**
  * Skeleton implementation of HotCiv.
@@ -31,20 +33,27 @@ import hotciv.framework.*;
 
 public class GameImpl implements Game {
     // ---------- Initialize the world ---------- \\
-    private int worldAge = -4000;
+    private Age worldAge;
     private Player currentPlayer = Player.RED;
     private TileImpl[][] map;
-    private String version;
     // ------------------------------------------ \\
 
     public GameImpl(String version){
-        this.version = version;
-        this.map = generateMap(null);
+        Map layout = new StandardMap();
+        Age age = new ConstantAging();
+        switch (version) {
+            case "beta":
+                age = new GradualAging();
+            case "gamma":
+            case "delta":
+                layout = new DeltaMap();
+            default:
+        }
+        this.map = Map.generateMap(layout.getLayout());
+        this.worldAge = age;
     }
 
     public GameImpl(String version, String[][] customMap){
-        this.version = version;
-        this.map = generateMap(customMap);
     }
 
     public Tile getTileAt(Position p) {
@@ -64,11 +73,11 @@ public class GameImpl implements Game {
     }
 
     public Player getWinner() {
-        return worldAge == -3000 ? Player.RED : null;
+        return worldAge.getAge() == -3000 ? Player.RED : null;
     }
 
     public int getAge() {
-        return worldAge;
+        return worldAge.getAge();
     }
 
     public boolean moveUnit(Position from, Position to) {
@@ -201,23 +210,7 @@ public class GameImpl implements Game {
     }
 
     public void changeWorldAge() {
-        switch (version) {
-            case GameConstants.ALPHACIV:
-            case GameConstants.GAMMACIV:
-            case GameConstants.DELTACIV: {
-                worldAge += 100;
-                break;
-            }
-            case GameConstants.BETACIV:
-                if(worldAge < -100){worldAge += 100;} // While the world is younger than 100BC, the world increments by 100 years
-                else if(worldAge == -100){worldAge = -1;} // Around Christ the world goes -50, -1, 1 50
-                else if(worldAge == -1){worldAge = 1;} // Around Christ
-                else if(worldAge == 1){worldAge = 50;} // Around Christ
-                else if(worldAge >= 50 && worldAge < 1750){worldAge += 50;} //Between 50AD and 1750AD increment by 50
-                else if(worldAge >= 1750 && worldAge < 1900){worldAge += 25;} //Between 1750 and 1900 increment by 25
-                else if(worldAge >= 1900 && worldAge < 1970){worldAge += 5;} //Between 1900 and 1970 increment by 5
-                else if(worldAge >= 1970){worldAge += 1;} //After 1970 increment by 1
-        }
+        worldAge.changeWorldAge();
     }
 
     public void changeWorkForceFocusInCityAt(Position p, String balance) {
@@ -248,126 +241,4 @@ public class GameImpl implements Game {
         map[pos.getRow()][pos.getColumn()].setCity(city);
     }
 
-    private String tileInterpreter(char c) {
-        switch (c) {
-            case 'p': // plains
-                return GameConstants.PLAINS;
-            case 'o': // ocean
-                return GameConstants.OCEANS;
-            case 'm': // mountains
-                return GameConstants.MOUNTAINS;
-            case 'f': // forest
-                return GameConstants.FOREST;
-            case 'h': // hills
-                return GameConstants.HILLS;
-            default: // default is just plains
-                return GameConstants.PLAINS;
-        }
-    }
-
-    private Player playerInterpreter(char c) {
-        switch (c) {
-            case '1':
-                return Player.RED;
-            case '2':
-                return Player.BLUE;
-            default: // default is just red
-                return Player.RED;
-        }
-    }
-
-    private String unitInterpreter(char c) {
-        switch (c) {
-            case 'a': // archer
-                return GameConstants.ARCHER;
-            case 'l': // legion
-                return GameConstants.LEGION;
-            case 's': // settler
-                return GameConstants.SETTLER;
-            default: // default is an archer
-                return GameConstants.ARCHER;
-        }
-    }
-
-    /**
-     * This method implements the basic map given at page 459.
-     * @return the finished map as an array of tiles
-     */
-    private TileImpl[][] generateMap(String[][] customMap){
-        String[][] standardMap = new String[GameConstants.WORLDSIZE][GameConstants.WORLDSIZE];
-        standardMap[1][0] = "o";
-        standardMap[0][1] = "h";
-        standardMap[2][2] = "m";
-        standardMap[2][0] = "pa1";
-        standardMap[3][2] = "pl2";
-        standardMap[4][3] = "ps1";
-        standardMap[1][1] = "pc1";
-        standardMap[4][1] = "pc2";
-
-        String[][] deltaCivMap = new String[GameConstants.WORLDSIZE][GameConstants.WORLDSIZE];
-        deltaCivMap[0] = new String[]{"o", "o", "o", "3", "4", "m", "6", "7", "8" ,"9", "10", "o", "o", "o", "o", "o"};
-        deltaCivMap[1] = new String[]{"o", "o", "2", "h", "h", "5", "6", "7", "8" ,"f", "f", "f", "12", "13", "o", "o"};
-        deltaCivMap[2] = new String[]{"o", "1", "2", "3", "4", "5", "m", "7", "8" ,"9", "o", "o", "o", "13", "14", "o"};
-        deltaCivMap[3] = new String[]{"o", "1", "2", "m", "m", "m", "6", "7", "8" ,"9", "o", "o", "12", "13", "14", "15"};
-        deltaCivMap[4] = new String[]{"o", "o", "o", "3", "4", "pc2", "6", "7", "h" ,"h", "10", "11", "12", "13", "o", "o"};
-        deltaCivMap[5] = new String[]{"o", "1", "f", "3", "4", "5", "6", "7", "8" ,"9", "10", "h", "h", "13", "14", "o"};
-        deltaCivMap[6] = new String[]{"o", "o", "o", "3", "4", "5", "o", "o", "o" ,"o", "o", "o", "o", "o", "o", "o"};
-        deltaCivMap[7] = new String[]{"o", "1", "2", "3", "4", "5", "o", "7", "8" ,"9", "h", "11", "12", "m", "o", "o"};
-        deltaCivMap[8] = new String[]{"o", "1", "2", "3", "4", "5", "o", "7", "8" ,"h", "10", "11", "pc1", "f", "o", "o"};
-        deltaCivMap[9] = new String[]{"0", "f", "f", "f", "4", "5", "6", "7", "o" ,"9", "f", "f", "12", "13", "14", "15"};
-        deltaCivMap[10] = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "o" ,"o", "o", "11", "12", "13", "14", "15"};
-        deltaCivMap[11] = new String[]{"o", "1", "2", "m", "m", "m", "6", "7", "8" ,"9", "o", "o", "o", "o", "o", "o"};
-        deltaCivMap[12] = new String[]{"o", "o", "2", "3", "4", "5", "6", "7", "f" ,"f", "10", "11", "12", "13", "o", "o"};
-        deltaCivMap[13] = new String[]{"o", "o", "o", "o", "4", "5", "6", "7", "8" ,"9", "10", "11", "12", "o", "o", "o"};
-        deltaCivMap[14] = new String[]{"o", "o", "2", "3", "4", "h", "h", "7", "8" ,"o", "o", "o", "o", "o", "o", "o"};
-        deltaCivMap[15] = new String[]{"o", "o", "o", "o", "o", "5", "6", "7", "8" ,"9", "10", "11", "12", "13", "o", "o"};
-
-        switch (version) {
-            case GameConstants.ALPHACIV:
-            case GameConstants.BETACIV:
-            case GameConstants.GAMMACIV:
-                return generateSpecializedMap(standardMap);
-            case GameConstants.DELTACIV:
-                if(map == null || (map.length != GameConstants.WORLDSIZE) || (map[0].length != GameConstants.WORLDSIZE))
-                    return generateSpecializedMap(standardMap);
-                return generateSpecializedMap(customMap);
-            default:
-                return generateSpecializedMap(standardMap);
-        }
-    }
-
-    private TileImpl[][] generateSpecializedMap(String[][] arrayMap){
-        TileImpl[][] map = new TileImpl[GameConstants.WORLDSIZE][GameConstants.WORLDSIZE];
-        for(int i = 0; i < GameConstants.WORLDSIZE; i++){
-            for(int j = 0; j< GameConstants.WORLDSIZE; j++){
-                String string = arrayMap[i][j];
-                String type = GameConstants.PLAINS;
-                CityImpl city = null;
-                UnitImpl unit = null;
-                if (string != null) {
-                    switch (string.length()) {
-                        case 1: // only a tile type is given
-                            type = tileInterpreter(string.charAt(0));
-                            break;
-                        case 3: // a tile type and a city or unit is given
-                            type = tileInterpreter(string.charAt(0));
-                            if (string.charAt(1) == 'c') // if the second string is a city, create one with owner based on the third character
-                                city = new CityImpl(1, 0, playerInterpreter(string.charAt(2)), GameConstants.ARCHER, null);
-                            else // otherwise it is a unit
-                                unit = new UnitImpl(unitInterpreter(string.charAt(1)), playerInterpreter(string.charAt(2)));
-                            break;
-                        case 5:
-                            type = tileInterpreter(string.charAt(0));
-                            city = new CityImpl(1, 0, playerInterpreter(string.charAt(2)), GameConstants.ARCHER, null);
-                            unit = new UnitImpl(unitInterpreter(string.charAt(3)), playerInterpreter(string.charAt(4)));
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                map[i][j] = new TileImpl(new Position(i,j), type, city, unit);
-            }
-      }
-      return map;
-    }
 }

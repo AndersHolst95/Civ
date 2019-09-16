@@ -49,7 +49,7 @@ public class TestAlphaCiv {
      */
     @Before
     public void setUp() {
-        game = new GameImpl(GameConstants.ALPHACIV);
+        game = new GameImpl("alpha");
     }
 
     @Test
@@ -281,7 +281,7 @@ public class TestAlphaCiv {
 
     @Test
     public void betaCivWorldAgeCond1() {
-        game = new GameImpl(GameConstants.BETACIV);
+        game = new GameImpl("beta");
         int worldage = game.getAge();
         endRound();
         assertThat(game.getAge(), is(worldage +100));
@@ -291,7 +291,7 @@ public class TestAlphaCiv {
 
     @Test
     public void betaCivWorldAgeCond2() {
-        game = new GameImpl(GameConstants.BETACIV);
+        game = new GameImpl("beta");
         for (int i = 0; i< 39; i++){
             endRound();
             }
@@ -306,7 +306,7 @@ public class TestAlphaCiv {
 
     @Test
     public void betaCivWorldAgeCond3(){
-        game = new GameImpl(GameConstants.BETACIV);
+        game = new GameImpl("beta");
         for (int i = 0; i < 42; i++) {
             endRound();
         }
@@ -323,7 +323,7 @@ public class TestAlphaCiv {
 
     @Test
     public void betaCivWorldAgeCond4(){
-        game = new GameImpl(GameConstants.BETACIV);
+        game = new GameImpl("beta");
         for (int i = 0; i < 76; i++) {
             endRound();
         }
@@ -338,7 +338,7 @@ public class TestAlphaCiv {
 
     @Test
     public void betaCivWorldAgeCond5(){
-        game = new GameImpl(GameConstants.BETACIV);
+        game = new GameImpl("beta");
         for (int i = 0; i < 82; i++) {
             endRound();
         }
@@ -353,7 +353,7 @@ public class TestAlphaCiv {
 
     @Test
     public void betaCivWorldAgeCond6(){
-        game = new GameImpl(GameConstants.BETACIV);
+        game = new GameImpl("beta");
         for (int i = 0; i < 96; i++) {
             endRound();
         }
@@ -366,11 +366,7 @@ public class TestAlphaCiv {
         assertThat(game.getAge(), is(2019));
     }
 
-    @Test
-    public void testGameConstants() {
-        System.out.println(GameConstants.UNITS.toClass(GameConstants.ARCHER).getAttStrength());
-    }
-    
+
     
     
 

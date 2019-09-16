@@ -13,34 +13,10 @@ public class UnitImpl implements Unit{
     public UnitImpl(String type, Player owner){
         this.type = type;
         this.owner = owner;
-        switch (type) {
-            case GameConstants.ARCHER:
-                attStrength = 2;
-                defStrength = 3;
-                movement = 1;
-                cost = 10;
-                break;
-
-            case GameConstants.LEGION:
-                attStrength = 4;
-                defStrength = 2;
-                movement = 1;
-                cost = 15;
-                break;
-
-            case GameConstants.SETTLER:
-                attStrength = 0;
-                defStrength = 3;
-                movement = 1;
-                cost = 30;
-                break;
-
-            default: // default unit is an archer - should probably throw an exception instead
-                attStrength = 2;
-                defStrength = 3;
-                movement = 1;
-                cost = 10;
-        }
+        this.attStrength = GameConstants.UNITS.toClass(type).getAttStrength();
+        this.defStrength = GameConstants.UNITS.toClass(type).getDefStrength();
+        this.movement = GameConstants.UNITS.toClass(type).getMovement();
+        this.cost = GameConstants.UNITS.toClass(type).getCost();
         moveCount = movement;
     }
 

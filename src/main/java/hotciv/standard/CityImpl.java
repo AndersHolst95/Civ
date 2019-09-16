@@ -1,6 +1,7 @@
 package hotciv.standard;
 
 import hotciv.framework.City;
+import hotciv.framework.GameConstants;
 import hotciv.framework.Player;
 
 public class CityImpl implements City {
@@ -43,7 +44,7 @@ public class CityImpl implements City {
 
     public void setProduction(String production) {
         this.production = production;
-        productionCost = (new UnitImpl(production, Player.RED).getCost());
+        productionCost = GameConstants.UNITS.toClass(production).getCost();
     }
 
     public int getProductionCost() {
