@@ -366,13 +366,51 @@ public class TestAlphaCiv {
         assertThat(game.getAge(), is(2019));
     }
 
+    @Test
+    public void testDeltaMapPos2_6(){
+        game = new GameImpl("delta");
+        assertThat(game.getTileAt(new Position(2,6)).getTypeString(), is(GameConstants.MOUNTAINS));
+    }
 
-    
-    
+    @Test
+    public void testDeltaMapPos0_0(){
+        game = new GameImpl("delta");
+        assertThat(game.getTileAt(new Position(0,0)).getTypeString(), is(GameConstants.OCEANS));
+    }
+
+    @Test
+    public void testDeltaMapPos13_13(){
+        game = new GameImpl("delta");
+        assertThat(game.getTileAt(new Position(13,13)).getTypeString(), is(GameConstants.OCEANS));
+
+    }
+
+    @Test
+    public void testDeltaMapPos9_10(){
+        game = new GameImpl("delta");
+        assertThat(game.getTileAt(new Position(9,10)).getTypeString(), is(GameConstants.FOREST));
+    }
 
 
 
+    // Test det der kort..
 
 
+    // public void gammaSettlerAction(){
+    //     game = new GameImpl("gamma"); // The world is set to be a gamma world
+    //     Position pos = new Position(4,3);
+    //    // There is a settler (4,3) which is owned by red
+    //    ((UnitImpl) game.getUnitAt(pos)).doAction();
+
+    //   // The settler should be removed
+    //   assertNull(game.getUnitAt(pos));
+
+    //    // A city should be placed
+    //   assertNotNull(game.getCityAt(pos));
+
+    //   // Checking the size of the city
+    //   assertEquals(game.getCityAt(pos).getSize(), 1);
+
+    // }
 
 }

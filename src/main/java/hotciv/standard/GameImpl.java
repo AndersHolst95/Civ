@@ -3,6 +3,11 @@ package hotciv.standard;
 import hotciv.framework.*;
 import hotciv.framework.age.*;
 import hotciv.framework.map.*;
+import hotciv.framework.unitAction.GammaAction;
+import hotciv.framework.unitAction.NoAction;
+import hotciv.framework.unitAction.UnitAction;
+import hotciv.framework.unitAction.UnitAction.*;
+
 
 /**
  * Skeleton implementation of HotCiv.
@@ -36,19 +41,23 @@ public class GameImpl implements Game {
     private Age worldAge;
     private Player currentPlayer = Player.RED;
     private TileImpl[][] map;
+    private UnitAction unitAction;
     // ------------------------------------------ \\
 
     public GameImpl(String version){
         Map layout = new StandardMap();
         Age age = new ConstantAging();
+        UnitAction unitAction = new NoAction();
         switch (version) {
             case "beta":
                 age = new GradualAging();
             case "gamma":
+                unitAction = new GammaAction();
             case "delta":
                 layout = new DeltaMap();
             default:
         }
+        this.unitAction = unitAction;
         this.map = Map.generateMap(layout.getLayout());
         this.worldAge = age;
     }
@@ -73,11 +82,17 @@ public class GameImpl implements Game {
     }
 
     public Player getWinner() {
+
+
         return worldAge.getAge() == -3000 ? Player.RED : null;
     }
 
     public int getAge() {
         return worldAge.getAge();
+    }
+
+    public Boolean doUnitAction(Position pos){
+        return unitAction.doAction(getUnitAt(pos), pos);
     }
 
     public boolean moveUnit(Position from, Position to) {

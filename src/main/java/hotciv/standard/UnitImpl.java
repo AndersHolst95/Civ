@@ -1,5 +1,7 @@
 package hotciv.standard;
 import hotciv.framework.*;
+import hotciv.framework.unitAction.NoAction;
+import hotciv.framework.unitAction.UnitAction;
 
 public class UnitImpl implements Unit{
     private String type;
@@ -57,5 +59,4 @@ public class UnitImpl implements Unit{
     public int getCost() {
         return cost;
     }
-
 }
