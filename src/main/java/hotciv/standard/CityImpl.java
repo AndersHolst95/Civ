@@ -64,5 +64,7 @@ public class CityImpl implements City {
         productionValue += value;
     }
 
-
+    public void setOwner(Player owner) {
+        this.owner = owner;
+    }
 }

@@ -366,16 +366,6 @@ public class TestAlphaCiv {
         assertThat(game.getAge(), is(2019));
     }
 
-//    @Test
-//    public void gammaSettlerAction(){
-//        game = new GameImpl("gamma");
-//        Position pos = new Position(4, 3);
-//        ((UnitImpl) game.getUnitAt(pos)).doAction();
-//        assertNull(game.getUnitAt(pos)); // check that the unit is gone
-//        assertNotNull(game.getCityAt(pos)); // check that a new city is created
-//        assertThat(game.getCityAt(pos).getSize(), is(1)); // verify the size is 1
-//    }
-
     @Test
     public void deltaMountainsAt26() {
         game = new GameImpl("delta");
@@ -393,5 +383,31 @@ public class TestAlphaCiv {
         game = new GameImpl("delta");
         assertThat(game.getTileAt(new Position(13, 13)).getTypeString(), is(GameConstants.OCEANS));
     }
+
+    @Test
+    public void betaConquestVictoryRed(){
+        game = new GameImpl("beta");
+        ((CityImpl) game.getCityAt(new Position(4,1))).setOwner(Player.RED);
+        endRound();
+        assertThat(game.getWinner(), is(Player.RED));
+    }
+
+    @Test
+    public void betaConquestVictoryBlue(){
+        game = new GameImpl("beta");
+        ((CityImpl) game.getCityAt(new Position(1,1))).setOwner(Player.BLUE);
+        endRound();
+        assertThat(game.getWinner(), is(Player.BLUE));
+    }
+
+//    @Test
+//    public void gammaSettlerAction(){
+//        game = new GameImpl("gamma");
+//        Position pos = new Position(4, 3);
+//        ((UnitImpl) game.getUnitAt(pos)).doAction();
+//        assertNull(game.getUnitAt(pos)); // check that the unit is gone
+//        assertNotNull(game.getCityAt(pos)); // check that a new city is created
+//        assertThat(game.getCityAt(pos).getSize(), is(1)); // verify the size is 1
+//    }
 
 }

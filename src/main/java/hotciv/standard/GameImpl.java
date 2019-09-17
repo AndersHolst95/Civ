@@ -54,10 +54,13 @@ public class GameImpl implements Game {
             case "beta":
                 age = new GradualAging();
                 winCondition = new ConquestVictory();
+                break;
             case "gamma":
                 actions = new GammaAction();
+                break;
             case "delta":
                 layout = new DeltaLayout();
+                break;
             default:
         }
         this.actions = actions;
