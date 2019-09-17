@@ -437,3 +437,5 @@ public class TestAlphaCiv {
         assertThat(game.getTileAt(new Position(12, 7)).getTypeString(), is(GameConstants.PLAINS)); // random spot
     }
 }
+
+// remove this sometime
