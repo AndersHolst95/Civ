@@ -2,7 +2,7 @@ package hotciv.framework.layout;
 
 import hotciv.framework.*;
 
-public class DeltaLayout implements Layout {
+public class DeltaLayout implements LayoutStrategy {
     public String[][] getLayout() {
         String[][] layout = new String[GameConstants.WORLDSIZE][GameConstants.WORLDSIZE];
         layout[0] = new String[]{"o", "o", "o", "3", "4", "m", "6", "7", "8" ,"9", "10", "o", "o", "o", "o", "o"};

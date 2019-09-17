@@ -1,14 +1,10 @@
 package hotciv.framework.age;
 
 import hotciv.framework.GameConstants;
-import hotciv.framework.age.Age;
+import hotciv.framework.World;
 
-public class ConstantAging implements Age {
-    private int age = GameConstants.STARTYEAR;
-    public void changeWorldAge() {
-        age += 100;
-    }
-    public int getAge() {
-        return age;
+public class ConstantAging implements AgeStrategy {
+    public int getNextYear(int age) {
+        return age + 100;
     }
 }

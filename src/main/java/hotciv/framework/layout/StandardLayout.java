@@ -3,7 +3,7 @@ package hotciv.framework.layout;
 import hotciv.framework.*;
 import hotciv.framework.layout.*;
 
-public class StandardLayout implements Layout {
+public class StandardLayout implements LayoutStrategy {
     public String[][] getLayout() {
         String[][] layout = new String[GameConstants.WORLDSIZE][GameConstants.WORLDSIZE];
         layout[1][0] = "o";

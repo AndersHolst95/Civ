@@ -3,7 +3,7 @@ package hotciv.framework.layout;
 import hotciv.framework.*;
 import hotciv.standard.*;
 
-public interface Layout {
+public interface LayoutStrategy {
     String[][] getLayout();
 
     static String tileInterpreter(char c) {

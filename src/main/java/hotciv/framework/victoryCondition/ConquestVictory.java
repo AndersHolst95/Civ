@@ -1,7 +1,9 @@
 package hotciv.framework.victoryCondition;
 
-public class ConquestVictory implements VictoryCondition {
-    public boolean checkVictory(){
+import hotciv.framework.Player;
+
+public class ConquestVictory implements VictoryStrategy {
+    public boolean checkVictory(int age, Player player){
         return true;
     };
 }

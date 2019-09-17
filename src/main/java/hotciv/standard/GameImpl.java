@@ -4,6 +4,7 @@ import hotciv.framework.*;
 import hotciv.framework.age.*;
 import hotciv.framework.layout.*;
 import hotciv.framework.unitAction.*;
+import hotciv.framework.victoryCondition.*;
 
 /**
  * Skeleton implementation of HotCiv.
@@ -34,19 +35,25 @@ import hotciv.framework.unitAction.*;
 
 public class GameImpl implements Game {
     // ---------- Initialize the world ---------- \\
-    private Age worldAge;
+    private AgeStrategy worldAgeStrategy;
+    public int worldAge = GameConstants.STARTYEAR;
+    public VictoryStrategy winCondition;
+    public Player winner = null;
+
     private Player currentPlayer = Player.RED;
-    private UnitAction actions;
+    private UnitActionStrategy actions;
     // ------------------------------------------ \\
 
     public GameImpl(String version){
-        Layout layout = new StandardLayout();
-        Age age = new ConstantAging();
-        UnitAction actions = new NoAction();
+        LayoutStrategy layout = new StandardLayout();
+        AgeStrategy age = new ConstantAging();
+        UnitActionStrategy actions = new NoAction();
+        VictoryStrategy winCondition = new TimeVictory();
 
         switch (version) {
             case "beta":
                 age = new GradualAging();
+                winCondition = new ConquestVictory();
             case "gamma":
                 actions = new GammaAction();
             case "delta":
@@ -55,7 +62,8 @@ public class GameImpl implements Game {
         }
         this.actions = actions;
         World.setMap(layout.getLayout());
-        this.worldAge = age;
+        this.worldAgeStrategy = age;
+        this.winCondition = winCondition;
     }
 
     public GameImpl(String version, String[][] customLayout){
@@ -81,11 +89,16 @@ public class GameImpl implements Game {
     }
 
     public Player getWinner() {
-        return worldAge.getAge() == -3000 ? Player.RED : null;
+        return winner;
     }
 
+    public boolean checkWinner(Player player) {
+        return winCondition.checkVictory(worldAge, player);
+    }
+
+
     public int getAge() {
-        return worldAge.getAge();
+        return worldAge;
     }
 
     public boolean moveUnit(Position from, Position to) {
@@ -106,6 +119,12 @@ public class GameImpl implements Game {
      */
     private void endOfRound(){
         changeWorldAge();
+
+        // Checking if anybody has won
+        if(checkWinner(Player.RED))
+            winner = Player.RED;
+        if (checkWinner(Player.BLUE))
+            winner = Player.BLUE;
 
         // Iterating over each tile on the map
         for(int i = 0; i < GameConstants.WORLDSIZE; i++){
@@ -131,7 +150,7 @@ public class GameImpl implements Game {
     }
 
     public void changeWorldAge() {
-        worldAge.changeWorldAge();
+         worldAge = worldAgeStrategy.getNextYear(worldAge);
     }
 
     public void changeWorkForceFocusInCityAt(Position p, String balance) {

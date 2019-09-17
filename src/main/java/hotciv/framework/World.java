@@ -8,7 +8,7 @@ public class World {
     private static TileImpl[][] map;
 
     public static void setMap(String[][] layout) {
-        map = Layout.generateMap(layout);
+        map = LayoutStrategy.generateMap(layout);
     }
 
     public static TileImpl[][] getMap() {
@@ -136,4 +136,5 @@ public class World {
     public static void setCityAt(Position pos, CityImpl city) {
         map[pos.getRow()][pos.getColumn()].setCity(city);
     }
+
 }
