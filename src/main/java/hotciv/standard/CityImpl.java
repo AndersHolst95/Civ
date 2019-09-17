@@ -1,8 +1,6 @@
 package hotciv.standard;
 
-import hotciv.framework.City;
-import hotciv.framework.GameConstants;
-import hotciv.framework.Player;
+import hotciv.framework.*;
 
 public class CityImpl implements City {
     private int size;
@@ -12,6 +10,10 @@ public class CityImpl implements City {
     private String workforceFocus;
     private int productionValue;
     private int productionCost;
+
+    public CityImpl(Player owner) {
+        this(1, 0, owner, GameConstants.ARCHER, null);
+    }
 
     public CityImpl(int size, int treasury, Player owner, String production, String workforceFocus) {
         this.size = size;

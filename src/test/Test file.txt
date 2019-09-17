@@ -1,15 +1,18 @@
 TESTS
+Note: '=' indicates something that was implemented this week
 
 PLAYERS:
 - Blue goes after red
-= Only two players participate in the game
-= Players cannot move the opponent's units
+- Only two players participate in the game
+- Players cannot move the opponent's units
 
 GAME:
 - Red always goes first
 - Starts in year 4000BC
 - Red wins in year 3000BC
 - Nobody wins before this
+= BetaCiv world age works as intended
+= Conquest victory for BetaCiv implemented
 
 UNITS:
 - Starting units are generated correctly
@@ -22,21 +25,24 @@ UNITS:
 	* it is occupied by a friendly unit
 	* the unit does not exist
 	* the destination is too far away
-= Only one unit can occupy a given tile
-= Attacking works as intended
-= Starting units have correct ownership
-= Units can not be placed on impassable terrain
-= Movement is refreshed at the end of each round
-= Units cannot move outside the world boundaries
+- Only one unit can occupy a given tile
+- Attacking works as intended
+- Starting units have correct ownership
+- Units can not be placed on impassable terrain
+- Movement is refreshed at the end of each round
+- Units cannot move outside the world boundaries
+= Actions work for Archer and Settler for GammaCiv
 
 WORLD:
 - World age is incremented by 100 at the end of each turn
 - Terrain is generated correctly
+= DeltaCiv map is correctly generated
+= Custom map layouts can be used in DeltaCiv
 
 CITIES:
 - No city growth
-= Production generation works as intended
-= Production of units with no unit in the city
-= Units cannot be produced on impassable terrain
-= Cities can produce all types of units
+- Production generation works as intended
+- Production of units with no unit in the city
+- Units cannot be produced on impassable terrain
+- Cities can produce all types of units
 

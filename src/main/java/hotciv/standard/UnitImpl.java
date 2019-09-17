@@ -7,9 +7,10 @@ public class UnitImpl implements Unit {
     private Player owner;
     private int attStrength;
     private int defStrength;
-    private final int movement; // number of movement points for the unit
+    private int movement; // number of movement points for the unit
     private int moveCount; // current number of movement points for the unit
     private int cost;
+    private boolean isFortified = false; // is the unit fortified
 
     public UnitImpl(String type, Player owner){
         this.type = type;
@@ -52,7 +53,24 @@ public class UnitImpl implements Unit {
 
     public void setMoveCount(int i) {
         moveCount = i;
-        return;
+    }
+
+    public boolean isFortified() {
+        return isFortified;
+    }
+
+    public void toggleFortify() {
+        if (!isFortified) {
+            isFortified = true;
+            defStrength = 2*defStrength;
+            movement = 0;
+            moveCount = 0;
+        }
+        else {
+            isFortified = false;
+            defStrength = defStrength/2;
+            movement = GameConstants.UNITS.ARCHER.movement;
+        }
     }
 
     public int getCost() {

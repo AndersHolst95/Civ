@@ -4,7 +4,9 @@ import hotciv.framework.*;
 import hotciv.framework.age.*;
 import hotciv.framework.layout.*;
 import hotciv.framework.unitAction.*;
-import hotciv.framework.victoryCondition.*;
+import hotciv.framework.victoryStrategy.ConquestVictory;
+import hotciv.framework.victoryStrategy.TimeVictory;
+import hotciv.framework.victoryStrategy.VictoryStrategy;
 
 /**
  * Skeleton implementation of HotCiv.
@@ -34,39 +36,39 @@ import hotciv.framework.victoryCondition.*;
  */
 
 public class GameImpl implements Game {
-    // ---------- Initialize the world ---------- \\
-    private AgeStrategy worldAgeStrategy;
-    public int worldAge = GameConstants.STARTYEAR;
-    public VictoryStrategy winCondition;
-    public Player winner = null;
-
+    // Initializing global field variables
+    private int worldAge = GameConstants.STARTYEAR;
     private Player currentPlayer = Player.RED;
-    private UnitActionStrategy actions;
-    // ------------------------------------------ \\
+    private Player winner = null;
+
+    // Variable strategies
+    private AgeStrategy worldAgeStrategy;
+    private VictoryStrategy winCondition;
+    private UnitActionStrategy unitActionStrategy;
 
     public GameImpl(String version){
         LayoutStrategy layout = new StandardLayout();
-        AgeStrategy age = new ConstantAging();
-        UnitActionStrategy actions = new NoAction();
+        AgeStrategy ageStrategy = new ConstantAging();
         VictoryStrategy winCondition = new TimeVictory();
+        UnitActionStrategy unitActionStrategy = new NoAction();
 
         switch (version) {
             case "beta":
-                age = new GradualAging();
+                ageStrategy = new GradualAging();
                 winCondition = new ConquestVictory();
                 break;
             case "gamma":
-                actions = new GammaAction();
+                unitActionStrategy = new GammaAction();
                 break;
             case "delta":
                 layout = new DeltaLayout();
                 break;
             default:
         }
-        this.actions = actions;
         World.setMap(layout.getLayout());
-        this.worldAgeStrategy = age;
+        this.worldAgeStrategy = ageStrategy;
         this.winCondition = winCondition;
+        this.unitActionStrategy = unitActionStrategy;
     }
 
     public GameImpl(String version, String[][] customLayout){
@@ -99,7 +101,6 @@ public class GameImpl implements Game {
         return winCondition.checkVictory(worldAge, player);
     }
 
-
     public int getAge() {
         return worldAge;
     }
@@ -124,7 +125,7 @@ public class GameImpl implements Game {
         changeWorldAge();
 
         // Checking if anybody has won
-        if(checkWinner(Player.RED))
+        if (checkWinner(Player.RED))
             winner = Player.RED;
         if (checkWinner(Player.BLUE))
             winner = Player.BLUE;
@@ -153,7 +154,7 @@ public class GameImpl implements Game {
     }
 
     public void changeWorldAge() {
-         worldAge = worldAgeStrategy.getNextYear(worldAge);
+        worldAge = worldAgeStrategy.getNextYear(worldAge);
     }
 
     public void changeWorkForceFocusInCityAt(Position p, String balance) {
@@ -166,7 +167,6 @@ public class GameImpl implements Game {
     }
 
     public boolean doUnitAction(Position pos) {
-        actions.doAction(getUnitAt(pos));
-        return true;
+        return unitActionStrategy.doAction(pos);
     }
 }

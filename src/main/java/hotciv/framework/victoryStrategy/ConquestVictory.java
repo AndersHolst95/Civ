@@ -1,9 +1,5 @@
-package hotciv.framework.victoryCondition;
-
-import hotciv.framework.GameConstants;
-import hotciv.framework.Player;
-import hotciv.framework.Position;
-import hotciv.framework.World;
+package hotciv.framework.victoryStrategy;
+import hotciv.framework.*;
 
 public class ConquestVictory implements VictoryStrategy {
     public boolean checkVictory(int age, Player player){

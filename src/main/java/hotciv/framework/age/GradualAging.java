@@ -1,14 +1,9 @@
 package hotciv.framework.age;
-
-import hotciv.framework.GameConstants;
 import hotciv.framework.World;
-
-import static hotciv.framework.World.*;
-
 public class GradualAging implements AgeStrategy {
     public int getNextYear(int age) {
         if(age < -100){age += 100;} // While the world is younger than 100BC, the world increments by 100 years
-        else if(age == -100){age  = -1;} // Around Christ the world goes -50, -1, 1 50
+        else if(age == -100){age = -1;} // Around Christ the world goes -50, -1, 1 50
         else if(age == -1){age = 1;} // Around Christ
         else if(age == 1){age = 50;} // Around Christ
         else if(age >= 50 && age < 1750){age += 50;} //Between 50AD and 1750AD increment by 50
@@ -17,5 +12,4 @@ public class GradualAging implements AgeStrategy {
         else if(age >= 1970){age += 1;} //After 1970 increment by 1
         return age;
     }
-
 }

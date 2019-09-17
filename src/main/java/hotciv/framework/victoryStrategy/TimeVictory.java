@@ -1,6 +1,5 @@
-package hotciv.framework.victoryCondition;
-
-import hotciv.framework.Player;
+package hotciv.framework.victoryStrategy;
+import hotciv.framework.*;
 
 public class TimeVictory implements VictoryStrategy {
     public boolean checkVictory(int age, Player player){

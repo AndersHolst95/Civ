@@ -137,4 +137,11 @@ public class World {
         map[pos.getRow()][pos.getColumn()].setCity(city);
     }
 
+    /**
+     * Removes the unit located at positon pos
+     * @param pos The position
+     */
+    public static void removeUnit(Position pos) {
+        map[pos.getRow()][pos.getColumn()].setUnit(null);
+    }
 }
