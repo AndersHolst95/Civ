@@ -1,13 +1,9 @@
-package hotciv.framework.map;
+package hotciv.framework.layout;
 
-import hotciv.framework.GameConstants;
-import hotciv.framework.Player;
-import hotciv.framework.Position;
-import hotciv.standard.CityImpl;
-import hotciv.standard.TileImpl;
-import hotciv.standard.UnitImpl;
+import hotciv.framework.*;
+import hotciv.standard.*;
 
-public interface Map {
+public interface Layout {
     String[][] getLayout();
 
     static String tileInterpreter(char c) {

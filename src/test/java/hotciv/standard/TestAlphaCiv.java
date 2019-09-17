@@ -147,8 +147,8 @@ public class TestAlphaCiv {
         Position ocean = new Position (1, 0); // impassable ocean
         Position tooLong = new Position(GameConstants.WORLDSIZE-1, GameConstants.WORLDSIZE-1); // too far away
 
-        game.setTypeAt(mountain, GameConstants.MOUNTAINS);
-        game.setUnitAt(unit, new UnitImpl(GameConstants.ARCHER, Player.RED));
+        World.setTypeAt(mountain, GameConstants.MOUNTAINS);
+        World.setUnitAt(unit, new UnitImpl(GameConstants.ARCHER, Player.RED));
         assertFalse(game.moveUnit(new Position(5, 5), new Position(5, 4))); // trying to move nothing
         assertFalse(game.moveUnit(from, tooLong)); // trying to move too far
         assertFalse(game.moveUnit(from, ocean)); // trying to move onto an ocean
@@ -185,16 +185,16 @@ public class TestAlphaCiv {
     @Test
     public void onlyOneUnitCanOccupyATile() {
         Position pos = new Position(5, 5 );
-        assertTrue(game.setUnitAt(pos, new UnitImpl(GameConstants.ARCHER, Player.BLUE))); // can place a unit on a free tile
-        assertFalse(game.setUnitAt(pos, new UnitImpl(GameConstants.ARCHER, Player.RED))); // cannot place another red unit on the same tile
+        assertTrue(World.setUnitAt(pos, new UnitImpl(GameConstants.ARCHER, Player.BLUE))); // can place a unit on a free tile
+        assertFalse(World.setUnitAt(pos, new UnitImpl(GameConstants.ARCHER, Player.RED))); // cannot place another red unit on the same tile
     }
 
     @Test
     public void redAttackerWins() {
         Position redPos = new Position(5, 5);
         Position bluePos = new Position(5, 6);
-        game.setUnitAt(redPos, new UnitImpl(GameConstants.ARCHER, Player.RED));
-        game.setUnitAt(bluePos, new UnitImpl(GameConstants.ARCHER, Player.BLUE));
+        World.setUnitAt(redPos, new UnitImpl(GameConstants.ARCHER, Player.RED));
+        World.setUnitAt(bluePos, new UnitImpl(GameConstants.ARCHER, Player.BLUE));
 
         assertTrue(game.moveUnit(redPos, bluePos)); // red is moved
         assertThat(game.getUnitAt(bluePos).getOwner(), is(Player.RED)); // check that red won the fight
@@ -204,8 +204,8 @@ public class TestAlphaCiv {
     public void blueAttackerWins() {
         Position redPos = new Position(5, 6);
         Position bluePos = new Position(5, 7);
-        game.setUnitAt(redPos, new UnitImpl(GameConstants.ARCHER, Player.RED));
-        game.setUnitAt(bluePos, new UnitImpl(GameConstants.ARCHER, Player.BLUE));
+        World.setUnitAt(redPos, new UnitImpl(GameConstants.ARCHER, Player.RED));
+        World.setUnitAt(bluePos, new UnitImpl(GameConstants.ARCHER, Player.BLUE));
 
         game.endOfTurn(); // change turn so the blue unit can be moved
         assertTrue(game.moveUnit(bluePos, redPos)); // blue is moved
@@ -214,12 +214,12 @@ public class TestAlphaCiv {
 
     @Test
     public void unitsCannotBePlacedOnOcean() {
-        assertFalse(game.setUnitAt(new Position(1, 0), new UnitImpl(GameConstants.ARCHER, Player.RED))); // ocean
+        assertFalse(World.setUnitAt(new Position(1, 0), new UnitImpl(GameConstants.ARCHER, Player.RED))); // ocean
     }
 
     @Test
     public void unitsCannotBePlacedOnMountain() {
-        assertFalse(game.setUnitAt(new Position(2, 2), new UnitImpl(GameConstants.ARCHER, Player.RED))); // mountain
+        assertFalse(World.setUnitAt(new Position(2, 2), new UnitImpl(GameConstants.ARCHER, Player.RED))); // mountain
     }
 
     @Test
@@ -366,51 +366,32 @@ public class TestAlphaCiv {
         assertThat(game.getAge(), is(2019));
     }
 
+//    @Test
+//    public void gammaSettlerAction(){
+//        game = new GameImpl("gamma");
+//        Position pos = new Position(4, 3);
+//        ((UnitImpl) game.getUnitAt(pos)).doAction();
+//        assertNull(game.getUnitAt(pos)); // check that the unit is gone
+//        assertNotNull(game.getCityAt(pos)); // check that a new city is created
+//        assertThat(game.getCityAt(pos).getSize(), is(1)); // verify the size is 1
+//    }
+
     @Test
-    public void testDeltaMapPos2_6(){
+    public void deltaMountainsAt26() {
         game = new GameImpl("delta");
-        assertThat(game.getTileAt(new Position(2,6)).getTypeString(), is(GameConstants.MOUNTAINS));
+        assertThat(game.getTileAt(new Position(2, 6)).getTypeString(), is(GameConstants.MOUNTAINS));
     }
 
     @Test
-    public void testDeltaMapPos0_0(){
+    public void deltaOceansAt42() {
         game = new GameImpl("delta");
-        assertThat(game.getTileAt(new Position(0,0)).getTypeString(), is(GameConstants.OCEANS));
+        assertThat(game.getTileAt(new Position(4, 2)).getTypeString(), is(GameConstants.OCEANS));
     }
 
     @Test
-    public void testDeltaMapPos13_13(){
+    public void deltaOceansAt1313() {
         game = new GameImpl("delta");
-        assertThat(game.getTileAt(new Position(13,13)).getTypeString(), is(GameConstants.OCEANS));
-
+        assertThat(game.getTileAt(new Position(13, 13)).getTypeString(), is(GameConstants.OCEANS));
     }
-
-    @Test
-    public void testDeltaMapPos9_10(){
-        game = new GameImpl("delta");
-        assertThat(game.getTileAt(new Position(9,10)).getTypeString(), is(GameConstants.FOREST));
-    }
-
-
-
-    // Test det der kort..
-
-
-    // public void gammaSettlerAction(){
-    //     game = new GameImpl("gamma"); // The world is set to be a gamma world
-    //     Position pos = new Position(4,3);
-    //    // There is a settler (4,3) which is owned by red
-    //    ((UnitImpl) game.getUnitAt(pos)).doAction();
-
-    //   // The settler should be removed
-    //   assertNull(game.getUnitAt(pos));
-
-    //    // A city should be placed
-    //   assertNotNull(game.getCityAt(pos));
-
-    //   // Checking the size of the city
-    //   assertEquals(game.getCityAt(pos).getSize(), 1);
-
-    // }
 
 }

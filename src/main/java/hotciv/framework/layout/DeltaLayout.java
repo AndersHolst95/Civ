@@ -1,9 +1,8 @@
-package hotciv.framework.map;
+package hotciv.framework.layout;
 
-import hotciv.framework.GameConstants;
-import hotciv.framework.map.Map;
+import hotciv.framework.*;
 
-public class DeltaMap implements Map {
+public class DeltaLayout implements Layout {
     public String[][] getLayout() {
         String[][] layout = new String[GameConstants.WORLDSIZE][GameConstants.WORLDSIZE];
         layout[0] = new String[]{"o", "o", "o", "3", "4", "m", "6", "7", "8" ,"9", "10", "o", "o", "o", "o", "o"};

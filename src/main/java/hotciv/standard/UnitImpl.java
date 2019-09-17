@@ -1,9 +1,8 @@
 package hotciv.standard;
 import hotciv.framework.*;
-import hotciv.framework.unitAction.NoAction;
-import hotciv.framework.unitAction.UnitAction;
+import hotciv.framework.unitAction.*;
 
-public class UnitImpl implements Unit{
+public class UnitImpl implements Unit {
     private String type;
     private Player owner;
     private int attStrength;

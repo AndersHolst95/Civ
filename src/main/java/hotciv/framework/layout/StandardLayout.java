@@ -1,9 +1,9 @@
-package hotciv.framework.map;
+package hotciv.framework.layout;
 
-import hotciv.framework.GameConstants;
-import hotciv.framework.map.Map;
+import hotciv.framework.*;
+import hotciv.framework.layout.*;
 
-public class StandardMap implements Map {
+public class StandardLayout implements Layout {
     public String[][] getLayout() {
         String[][] layout = new String[GameConstants.WORLDSIZE][GameConstants.WORLDSIZE];
         layout[1][0] = "o";

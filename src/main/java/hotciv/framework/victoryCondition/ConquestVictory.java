@@ -1,6 +1,6 @@
 package hotciv.framework.victoryCondition;
 
-public class TimeVictory implements VictoryCondition {
+public class ConquestVictory implements VictoryCondition {
     public boolean checkVictory(){
         return true;
     };

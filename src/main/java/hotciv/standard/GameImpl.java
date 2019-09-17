@@ -2,12 +2,8 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 import hotciv.framework.age.*;
-import hotciv.framework.map.*;
-import hotciv.framework.unitAction.GammaAction;
-import hotciv.framework.unitAction.NoAction;
-import hotciv.framework.unitAction.UnitAction;
-import hotciv.framework.unitAction.UnitAction.*;
-
+import hotciv.framework.layout.*;
+import hotciv.framework.unitAction.*;
 
 /**
  * Skeleton implementation of HotCiv.
@@ -40,41 +36,44 @@ public class GameImpl implements Game {
     // ---------- Initialize the world ---------- \\
     private Age worldAge;
     private Player currentPlayer = Player.RED;
-    private TileImpl[][] map;
-    private UnitAction unitAction;
+    private UnitAction actions;
     // ------------------------------------------ \\
 
     public GameImpl(String version){
-        Map layout = new StandardMap();
+        Layout layout = new StandardLayout();
         Age age = new ConstantAging();
-        UnitAction unitAction = new NoAction();
+        UnitAction actions = new NoAction();
+
         switch (version) {
             case "beta":
                 age = new GradualAging();
             case "gamma":
-                unitAction = new GammaAction();
+                actions = new GammaAction();
             case "delta":
-                layout = new DeltaMap();
+                layout = new DeltaLayout();
             default:
         }
-        this.unitAction = unitAction;
-        this.map = Map.generateMap(layout.getLayout());
+        this.actions = actions;
+        World.setMap(layout.getLayout());
         this.worldAge = age;
     }
 
-    public GameImpl(String version, String[][] customMap){
+    public GameImpl(String version, String[][] customLayout){
+        this(version);
+        if (version.equals("delta"))
+            World.setMap(customLayout); // sets the world layout to the custom one
     }
 
     public Tile getTileAt(Position p) {
-        return map[p.getRow()][p.getColumn()];
+        return World.getTileAt(p);
     }
 
     public Unit getUnitAt(Position p) {
-        return map[p.getRow()][p.getColumn()].getUnit();
+        return World.getUnitAt(p);
     }
 
     public City getCityAt(Position p) {
-        return map[p.getRow()][p.getColumn()].getCity();
+        return World.getCityAt(p);
     }
 
     public Player getPlayerInTurn() {
@@ -82,8 +81,6 @@ public class GameImpl implements Game {
     }
 
     public Player getWinner() {
-
-
         return worldAge.getAge() == -3000 ? Player.RED : null;
     }
 
@@ -91,56 +88,8 @@ public class GameImpl implements Game {
         return worldAge.getAge();
     }
 
-    public Boolean doUnitAction(Position pos){
-        return unitAction.doAction(getUnitAt(pos), pos);
-    }
-
     public boolean moveUnit(Position from, Position to) {
-        UnitImpl unit = map[from.getRow()][from.getColumn()].getUnit();
-
-        // Check if unit exists
-        if (unit == null)
-            return false;
-
-        // Checking if the unit has the right owner
-        if(unit.getOwner() != currentPlayer){ return false;}
-
-        // Check if unit has enough movement points left
-        if (unit.getMoveCount() > 0)
-            unit.setMoveCount(unit.getMoveCount() - 1);
-        else
-            return false;
-
-        // Check if the "to" position is a valid position
-        if (!validUnitPosition(to))
-            return false;
-
-        // Check friendly unit collision
-        Unit toUnit = map[to.getRow()][to.getColumn()].getUnit();
-        if (toUnit != null && toUnit.getOwner() == currentPlayer)
-            return false;
-
-        // Check if destination is a single tile away
-        boolean valid = false;
-        if (Math.abs(from.getColumn() - to.getColumn()) == 1) {
-            if (Math.abs(from.getRow() - to.getRow()) <= 1)
-                valid = true;
-        }
-        if (Math.abs(from.getRow() - to.getRow()) == 1) {
-            if (Math.abs(from.getColumn() - to.getColumn()) == 0)
-                valid = true;
-        }
-        if (!valid)
-                return false;
-
-        // ANOTHER VERSION OF CALCULATING THE LENGTH OF MOVEMENT //
-        // The unit has moved more than one tile
-        //double d = Math.sqrt(java.lang.Double.sum(Math.pow(to.getRow()-from.getRow(), 2) , Math.pow(to.getColumn()-from.getColumn(), 2)));
-        //if (d > 2){ return false;}
-
-        map[to.getRow()][to.getColumn()].setUnit(unit); // replaces unit on to
-        map[from.getRow()][from.getColumn()].setUnit(null); // removes unit on from
-        return true;
+        return World.moveUnit(from, to, currentPlayer);
     }
 
     public void endOfTurn() {
@@ -150,49 +99,6 @@ public class GameImpl implements Game {
             endOfRound();
             currentPlayer = Player.RED;
         }
-    }
-
-    private Position getNearestAvailableTile(Position pos) {
-        Position[] posList = new Position[9];
-        // positions start at the right and runs clockwise
-        posList[0] = pos;
-        posList[1] = new Position(pos.getRow() - 1, pos.getColumn()); // north
-        posList[2] = new Position(pos.getRow() - 1, pos.getColumn() + 1); // northeast
-        posList[3] = new Position(pos.getRow(), pos.getColumn() + 1); // east
-        posList[4] = new Position(pos.getRow() + 1, pos.getColumn() + 1); // southeast
-        posList[5] = new Position(pos.getRow() + 1, pos.getColumn()); // south
-        posList[6] = new Position(pos.getRow() + 1, pos.getColumn() - 1); // southwest
-        posList[7] = new Position(pos.getRow(), pos.getColumn() - 1); // west
-        posList[8] = new Position(pos.getRow() - 1, pos.getColumn() - 1); // northwest
-
-        for (int i = 0; i < 9; i++) {
-            if (validUnitPosition(posList[i]) && (getUnitAt(posList[i]) == null))
-                return posList[i];
-        }
-        return null;
-    }
-
-    /**
-     * Checks if the given position is within the world border, and if a city or unit can be placed on it
-     * @param pos the parameter to be checked
-     * @return true if valid
-     */
-    private Boolean validUnitPosition(Position pos) {
-        // Check for null-position
-        if(pos == null)
-            return false;
-
-        // check for out-of-bounds
-        if (pos.getColumn() < 0 || GameConstants.WORLDSIZE < pos.getColumn())
-            return false;
-        if (pos.getRow() < 0 || GameConstants.WORLDSIZE < pos.getRow())
-            return false;
-
-        // check for mountains and ocean
-        if (getTileAt(pos).getTypeString().equals(GameConstants.MOUNTAINS) || getTileAt(pos).getTypeString().equals(GameConstants.OCEANS))
-            return false;
-
-        return true;
     }
 
     /**
@@ -211,7 +117,7 @@ public class GameImpl implements Game {
 
                     // check if it can produce a unit
                     if (city.getProductionValue() >= city.getProductionCost()) {
-                        if (setUnitAt(getNearestAvailableTile(new Position(i, j)), new UnitImpl(city.getProduction(), city.getOwner())))
+                        if (World.setUnitAt(World.getNearestAvailableTile(new Position(i, j)), new UnitImpl(city.getProduction(), city.getOwner())))
                             city.addProductionValue(-city.getProductionCost());
                     }
                 }
@@ -237,23 +143,8 @@ public class GameImpl implements Game {
     public void performUnitActionAt(Position p) {
     }
 
-    public void setTypeAt(Position pos, String type) {
-        map[pos.getRow()][pos.getColumn()].setType(type);
-    }
-
-    public boolean setUnitAt(Position pos, UnitImpl unit) {
-        if (!validUnitPosition(pos))
-            return false;
-        // check for other units
-        if (getUnitAt(pos) != null)
-            return false;
-
-        map[pos.getRow()][pos.getColumn()].setUnit(unit);
+    public boolean doUnitAction(Position pos) {
+        actions.doAction(getUnitAt(pos));
         return true;
     }
-
-    public void setCityAt(Position pos, CityImpl city) {
-        map[pos.getRow()][pos.getColumn()].setCity(city);
-    }
-
 }
