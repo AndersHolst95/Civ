@@ -58,7 +58,6 @@ public class World {
                 Math.abs(from.getRow() - to.getRow()) > 1)
             return false;
 
-
         map[to.getRow()][to.getColumn()].setUnit(unit); // replaces unit on to
         map[from.getRow()][from.getColumn()].setUnit(null); // removes unit on from
         return true;

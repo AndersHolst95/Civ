@@ -97,8 +97,16 @@ public class GameImpl implements Game {
         return winner;
     }
 
-    public boolean checkWinner(Player player) {
-        return winCondition.checkVictory(worldAge, player);
+    /**
+     * Checks if either blue or red has won the game
+     * @return the new winner, who can be null
+     */
+    private Player checkWinner() {
+        if (winCondition.checkVictory(worldAge, Player.RED))
+            return Player.RED;
+        if (winCondition.checkVictory(worldAge, Player.BLUE))
+            return Player.BLUE;
+        return null;
     }
 
     public int getAge() {
@@ -125,10 +133,7 @@ public class GameImpl implements Game {
         changeWorldAge();
 
         // Checking if anybody has won
-        if (checkWinner(Player.RED))
-            winner = Player.RED;
-        if (checkWinner(Player.BLUE))
-            winner = Player.BLUE;
+        winner = checkWinner();
 
         // Iterating over each tile on the map
         for(int i = 0; i < GameConstants.WORLDSIZE; i++){
@@ -137,12 +142,7 @@ public class GameImpl implements Game {
                 if (getCityAt(new Position(i,j)) != null){
                     CityImpl city = ((CityImpl) getCityAt(new Position(i,j)));
                     city.addProductionValue(6); // add production
-
-                    // check if it can produce a unit
-                    if (city.getProductionValue() >= city.getProductionCost()) {
-                        if (World.setUnitAt(World.getNearestAvailableTile(new Position(i, j)), new UnitImpl(city.getProduction(), city.getOwner())))
-                            city.addProductionValue(-city.getProductionCost());
-                    }
+                    produceUnit(i, j, city);
                 }
                 // If the tile contains a unit..
                 if (getUnitAt(new Position(i, j)) != null){
@@ -150,6 +150,15 @@ public class GameImpl implements Game {
                     unit.refreshMoveCount(); // refresh its movement
                 }
             }
+        }
+    }
+
+    private void produceUnit(int row, int col, CityImpl city) {
+        // check if it can produce a unit
+        if (city.getProductionValue() >= city.getProductionCost()) {
+            // Try to place a unit at the nearest available tile around the city, and subtracts the production if successful
+            if (World.setUnitAt(World.getNearestAvailableTile(new Position(row, col)), new UnitImpl(city.getProduction(), city.getOwner())))
+                city.addProductionValue(-city.getProductionCost());
         }
     }
 
