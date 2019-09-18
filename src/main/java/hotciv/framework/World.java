@@ -53,22 +53,11 @@ public class World {
             return false;
 
         // Check if destination is a single tile away
-        boolean valid = false;
-        if (Math.abs(from.getColumn() - to.getColumn()) == 1) {
-            if (Math.abs(from.getRow() - to.getRow()) <= 1)
-                valid = true;
-        }
-        if (Math.abs(from.getRow() - to.getRow()) == 1) {
-            if (Math.abs(from.getColumn() - to.getColumn()) == 0)
-                valid = true;
-        }
-        if (!valid)
+        // Note that this implies the difference in columns or rows is greater than 1
+        if ((Math.abs(from.getColumn() - to.getColumn()) > 1) ||
+                Math.abs(from.getRow() - to.getRow()) > 1)
             return false;
 
-        // ANOTHER VERSION OF CALCULATING THE LENGTH OF MOVEMENT //
-        // The unit has moved more than one tile
-        //double d = Math.sqrt(java.lang.Double.sum(Math.pow(to.getRow()-from.getRow(), 2) , Math.pow(to.getColumn()-from.getColumn(), 2)));
-        //if (d > 2){ return false;}
 
         map[to.getRow()][to.getColumn()].setUnit(unit); // replaces unit on to
         map[from.getRow()][from.getColumn()].setUnit(null); // removes unit on from
