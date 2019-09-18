@@ -141,8 +141,8 @@ public class GameImpl implements Game {
                 // If the tile contains a city..
                 if (getCityAt(new Position(i,j)) != null){
                     CityImpl city = ((CityImpl) getCityAt(new Position(i,j)));
-                    city.addProductionValue(6); // add production
-                    produceUnit(i, j, city);
+                    city.addProductionValue(GameConstants.CITY_PRODUCTION_PER_TURN); // add production
+                    produceUnit(i, j, city); // produce eventual units
                 }
                 // If the tile contains a unit..
                 if (getUnitAt(new Position(i, j)) != null){
@@ -153,6 +153,12 @@ public class GameImpl implements Game {
         }
     }
 
+    /**
+     * Checks if a given city can produce a unit, and if so, tries to place it
+     * @param row The row index of the position
+     * @param col The column index of the position
+     * @param city The city in question
+     */
     private void produceUnit(int row, int col, CityImpl city) {
         // check if it can produce a unit
         if (city.getProductionValue() >= city.getProductionCost()) {

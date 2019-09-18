@@ -31,6 +31,7 @@ package hotciv.framework;
  */
 public class GameConstants {
     // The size of the world is set permanently to a 16x16 grid
+    public static final int CITY_PRODUCTION_PER_TURN = 6;
     public static final int WORLDSIZE = 16;
     public static final int STARTYEAR = -4000;  // This is the starting year for all games of civ
     // Valid unit types
