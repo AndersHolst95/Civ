@@ -93,22 +93,28 @@ public class GameImpl implements Game {
         return currentPlayer;
     }
 
+    /**
+     * Returns the winner of the game
+     * @return the winner
+     */
     public Player getWinner() {
         return winner;
     }
 
     /**
-     * Checks if either blue or red has won the game
-     * @return the new winner, who can be null
+     * Checks and updates the winner if either blue or red has won
      */
-    private Player checkWinner() {
+    private void updateWinner() {
         if (winCondition.checkVictory(worldAge, Player.RED))
-            return Player.RED;
-        if (winCondition.checkVictory(worldAge, Player.BLUE))
-            return Player.BLUE;
-        return null;
+            winner = Player.RED;
+        else if (winCondition.checkVictory(worldAge, Player.BLUE))
+            winner = Player.BLUE;
     }
 
+    /**
+     * Returns the age of the world
+     * @return the world age
+     */
     public int getAge() {
         return worldAge;
     }
@@ -117,6 +123,9 @@ public class GameImpl implements Game {
         return World.moveUnit(from, to, currentPlayer);
     }
 
+    /**
+     * Ends the turn for the current player. If that player is blue, endOfRound effects are resolved.
+     */
     public void endOfTurn() {
         if (currentPlayer == Player.RED)
             currentPlayer = Player.BLUE;
@@ -133,7 +142,7 @@ public class GameImpl implements Game {
         changeWorldAge();
 
         // Checking if anybody has won
-        winner = checkWinner();
+        updateWinner();
 
         // Iterating over each tile on the map
         for(int i = 0; i < GameConstants.WORLDSIZE; i++){
@@ -168,7 +177,10 @@ public class GameImpl implements Game {
         }
     }
 
-    public void changeWorldAge() {
+    /**
+     * Increments the world age
+     */
+    private void changeWorldAge() {
         worldAge = worldAgeStrategy.getNextYear(worldAge);
     }
 
@@ -178,10 +190,11 @@ public class GameImpl implements Game {
     public void changeProductionInCityAt(Position p, String unitType) {
     }
 
-    public void performUnitActionAt(Position p) {
-    }
-
-    public boolean doUnitAction(Position pos) {
-        return unitActionStrategy.doAction(pos);
+    /**
+     * Performs the action of the unit located at pos
+     * @param pos the position of the unit
+     */
+    public void performUnitActionAt(Position pos) {
+        unitActionStrategy.doAction(pos);
     }
 }
