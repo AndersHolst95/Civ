@@ -1,7 +1,6 @@
 package hotciv.standard;
 
 import hotciv.framework.*;
-
 import hotciv.framework.age.ConstantAging;
 import hotciv.framework.layout.StandardLayout;
 import hotciv.framework.unitAction.NoAction;

@@ -48,6 +48,62 @@ public class GameConstants {
     public static final String productionFocus = "hammer";
     public static final String foodFocus = "apple";
 
+    public interface TILE {
+        String getString();
+        int getCombatBonus();
+
+        static TILE toClass(String string) {
+            switch (string) {
+                case GameConstants.PLAINS: return new PLAINS();
+                case GameConstants.OCEANS: return new OCEANS();
+                case GameConstants.FOREST: return new FOREST();
+                case GameConstants.HILLS: return new HILLS();
+                case GameConstants.MOUNTAINS: return new MOUNTAINS();
+            }
+            return null;
+        }
+
+        class PLAINS implements TILE {
+            public static final String string = GameConstants.PLAINS;
+            public static final int combatBonus = 1;
+
+            public String getString() { return string; }
+            public int getCombatBonus() { return combatBonus; }
+        }
+
+        class OCEANS implements TILE {
+            public static final String string = GameConstants.OCEANS;
+            public static final int combatBonus = 1;
+
+            public String getString() { return string; }
+            public int getCombatBonus() { return combatBonus; }
+        }
+
+        class FOREST implements TILE {
+            public static final String string = GameConstants.FOREST;
+            public static final int combatBonus = 2;
+
+            public String getString() { return string; }
+            public int getCombatBonus() { return combatBonus; }
+        }
+
+        class HILLS implements TILE {
+            public static final String string = GameConstants.HILLS;
+            public static final int combatBonus = 2;
+
+            public String getString() { return string; }
+            public int getCombatBonus() { return combatBonus; }
+        }
+
+        class MOUNTAINS implements TILE {
+            public static final String string = GameConstants.MOUNTAINS;
+            public static final int combatBonus = 1;
+
+            public String getString() { return string; }
+            public int getCombatBonus() { return combatBonus; }
+        }
+    }
+
     public interface UNITS {
         String getString();
         int getCost();
