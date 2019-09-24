@@ -5,6 +5,7 @@ import hotciv.framework.*;
 import hotciv.framework.age.ConstantAging;
 import hotciv.framework.age.GradualAging;
 import hotciv.framework.layout.StandardLayout;
+import hotciv.framework.resolveAttack.AttackerWins;
 import hotciv.framework.unitAction.NoAction;
 import hotciv.framework.victoryStrategy.ConquestVictory;
 import org.junit.*;
@@ -27,7 +28,7 @@ public class TestBetaCiv {
      */
     @Before
     public void setUp() {
-        game = new GameImpl(new GradualAging(), new ConquestVictory(), new NoAction(), new StandardLayout());
+        game = new GameImpl(new GradualAging(), new ConquestVictory(), new NoAction(), new StandardLayout(), new AttackerWins());
     }
 
     @Test

@@ -4,6 +4,7 @@ import hotciv.framework.*;
 import hotciv.framework.age.ConstantAging;
 import hotciv.framework.layout.DeltaLayout;
 import hotciv.framework.layout.StandardLayout;
+import hotciv.framework.resolveAttack.AttackerWins;
 import hotciv.framework.unitAction.NoAction;
 import hotciv.framework.victoryStrategy.TimeVictory;
 import org.junit.*;
@@ -27,14 +28,14 @@ public class TestDeltaCiv {
      */
     @Before
     public void setUp() {
-        game = new GameImpl(new ConstantAging(), new TimeVictory(), new NoAction(), new DeltaLayout());
+        game = new GameImpl(new ConstantAging(), new TimeVictory(), new NoAction(), new DeltaLayout(), new AttackerWins());
     }
 
     @Test
     public void deltaCustomMap() {
         String[][] layout = new String[GameConstants.WORLDSIZE][GameConstants.WORLDSIZE];
         layout[2][2] = "o"; // places an ocean at (2, 2), rest is plains by default
-        game = new GameImpl(new ConstantAging(), new TimeVictory(), new NoAction(), new DeltaLayout(), layout);
+        game = new GameImpl(new ConstantAging(), new TimeVictory(), new NoAction(), new DeltaLayout(), new AttackerWins(), layout);
         assertThat(game.getTileAt(new Position(2, 2)).getTypeString(), is(GameConstants.OCEANS));
         assertThat(game.getTileAt(new Position(12, 7)).getTypeString(), is(GameConstants.PLAINS)); // random spot
     }

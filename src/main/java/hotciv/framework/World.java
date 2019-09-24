@@ -2,6 +2,7 @@ package hotciv.framework;
 
 import hotciv.framework.layout.*;
 import hotciv.framework.*;
+import hotciv.framework.resolveAttack.ResolveAttackStrategy;
 import hotciv.standard.*;
 
 public class World {
@@ -27,7 +28,7 @@ public class World {
         return map[p.getRow()][p.getColumn()].getCity();
     }
 
-    public static boolean moveUnit(Position from, Position to, Player currentPlayer) {
+    public static boolean moveUnit(Position from, Position to, Player currentPlayer, ResolveAttackStrategy attackStrategy) {
         UnitImpl unit = map[from.getRow()][from.getColumn()].getUnit();
 
         // Check if unit exists
@@ -47,10 +48,19 @@ public class World {
         if (!validUnitPosition(to))
             return false;
 
-        // Check friendly unit collision
-        Unit toUnit = map[to.getRow()][to.getColumn()].getUnit();
-        if (toUnit != null && toUnit.getOwner() == currentPlayer)
-            return false;
+        // Check unit collision
+        UnitImpl toUnit = map[to.getRow()][to.getColumn()].getUnit();
+        if (toUnit != null){
+            // Friendly unit
+             if(toUnit.getOwner() == currentPlayer)
+                return false;
+
+             // Enemy unit, resolve combat
+             else{
+                  if (! attackStrategy.unitAttack(unit, toUnit))
+                      return false;
+             }
+        }
 
         // Check if destination is a single tile away
         // Note that this implies the difference in columns or rows is greater than 1

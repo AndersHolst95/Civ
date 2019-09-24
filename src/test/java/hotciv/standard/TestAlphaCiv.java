@@ -3,6 +3,7 @@ package hotciv.standard;
 import hotciv.framework.*;
 import hotciv.framework.age.ConstantAging;
 import hotciv.framework.layout.StandardLayout;
+import hotciv.framework.resolveAttack.AttackerWins;
 import hotciv.framework.unitAction.NoAction;
 import hotciv.framework.victoryStrategy.TimeVictory;
 import org.junit.*;
@@ -52,7 +53,7 @@ public class TestAlphaCiv {
      */
     @Before
     public void setUp() {
-        game = new GameImpl(new ConstantAging(), new TimeVictory(), new NoAction(), new StandardLayout());
+        game = new GameImpl(new ConstantAging(), new TimeVictory(), new NoAction(), new StandardLayout(), new AttackerWins());
     }
 
     @Test

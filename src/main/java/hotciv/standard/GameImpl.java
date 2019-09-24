@@ -3,6 +3,7 @@ package hotciv.standard;
 import hotciv.framework.*;
 import hotciv.framework.age.*;
 import hotciv.framework.layout.*;
+import hotciv.framework.resolveAttack.ResolveAttackStrategy;
 import hotciv.framework.unitAction.*;
 import hotciv.framework.victoryStrategy.ConquestVictory;
 import hotciv.framework.victoryStrategy.TimeVictory;
@@ -45,18 +46,20 @@ public class GameImpl implements Game {
     private AgeStrategy worldAgeStrategy;
     private VictoryStrategy winCondition;
     private UnitActionStrategy unitActionStrategy;
+    private ResolveAttackStrategy attackStrategy;
 
     public GameImpl(AgeStrategy ageStrategy, VictoryStrategy victoryStrategy, UnitActionStrategy unitActionStrategy,
-                    LayoutStrategy layoutStrategy){
+                    LayoutStrategy layoutStrategy, ResolveAttackStrategy resolveAttackStrategy){
         this.worldAgeStrategy = ageStrategy;
         this.winCondition = victoryStrategy;
         this.unitActionStrategy = unitActionStrategy;
+        this.attackStrategy = resolveAttackStrategy;
         World.setMap(layoutStrategy.getLayout());
     }
 
     public GameImpl(AgeStrategy ageStrategy, VictoryStrategy victoryStrategy, UnitActionStrategy unitActionStrategy,
-                    LayoutStrategy layoutStrategy, String[][] customLayout){
-        this(ageStrategy, victoryStrategy, unitActionStrategy, layoutStrategy);
+                    LayoutStrategy layoutStrategy, ResolveAttackStrategy resolveAttackStrategy, String[][] customLayout){
+        this(ageStrategy, victoryStrategy, unitActionStrategy, layoutStrategy, resolveAttackStrategy);
         World.setMap(customLayout); // sets the world layout to the custom one
     }
 
@@ -103,7 +106,7 @@ public class GameImpl implements Game {
     }
 
     public boolean moveUnit(Position from, Position to) {
-        return World.moveUnit(from, to, currentPlayer);
+        return World.moveUnit(from, to, currentPlayer, attackStrategy);
     }
 
     /**
