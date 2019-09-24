@@ -46,35 +46,18 @@ public class GameImpl implements Game {
     private VictoryStrategy winCondition;
     private UnitActionStrategy unitActionStrategy;
 
-    public GameImpl(String version){
-        LayoutStrategy layout = new StandardLayout();
-        AgeStrategy ageStrategy = new ConstantAging();
-        VictoryStrategy winCondition = new TimeVictory();
-        UnitActionStrategy unitActionStrategy = new NoAction();
-
-        switch (version) {
-            case "beta":
-                ageStrategy = new GradualAging();
-                winCondition = new ConquestVictory();
-                break;
-            case "gamma":
-                unitActionStrategy = new GammaAction();
-                break;
-            case "delta":
-                layout = new DeltaLayout();
-                break;
-            default:
-        }
-        World.setMap(layout.getLayout());
+    public GameImpl(AgeStrategy ageStrategy, VictoryStrategy victoryStrategy, UnitActionStrategy unitActionStrategy,
+                    LayoutStrategy layoutStrategy){
         this.worldAgeStrategy = ageStrategy;
-        this.winCondition = winCondition;
+        this.winCondition = victoryStrategy;
         this.unitActionStrategy = unitActionStrategy;
+        World.setMap(layoutStrategy.getLayout());
     }
 
-    public GameImpl(String version, String[][] customLayout){
-        this(version);
-        if (version.equals("delta"))
-            World.setMap(customLayout); // sets the world layout to the custom one
+    public GameImpl(AgeStrategy ageStrategy, VictoryStrategy victoryStrategy, UnitActionStrategy unitActionStrategy,
+                    LayoutStrategy layoutStrategy, String[][] customLayout){
+        this(ageStrategy, victoryStrategy, unitActionStrategy, layoutStrategy);
+        World.setMap(customLayout); // sets the world layout to the custom one
     }
 
     public Tile getTileAt(Position p) {
