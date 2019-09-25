@@ -54,19 +54,9 @@ public class ActualCombat implements  ResolveAttackStrategy{
     private int checkFriendlySupport(Position pos) {
         int n = 0; // the current bonus from supporting units
         Player owner = World.getUnitAt(pos).getOwner(); // the owner of the unit
+        Position[] posList = World.nearestTileList(pos);
 
-        Position[] posList = new Position[8];
-        // positions start at the right and runs clockwise
-        posList[0] = new Position(pos.getRow() - 1, pos.getColumn()); // north
-        posList[1] = new Position(pos.getRow() - 1, pos.getColumn() + 1); // northeast
-        posList[2] = new Position(pos.getRow(), pos.getColumn() + 1); // east
-        posList[3] = new Position(pos.getRow() + 1, pos.getColumn() + 1); // southeast
-        posList[4] = new Position(pos.getRow() + 1, pos.getColumn()); // south
-        posList[5] = new Position(pos.getRow() + 1, pos.getColumn() - 1); // southwest
-        posList[6] = new Position(pos.getRow(), pos.getColumn() - 1); // west
-        posList[7] = new Position(pos.getRow() - 1, pos.getColumn() - 1); // northwest
-
-        for (int i = 0; i < 8; i++) { // iterating through each nearby tile
+        for (int i = 1; i < 9; i++) { // iterating through each nearby tile
             Unit unit = World.getUnitAt(posList[i]); // retrieving the unit
             if (unit != null && unit.getOwner().equals(owner)) // if a friendly unit exists on the tile
                 n++; // increase the number of supporting units

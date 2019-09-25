@@ -82,7 +82,26 @@ public class World {
         return false;
     }
 
+    /**
+     * Returns the nearest valid tile for a unit
+     * @param pos the position in question
+     * @return the nearest free tile
+     */
     public static Position getNearestAvailableTile(Position pos) {
+        Position[] posList = nearestTileList(pos);
+        for (int i = 0; i < 9; i++) {
+            if (validUnitPosition(posList[i]) && (getUnitAt(posList[i]) == null))
+                return posList[i];
+        }
+        return null;
+    }
+
+    /**
+     * Returns the tiles surrounding a position along with the tile itself
+     * @param pos The position in question
+     * @return A list of the surrounding 9 tiles centered on pos
+     */
+    public static Position[] nearestTileList(Position pos) {
         Position[] posList = new Position[9];
         // positions start at the right and runs clockwise
         posList[0] = pos;
@@ -94,12 +113,7 @@ public class World {
         posList[6] = new Position(pos.getRow() + 1, pos.getColumn() - 1); // southwest
         posList[7] = new Position(pos.getRow(), pos.getColumn() - 1); // west
         posList[8] = new Position(pos.getRow() - 1, pos.getColumn() - 1); // northwest
-
-        for (int i = 0; i < 9; i++) {
-            if (validUnitPosition(posList[i]) && (getUnitAt(posList[i]) == null))
-                return posList[i];
-        }
-        return null;
+        return posList;
     }
 
     /**
