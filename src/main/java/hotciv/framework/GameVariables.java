@@ -12,10 +12,7 @@ public class GameVariables {
     public static void initialize(){
         round = 0;
         combatVictories = new HashMap<Player, Integer>();
-        combatVictories.put(Player.RED, 0);
-        combatVictories.put(Player.BLUE, 0);
-        combatVictories.put(Player.YELLOW, 0);
-        combatVictories.put(Player.GREEN, 0);
+        resetVictories();
         age = GameConstants.STARTYEAR;
         winner = null;
         currentPlayer = Player.RED;
@@ -44,6 +41,13 @@ public class GameVariables {
 
     public static int getCombatVictories(Player player) {
         return combatVictories.get(player);
+    }
+
+    public static void resetVictories(){
+        combatVictories.put(Player.RED, 0);
+        combatVictories.put(Player.BLUE, 0);
+        combatVictories.put(Player.YELLOW, 0);
+        combatVictories.put(Player.GREEN, 0);
     }
 }
 
