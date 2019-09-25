@@ -5,9 +5,8 @@ import hotciv.framework.age.*;
 import hotciv.framework.layout.*;
 import hotciv.framework.resolveAttack.ResolveAttackStrategy;
 import hotciv.framework.unitAction.*;
-import hotciv.framework.victoryStrategy.ConquestVictory;
-import hotciv.framework.victoryStrategy.TimeVictory;
-import hotciv.framework.victoryStrategy.VictoryStrategy;
+import hotciv.framework.victoryStrategy.*;
+
 
 /**
  * Skeleton implementation of HotCiv.
@@ -37,11 +36,6 @@ import hotciv.framework.victoryStrategy.VictoryStrategy;
  */
 
 public class GameImpl implements Game {
-    // Initializing global field variables
-    private int worldAge = GameConstants.STARTYEAR;
-    private Player currentPlayer = Player.RED;
-    private Player winner = null;
-
     // Variable strategies
     private AgeStrategy worldAgeStrategy;
     private VictoryStrategy winCondition;
@@ -55,6 +49,7 @@ public class GameImpl implements Game {
         this.unitActionStrategy = unitActionStrategy;
         this.attackStrategy = resolveAttackStrategy;
         World.setMap(layoutStrategy.getLayout());
+        GameVariables.initialize();
     }
 
     public GameImpl(AgeStrategy ageStrategy, VictoryStrategy victoryStrategy, UnitActionStrategy unitActionStrategy,
@@ -76,7 +71,7 @@ public class GameImpl implements Game {
     }
 
     public Player getPlayerInTurn() {
-        return currentPlayer;
+        return GameVariables.currentPlayer;
     }
 
     /**
@@ -84,17 +79,17 @@ public class GameImpl implements Game {
      * @return the winner
      */
     public Player getWinner() {
-        return winner;
+        return GameVariables.winner;
     }
 
     /**
      * Checks and updates the winner if either blue or red has won
      */
     private void updateWinner() {
-        if (winCondition.checkVictory(worldAge, Player.RED))
-            winner = Player.RED;
-        else if (winCondition.checkVictory(worldAge, Player.BLUE))
-            winner = Player.BLUE;
+        if (winCondition.checkVictory(GameVariables.age, Player.RED))
+            GameVariables.winner = Player.RED;
+        else if (winCondition.checkVictory(GameVariables.age, Player.BLUE))
+            GameVariables.winner = Player.BLUE;
     }
 
     /**
@@ -102,22 +97,22 @@ public class GameImpl implements Game {
      * @return the world age
      */
     public int getAge() {
-        return worldAge;
+        return GameVariables.age;
     }
 
     public boolean moveUnit(Position from, Position to) {
-        return World.moveUnit(from, to, currentPlayer, attackStrategy);
+        return World.moveUnit(from, to, attackStrategy);
     }
 
     /**
      * Ends the turn for the current player. If that player is blue, endOfRound effects are resolved.
      */
     public void endOfTurn() {
-        if (currentPlayer == Player.RED)
-            currentPlayer = Player.BLUE;
+        if (GameVariables.currentPlayer == Player.RED)
+            GameVariables.setCurrentPlayer(Player.BLUE);
         else { // resolve end-of-turn stuff and begin the next turn
             endOfRound();
-            currentPlayer = Player.RED;
+            GameVariables.setCurrentPlayer(Player.RED);
         }
     }
 
@@ -167,7 +162,7 @@ public class GameImpl implements Game {
      * Increments the world age
      */
     private void changeWorldAge() {
-        worldAge = worldAgeStrategy.getNextYear(worldAge);
+        GameVariables.age = worldAgeStrategy.getNextYear(GameVariables.age);
     }
 
     public void changeWorkForceFocusInCityAt(Position p, String balance) {

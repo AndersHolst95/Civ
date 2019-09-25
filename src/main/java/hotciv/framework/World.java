@@ -28,7 +28,7 @@ public class World {
         return map[p.getRow()][p.getColumn()].getCity();
     }
 
-    public static boolean moveUnit(Position from, Position to, Player currentPlayer, ResolveAttackStrategy attackStrategy) {
+    public static boolean moveUnit(Position from, Position to, ResolveAttackStrategy attackStrategy) {
         UnitImpl unit = map[from.getRow()][from.getColumn()].getUnit();
 
         // Check if unit exists
@@ -36,7 +36,7 @@ public class World {
             return false;
 
         // Checking if the unit has the right owner
-        if(unit.getOwner() != currentPlayer){ return false;}
+        if(unit.getOwner() != GameVariables.currentPlayer){ return false;}
 
         // Check if unit has enough movement points left
         if (unit.getMoveCount() > 0)
@@ -52,7 +52,7 @@ public class World {
         UnitImpl toUnit = map[to.getRow()][to.getColumn()].getUnit();
         if (toUnit != null){
             // Friendly unit
-             if(toUnit.getOwner() == currentPlayer)
+             if(toUnit.getOwner() == GameVariables.currentPlayer)
                 return false;
 
              // Enemy unit, resolve combat
