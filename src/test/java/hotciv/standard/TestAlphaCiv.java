@@ -151,8 +151,8 @@ public class TestAlphaCiv {
         Position ocean = new Position (1, 0); // impassable ocean
         Position tooLong = new Position(GameConstants.WORLDSIZE-1, GameConstants.WORLDSIZE-1); // too far away
 
-        World.setTypeAt(mountain, GameConstants.MOUNTAINS);
-        World.setUnitAt(unit, new UnitImpl(GameConstants.ARCHER, Player.RED));
+        game.setTypeAt(mountain, GameConstants.MOUNTAINS);
+        game.setUnitAt(unit, new UnitImpl(GameConstants.ARCHER, Player.RED));
         assertFalse(game.moveUnit(new Position(5, 5), new Position(5, 4))); // trying to move nothing
         assertFalse(game.moveUnit(from, tooLong)); // trying to move too far
         assertFalse(game.moveUnit(from, ocean)); // trying to move onto an ocean
@@ -189,16 +189,16 @@ public class TestAlphaCiv {
     @Test
     public void onlyOneUnitCanOccupyATile() {
         Position pos = new Position(5, 5 );
-        assertTrue(World.setUnitAt(pos, new UnitImpl(GameConstants.ARCHER, Player.BLUE))); // can place a unit on a free tile
-        assertFalse(World.setUnitAt(pos, new UnitImpl(GameConstants.ARCHER, Player.RED))); // cannot place another red unit on the same tile
+        assertTrue(game.setUnitAt(pos, new UnitImpl(GameConstants.ARCHER, Player.BLUE))); // can place a unit on a free tile
+        assertFalse(game.setUnitAt(pos, new UnitImpl(GameConstants.ARCHER, Player.RED))); // cannot place another red unit on the same tile
     }
 
     @Test
     public void redAttackerWins() {
         Position redPos = new Position(5, 5);
         Position bluePos = new Position(5, 6);
-        World.setUnitAt(redPos, new UnitImpl(GameConstants.ARCHER, Player.RED));
-        World.setUnitAt(bluePos, new UnitImpl(GameConstants.ARCHER, Player.BLUE));
+        game.setUnitAt(redPos, new UnitImpl(GameConstants.ARCHER, Player.RED));
+        game.setUnitAt(bluePos, new UnitImpl(GameConstants.ARCHER, Player.BLUE));
 
         assertTrue(game.moveUnit(redPos, bluePos)); // red is moved
         assertThat(game.getUnitAt(bluePos).getOwner(), is(Player.RED)); // check that red won the fight
@@ -208,8 +208,8 @@ public class TestAlphaCiv {
     public void blueAttackerWins() {
         Position redPos = new Position(5, 6);
         Position bluePos = new Position(5, 7);
-        World.setUnitAt(redPos, new UnitImpl(GameConstants.ARCHER, Player.RED));
-        World.setUnitAt(bluePos, new UnitImpl(GameConstants.ARCHER, Player.BLUE));
+        game.setUnitAt(redPos, new UnitImpl(GameConstants.ARCHER, Player.RED));
+        game.setUnitAt(bluePos, new UnitImpl(GameConstants.ARCHER, Player.BLUE));
 
         game.endOfTurn(); // change turn so the blue unit can be moved
         assertTrue(game.moveUnit(bluePos, redPos)); // blue is moved
@@ -218,12 +218,12 @@ public class TestAlphaCiv {
 
     @Test
     public void unitsCannotBePlacedOnOcean() {
-        assertFalse(World.setUnitAt(new Position(1, 0), new UnitImpl(GameConstants.ARCHER, Player.RED))); // ocean
+        assertFalse(game.setUnitAt(new Position(1, 0), new UnitImpl(GameConstants.ARCHER, Player.RED))); // ocean
     }
 
     @Test
     public void unitsCannotBePlacedOnMountain() {
-        assertFalse(World.setUnitAt(new Position(2, 2), new UnitImpl(GameConstants.ARCHER, Player.RED))); // mountain
+        assertFalse(game.setUnitAt(new Position(2, 2), new UnitImpl(GameConstants.ARCHER, Player.RED))); // mountain
     }
 
     @Test

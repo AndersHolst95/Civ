@@ -183,4 +183,16 @@ public class GameImpl implements Game {
     public void performUnitActionAt(Position pos) {
         unitActionStrategy.doAction(pos);
     }
+
+    public boolean setUnitAt(Position pos, UnitImpl unit) {
+        return World.setUnitAt(pos, unit);
+    }
+
+    public void setTypeAt(Position pos, String type) {
+        World.setTypeAt(pos, type);
+    }
+
+    public void setCityAt(Position pos, CityImpl city) {
+        World.setCityAt(pos, city);
+    }
 }

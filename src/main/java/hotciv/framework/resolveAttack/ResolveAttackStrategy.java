@@ -1,9 +1,9 @@
 package hotciv.framework.resolveAttack;
 
-import hotciv.standard.UnitImpl;
+import hotciv.framework.Position;
 
 public interface ResolveAttackStrategy {
 
-    boolean unitAttack(UnitImpl attacker, UnitImpl defender);
+    boolean unitAttack(Position attacker, Position defender);
 }
 

@@ -49,6 +49,7 @@ public class GameConstants {
     public static final String foodFocus = "apple";
 
     public interface TILE {
+        int CITY_COMBAT_BONUS = 3;
         String getString();
         int getCombatBonus();
 

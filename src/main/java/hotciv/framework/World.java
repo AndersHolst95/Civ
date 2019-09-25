@@ -57,7 +57,7 @@ public class World {
 
              // Enemy unit, resolve combat
              else{
-                  if (! attackStrategy.unitAttack(unit, toUnit))
+                  if (! attackStrategy.unitAttack(from, to))
                       return false;
              }
         }

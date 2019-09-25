@@ -1,10 +1,10 @@
 package hotciv.framework.resolveAttack;
 
-import hotciv.standard.UnitImpl;
+import hotciv.framework.Position;
 
 public class AttackerWins implements ResolveAttackStrategy{
     @Override
-    public boolean unitAttack(UnitImpl attacker, UnitImpl defender) {
+    public boolean unitAttack(Position attacker, Position defender) {
         return true;
     }
 }
