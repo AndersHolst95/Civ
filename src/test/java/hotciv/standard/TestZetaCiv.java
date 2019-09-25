@@ -9,6 +9,7 @@ import hotciv.framework.unitAction.GammaAction;
 import hotciv.framework.unitAction.NoAction;
 import hotciv.framework.victoryStrategy.TimeVictory;
 import hotciv.framework.victoryStrategy.ZetaVictory;
+import hotciv.standard.factory.ZetaFactory;
 import org.junit.*;
 
 import static org.junit.Assert.*;
@@ -29,7 +30,7 @@ public class TestZetaCiv {
      */
     @Before
     public void setUp() {
-        game = new GameImpl(new ConstantAging(), new ZetaVictory(), new GammaAction(), new StandardLayout(), new AttackerWins());;
+        game = new GameImpl(new ZetaFactory());
     }
 
     @Test

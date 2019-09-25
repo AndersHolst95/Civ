@@ -8,6 +8,7 @@ import hotciv.framework.resolveAttack.AttackerWins;
 import hotciv.framework.unitAction.GammaAction;
 import hotciv.framework.unitAction.NoAction;
 import hotciv.framework.victoryStrategy.TimeVictory;
+import hotciv.standard.factory.GammaFactory;
 import org.junit.*;
 
 import static org.junit.Assert.*;
@@ -28,7 +29,7 @@ public class TestGammaCiv {
      */
     @Before
     public void setUp() {
-        game = new GameImpl(new ConstantAging(), new TimeVictory(), new GammaAction(), new StandardLayout(), new AttackerWins());;
+        game = new GameImpl(new GammaFactory());
     }
 
     @Test

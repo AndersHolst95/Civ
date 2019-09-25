@@ -8,6 +8,7 @@ import hotciv.framework.layout.StandardLayout;
 import hotciv.framework.resolveAttack.AttackerWins;
 import hotciv.framework.unitAction.NoAction;
 import hotciv.framework.victoryStrategy.ConquestVictory;
+import hotciv.standard.factory.BetaFactory;
 import org.junit.*;
 
 import static org.junit.Assert.*;
@@ -28,7 +29,7 @@ public class TestBetaCiv {
      */
     @Before
     public void setUp() {
-        game = new GameImpl(new GradualAging(), new ConquestVictory(), new NoAction(), new StandardLayout(), new AttackerWins());
+        game = new GameImpl(new BetaFactory());
     }
 
     @Test

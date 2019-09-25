@@ -6,6 +6,7 @@ import hotciv.framework.layout.*;
 import hotciv.framework.resolveAttack.ResolveAttackStrategy;
 import hotciv.framework.unitAction.*;
 import hotciv.framework.victoryStrategy.*;
+import hotciv.standard.factory.StrategyFactory;
 
 
 /**
@@ -36,26 +37,23 @@ import hotciv.framework.victoryStrategy.*;
  */
 
 public class GameImpl implements Game {
-    // Variable strategies
     private AgeStrategy worldAgeStrategy;
     private VictoryStrategy winCondition;
     private UnitActionStrategy unitActionStrategy;
     private ResolveAttackStrategy attackStrategy;
 
-    public GameImpl(AgeStrategy ageStrategy, VictoryStrategy victoryStrategy, UnitActionStrategy unitActionStrategy,
-                    LayoutStrategy layoutStrategy, ResolveAttackStrategy resolveAttackStrategy){
-        this.worldAgeStrategy = ageStrategy;
-        this.winCondition = victoryStrategy;
-        this.unitActionStrategy = unitActionStrategy;
-        this.attackStrategy = resolveAttackStrategy;
-        World.setMap(layoutStrategy.getLayout());
+    public GameImpl(StrategyFactory strategy) {
+        worldAgeStrategy = strategy.getAgeStrategy();
+        winCondition = strategy.getVictoryStrategy();
+        unitActionStrategy = strategy.getActionStrategy();
+        attackStrategy = strategy.getAttackStrategy();
+        World.setMap(strategy.getLayoutStrategy().getLayout());
         GameVariables.initialize();
     }
 
-    public GameImpl(AgeStrategy ageStrategy, VictoryStrategy victoryStrategy, UnitActionStrategy unitActionStrategy,
-                    LayoutStrategy layoutStrategy, ResolveAttackStrategy resolveAttackStrategy, String[][] customLayout){
-        this(ageStrategy, victoryStrategy, unitActionStrategy, layoutStrategy, resolveAttackStrategy);
-        World.setMap(customLayout); // sets the world layout to the custom one
+    public GameImpl(StrategyFactory strategy, String[][] customLayout) {
+        this(strategy);
+        World.setMap(customLayout);
     }
 
     public Tile getTileAt(Position p) {

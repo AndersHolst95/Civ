@@ -8,6 +8,7 @@ import hotciv.framework.random.RandomStrategy;
 import hotciv.framework.resolveAttack.ActualCombat;
 import hotciv.framework.unitAction.GammaAction;
 import hotciv.framework.victoryStrategy.ThreeCombatVictories;
+import hotciv.standard.factory.EpsilonFactory;
 import org.junit.*;
 
 import static org.junit.Assert.*;
@@ -38,8 +39,7 @@ public class TestEpsilonCiv {
      */
     @Before
     public void setUp() {
-        game = new GameImpl(new ConstantAging(), new ThreeCombatVictories(), new GammaAction(), new StandardLayout(),
-                new ActualCombat(new DeterministicDieRoll()));;
+        game = new GameImpl(new EpsilonFactory(new DeterministicDieRoll()));
     }
 
     @Test
