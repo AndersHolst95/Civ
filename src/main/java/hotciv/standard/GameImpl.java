@@ -6,47 +6,22 @@ import hotciv.framework.layout.*;
 import hotciv.framework.resolveAttack.ResolveAttackStrategy;
 import hotciv.framework.unitAction.*;
 import hotciv.framework.victoryStrategy.*;
+import hotciv.framework.workforce.WorkforceStrategy;
 import hotciv.standard.factory.StrategyFactory;
-
-
-/**
- * Skeleton implementation of HotCiv.
- * <p>
- * This source code is from the book
- * "Flexible, Reliable Software:
- * Using Patterns and Agile Development"
- * published 2010 by CRC Press.
- * Author:
- * Henrik B Christensen
- * Department of Computer Science
- * Aarhus University
- * <p>
- * Please visit http://www.baerbak.com/ for further information.
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 public class GameImpl implements Game {
     private AgeStrategy worldAgeStrategy;
     private VictoryStrategy winCondition;
     private UnitActionStrategy unitActionStrategy;
     private ResolveAttackStrategy attackStrategy;
+    private WorkforceStrategy workforceStrategy;
 
     public GameImpl(StrategyFactory strategy) {
         worldAgeStrategy = strategy.getAgeStrategy();
         winCondition = strategy.getVictoryStrategy();
         unitActionStrategy = strategy.getActionStrategy();
         attackStrategy = strategy.getAttackStrategy();
+        workforceStrategy = strategy.getWorkforceStrategy();
         World.setMap(strategy.getLayoutStrategy().getLayout());
         GameVariables.initialize();
     }
@@ -130,7 +105,7 @@ public class GameImpl implements Game {
                 // If the tile contains a city..
                 if (getCityAt(new Position(i,j)) != null){
                     CityImpl city = ((CityImpl) getCityAt(new Position(i,j)));
-                    city.addProductionValue(GameConstants.CITY_PRODUCTION_PER_TURN); // add production
+                    workforceStrategy.workTiles(new Position(i, j)); // Work the tiles around the city to add extra production and food
                     produceUnit(i, j, city); // produce eventual units
                 }
                 // If the tile contains a unit..

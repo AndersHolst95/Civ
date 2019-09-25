@@ -10,6 +10,8 @@ import hotciv.framework.unitAction.NoAction;
 import hotciv.framework.unitAction.UnitActionStrategy;
 import hotciv.framework.victoryStrategy.TimeVictory;
 import hotciv.framework.victoryStrategy.VictoryStrategy;
+import hotciv.framework.workforce.NoWorkableTiles;
+import hotciv.framework.workforce.WorkforceStrategy;
 
 public class DeltaFactory implements StrategyFactory {
     public AgeStrategy getAgeStrategy() { return new ConstantAging(); }
@@ -17,4 +19,5 @@ public class DeltaFactory implements StrategyFactory {
     public LayoutStrategy getLayoutStrategy() { return new DeltaLayout(); }
     public ResolveAttackStrategy getAttackStrategy() { return new AttackerWins(); }
     public UnitActionStrategy getActionStrategy() { return new NoAction(); }
+    public WorkforceStrategy getWorkforceStrategy() { return new NoWorkableTiles(); }
 }

@@ -2,6 +2,8 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
+import java.util.HashMap;
+
 public class CityImpl implements City {
     private int size;
     private int treasury;
@@ -10,6 +12,7 @@ public class CityImpl implements City {
     private String workforceFocus;
     private int productionValue;
     private int productionCost;
+    private int food;
 
     public CityImpl(Player owner) {
         this(1, 0, owner, GameConstants.ARCHER, null);
@@ -68,5 +71,13 @@ public class CityImpl implements City {
 
     public void setOwner(Player owner) {
         this.owner = owner;
+    }
+
+    public int getFood() {
+        return food;
+    }
+
+    public void setFood(int food) {
+        this.food = food;
     }
 }

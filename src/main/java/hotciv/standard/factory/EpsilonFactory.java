@@ -11,6 +11,8 @@ import hotciv.framework.unitAction.NoAction;
 import hotciv.framework.unitAction.UnitActionStrategy;
 import hotciv.framework.victoryStrategy.ThreeCombatVictories;
 import hotciv.framework.victoryStrategy.VictoryStrategy;
+import hotciv.framework.workforce.NoWorkableTiles;
+import hotciv.framework.workforce.WorkforceStrategy;
 
 public class EpsilonFactory implements StrategyFactory {
     private ActualCombat combat;
@@ -20,6 +22,7 @@ public class EpsilonFactory implements StrategyFactory {
     public LayoutStrategy getLayoutStrategy() { return new StandardLayout(); }
     public ResolveAttackStrategy getAttackStrategy() { return combat; }
     public UnitActionStrategy getActionStrategy() { return new NoAction(); }
+    public WorkforceStrategy getWorkforceStrategy() { return new NoWorkableTiles(); }
 
     public EpsilonFactory() {
         combat = new ActualCombat();
