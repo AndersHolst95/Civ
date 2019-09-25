@@ -46,6 +46,11 @@ public class ActualCombat implements  ResolveAttackStrategy{
         return combinedAtt > combinedDef;
     }
 
+    /**
+     * Returns the number of supporting units for a given position
+     * @param pos The position in question
+     * @return The number of supporting units
+     */
     private int checkFriendlySupport(Position pos) {
         int n = 0; // the current bonus from supporting units
         Player owner = World.getUnitAt(pos).getOwner(); // the owner of the unit
