@@ -4,20 +4,30 @@ import hotciv.framework.*;
 
 import hotciv.framework.age.ConstantAging;
 import hotciv.framework.layout.StandardLayout;
-import hotciv.framework.random.DeterministicDieRoll;
+import hotciv.framework.random.RandomStrategy;
 import hotciv.framework.resolveAttack.ActualCombat;
 import hotciv.framework.unitAction.GammaAction;
 import hotciv.framework.victoryStrategy.ThreeCombatVictories;
-import hotciv.framework.victoryStrategy.TimeVictory;
 import org.junit.*;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
-import java.util.*;
-
 public class TestEpsilonCiv {
     private GameImpl game;
+
+    // Properly encapsulated test stub for removing randomness from dieRoll
+    public class DeterministicDieRoll implements RandomStrategy {
+        int[] intList = new int[] {1,2,3,4,5,6};
+        int index = 0;
+
+        @Override
+        public int getNext() {
+            int n = intList[Math.floorMod(index,6)];
+            index ++;
+            return n;
+        }
+    }
 
     private void endRound(){
         game.endOfTurn();
