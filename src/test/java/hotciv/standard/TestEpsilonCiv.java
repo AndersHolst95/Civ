@@ -105,6 +105,7 @@ public class TestEpsilonCiv {
         game.moveUnit(red2, blue2);
         game.moveUnit(red3, blue3);
 
+        assertNull(game.getWinner());
         endRound();
         assertThat(game.getWinner(), is(Player.RED));
     }
