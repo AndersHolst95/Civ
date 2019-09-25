@@ -29,7 +29,7 @@ public class GameVariables {
         GameVariables.age = age;
     }
 
-    public static void increaseVictory(Player player){
+    public static void incrementVictory(Player player){
         int wins = GameVariables.combatVictories.get(player);
         GameVariables.combatVictories.put(player, wins + 1);
     }

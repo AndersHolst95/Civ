@@ -2,7 +2,7 @@ package hotciv.framework.victoryStrategy;
 import hotciv.framework.*;
 
 public class ConquestVictory implements VictoryStrategy {
-    public boolean checkVictory(int age, Player player){
+    public boolean checkVictory(Player player){
         // If a player owns all of the cities, the player wins
 
         for(int i = 0; i < GameConstants.WORLDSIZE; i++) {

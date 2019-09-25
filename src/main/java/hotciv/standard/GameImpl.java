@@ -86,9 +86,9 @@ public class GameImpl implements Game {
      * Checks and updates the winner if either blue or red has won
      */
     private void updateWinner() {
-        if (winCondition.checkVictory(GameVariables.age, Player.RED))
+        if (winCondition.checkVictory(Player.RED))
             GameVariables.winner = Player.RED;
-        else if (winCondition.checkVictory(GameVariables.age, Player.BLUE))
+        else if (winCondition.checkVictory(Player.BLUE))
             GameVariables.winner = Player.BLUE;
     }
 
@@ -121,6 +121,7 @@ public class GameImpl implements Game {
      */
     private void endOfRound(){
         changeWorldAge();
+        GameVariables.incrementRound();
 
         // Checking if anybody has won
         updateWinner();

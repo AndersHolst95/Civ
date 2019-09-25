@@ -57,7 +57,8 @@ public class World {
 
              // Enemy unit, resolve combat
              else{
-                  if (! attackStrategy.unitAttack(from, to))
+                 boolean attackerWins = unitAttack(from, to, attackStrategy);
+                  if (! attackerWins)
                       return false;
              }
         }
@@ -71,6 +72,14 @@ public class World {
         map[to.getRow()][to.getColumn()].setUnit(unit); // replaces unit on to
         map[from.getRow()][from.getColumn()].setUnit(null); // removes unit on from
         return true;
+    }
+
+    private static boolean unitAttack(Position attacker, Position defender, ResolveAttackStrategy attackStrategy){
+        if (attackStrategy.unitAttack(attacker, defender)){
+            GameVariables.incrementVictory(getUnitAt(attacker).getOwner());
+            return true;
+        }
+        return false;
     }
 
     public static Position getNearestAvailableTile(Position pos) {
