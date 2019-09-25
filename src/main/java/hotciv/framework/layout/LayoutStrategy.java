@@ -67,13 +67,15 @@ public interface LayoutStrategy {
                             break;
                         case 3: // a tile type and a city or unit is given
                             type = tileInterpreter(string.charAt(0));
-                            if (string.charAt(1) == 'c') // if the second string is a city, create one with owner based on the third character
+                            if (string.charAt(1) == 'c') { // if the second string is a city, create one with owner based on the third character
                                 city = new CityImpl(1, 0, playerInterpreter(string.charAt(2)), GameConstants.ARCHER, null);
+                                type = GameConstants.CITY;
+                            }
                             else // otherwise it is a unit
                                 unit = new UnitImpl(unitInterpreter(string.charAt(1)), playerInterpreter(string.charAt(2)));
                             break;
                         case 5:
-                            type = tileInterpreter(string.charAt(0));
+                            type = GameConstants.CITY;
                             city = new CityImpl(1, 0, playerInterpreter(string.charAt(2)), GameConstants.ARCHER, null);
                             unit = new UnitImpl(unitInterpreter(string.charAt(3)), playerInterpreter(string.charAt(4)));
                             break;

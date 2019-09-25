@@ -156,6 +156,7 @@ public class World {
 
     public static void setCityAt(Position pos, CityImpl city) {
         map[pos.getRow()][pos.getColumn()].setCity(city);
+        setTypeAt(pos, GameConstants.CITY);
     }
 
     /**

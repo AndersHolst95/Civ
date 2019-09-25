@@ -24,17 +24,8 @@ public class ActualCombat implements  ResolveAttackStrategy{
         UnitImpl defender = (UnitImpl) World.getUnitAt(defPos);
 
         // TERRAIN BONUS
-        int attBonus;
-        if (World.getCityAt(attPos) == null) // if there is not a city at the attacker..
-            attBonus = GameConstants.TILE.toClass(World.getTileAt(attPos).getTypeString()).getCombatBonus(); // use the terrain bonus
-        else // use the city bonus
-            attBonus = GameConstants.TILE.CITY_COMBAT_BONUS;
-
-        int defBonus;
-        if (World.getCityAt(defPos) == null) // if there is not a city at the defender..
-            defBonus = GameConstants.TILE.toClass(World.getTileAt(defPos).getTypeString()).getCombatBonus(); // use the terrain bonus
-        else // use the city bonus
-            defBonus = GameConstants.TILE.CITY_COMBAT_BONUS;
+        int attBonus = GameConstants.TILE.toClass(World.getTileAt(attPos).getTypeString()).getCombatBonus();
+        int defBonus = GameConstants.TILE.toClass(World.getTileAt(defPos).getTypeString()).getCombatBonus();
 
         // FRIENDLY SUPPORT
         int attSupport = checkFriendlySupport(attPos);
