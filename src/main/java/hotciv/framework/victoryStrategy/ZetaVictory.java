@@ -3,9 +3,12 @@ package hotciv.framework.victoryStrategy;
 import hotciv.framework.GameVariables;
 import hotciv.framework.Player;
 
+import java.util.HashMap;
+
 public class ZetaVictory implements VictoryStrategy {
-    private VictoryStrategy conquest = new ConquestVictory();
-    private VictoryStrategy combat = new ThreeCombatVictories();
+    private ConquestVictory conquest = new ConquestVictory();
+    private ThreeCombatVictories combat = new ThreeCombatVictories();
+    public HashMap<Player, Integer> winsAtRound19;
 
     @Override
     public boolean checkVictory(Player player) {
@@ -13,11 +16,13 @@ public class ZetaVictory implements VictoryStrategy {
             return conquest.checkVictory(player);
 
         else if (GameVariables.round == 19) {
-            GameVariables.resetVictories();
+            winsAtRound19 = (HashMap<Player, Integer>) GameVariables.combatVictories.clone();
             return conquest.checkVictory(player);
         }
-        else
+        else {
+            combat.setZeroPoint(winsAtRound19.get(player));
             return combat.checkVictory(player);
+        }
     }
 }
 

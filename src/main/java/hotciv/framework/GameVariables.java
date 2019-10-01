@@ -43,7 +43,7 @@ public class GameVariables {
         return combatVictories.get(player);
     }
 
-    public static void resetVictories(){
+    private static void resetVictories(){
         combatVictories.put(Player.RED, 0);
         combatVictories.put(Player.BLUE, 0);
         combatVictories.put(Player.YELLOW, 0);

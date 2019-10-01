@@ -44,7 +44,6 @@ public class GameConstants {
     public static final String FOREST = "forest";
     public static final String HILLS = "hills";
     public static final String MOUNTAINS = "mountain";
-    public static final String CITY = "city";
     // Valid production balance types
     public static final String productionFocus = "hammer";
     public static final String foodFocus = "apple";
@@ -63,7 +62,6 @@ public class GameConstants {
                 case GameConstants.FOREST: return new FOREST();
                 case GameConstants.HILLS: return new HILLS();
                 case GameConstants.MOUNTAINS: return new MOUNTAINS();
-                case GameConstants.CITY: return new CITY();
             }
             return null;
         }
@@ -120,18 +118,6 @@ public class GameConstants {
             public static final String string = GameConstants.MOUNTAINS;
             public static final int combatBonus = 1;
             public static final int food = 0;
-            public static final int production = 1;
-
-            public String getString() { return string; }
-            public int getCombatBonus() { return combatBonus; }
-            public int getFood() {return food;}
-            public int getProduction() {return production;}
-        }
-
-        class CITY implements TILE {
-            public static final String string = GameConstants.CITY;
-            public static final int combatBonus = 3;
-            public static final int food = 1;
             public static final int production = 1;
 
             public String getString() { return string; }

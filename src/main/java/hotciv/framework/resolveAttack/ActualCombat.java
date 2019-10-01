@@ -24,8 +24,17 @@ public class ActualCombat implements  ResolveAttackStrategy{
         UnitImpl defender = (UnitImpl) World.getUnitAt(defPos);
 
         // TERRAIN BONUS
-        int attBonus = GameConstants.TILE.toClass(World.getTileAt(attPos).getTypeString()).getCombatBonus();
-        int defBonus = GameConstants.TILE.toClass(World.getTileAt(defPos).getTypeString()).getCombatBonus();
+        int attBonus;
+        if (World.getCityAt(attPos) == null) // if there is not a city at the attacker..
+            attBonus = GameConstants.TILE.toClass(World.getTileAt(attPos).getTypeString()).getCombatBonus(); // use the terrain bonus
+        else // use the city bonus
+            attBonus = GameConstants.TILE.CITY_COMBAT_BONUS;
+
+        int defBonus;
+        if (World.getCityAt(defPos) == null) // if there is not a city at the defender..
+            defBonus = GameConstants.TILE.toClass(World.getTileAt(defPos).getTypeString()).getCombatBonus(); // use the terrain bonus
+        else // use the city bonus
+            defBonus = GameConstants.TILE.CITY_COMBAT_BONUS;
 
         // FRIENDLY SUPPORT
         int attSupport = checkFriendlySupport(attPos);
@@ -45,7 +54,7 @@ public class ActualCombat implements  ResolveAttackStrategy{
     private int checkFriendlySupport(Position pos) {
         int n = 0; // the current bonus from supporting units
         Player owner = World.getUnitAt(pos).getOwner(); // the owner of the unit
-        Position[] posList = World.nearestTileList(pos);
+        Position[] posList = Utility.nearestTileList(pos);
 
         for (int i = 1; i < 9; i++) { // iterating through each nearby tile
             Unit unit = World.getUnitAt(posList[i]); // retrieving the unit
