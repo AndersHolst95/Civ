@@ -38,7 +38,16 @@ public class TestZetaCiv {
         ((CityImpl) game.getCityAt(new Position(4,1))).setOwner(Player.RED);
         endRound();
         assertThat(game.getWinner(), is(Player.RED));
+    }
 
+    @Test
+    public void noConquestAfterRound20() {
+        for (int i = 0; i < 20 ; i++) {
+            endRound();
+        }
+        ((CityImpl) game.getCityAt(new Position(4,1))).setOwner(Player.RED);
+        endRound();
+        assertNull(game.getWinner());
     }
 
     @Test

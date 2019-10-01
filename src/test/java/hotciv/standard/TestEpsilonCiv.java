@@ -18,7 +18,7 @@ public class TestEpsilonCiv {
     private GameImpl game;
 
     // Properly encapsulated test stub for removing randomness from dieRoll
-    public class DeterministicDieRoll implements RandomStrategy {
+    public static class DeterministicDieRoll implements RandomStrategy {
         int[] intList = new int[] {1,2,3,4,5,6};
         int index = 0;
 

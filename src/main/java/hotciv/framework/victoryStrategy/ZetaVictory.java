@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class ZetaVictory implements VictoryStrategy {
     private ConquestVictory conquest = new ConquestVictory();
     private ThreeCombatVictories combat = new ThreeCombatVictories();
-    public HashMap<Player, Integer> winsAtRound19;
+    private HashMap<Player, Integer> winsAtRound19;
 
     @Override
     public boolean checkVictory(Player player) {
