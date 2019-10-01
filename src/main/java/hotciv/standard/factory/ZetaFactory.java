@@ -14,10 +14,10 @@ import hotciv.framework.workforce.NoWorkableTiles;
 import hotciv.framework.workforce.WorkforceStrategy;
 
 public class ZetaFactory implements StrategyFactory {
-    public AgeStrategy getAgeStrategy() { return new ConstantAging(); }
-    public VictoryStrategy getVictoryStrategy() { return new ZetaVictory();}
-    public LayoutStrategy getLayoutStrategy() { return new StandardLayout(); }
-    public ResolveAttackStrategy getAttackStrategy() { return new AttackerWins(); }
-    public UnitActionStrategy getActionStrategy() { return new NoAction(); }
-    public WorkforceStrategy getWorkforceStrategy() { return new NoWorkableTiles(); }
+    public AgeStrategy createAgeStrategy() { return new ConstantAging(); }
+    public VictoryStrategy createVictoryStrategy() { return new ZetaVictory();}
+    public LayoutStrategy createLayoutStrategy() { return new StandardLayout(); }
+    public ResolveAttackStrategy createAttackStrategy() { return new AttackerWins(); }
+    public UnitActionStrategy createActionStrategy() { return new NoAction(); }
+    public WorkforceStrategy createWorkforceStrategy() { return new NoWorkableTiles(); }
 }

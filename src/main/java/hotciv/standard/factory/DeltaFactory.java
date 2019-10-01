@@ -14,10 +14,10 @@ import hotciv.framework.workforce.NoWorkableTiles;
 import hotciv.framework.workforce.WorkforceStrategy;
 
 public class DeltaFactory implements StrategyFactory {
-    public AgeStrategy getAgeStrategy() { return new ConstantAging(); }
-    public VictoryStrategy getVictoryStrategy() { return new TimeVictory();}
-    public LayoutStrategy getLayoutStrategy() { return new DeltaLayout(); }
-    public ResolveAttackStrategy getAttackStrategy() { return new AttackerWins(); }
-    public UnitActionStrategy getActionStrategy() { return new NoAction(); }
-    public WorkforceStrategy getWorkforceStrategy() { return new NoWorkableTiles(); }
+    public AgeStrategy createAgeStrategy() { return new ConstantAging(); }
+    public VictoryStrategy createVictoryStrategy() { return new TimeVictory();}
+    public LayoutStrategy createLayoutStrategy() { return new DeltaLayout(); }
+    public ResolveAttackStrategy createAttackStrategy() { return new AttackerWins(); }
+    public UnitActionStrategy createActionStrategy() { return new NoAction(); }
+    public WorkforceStrategy createWorkforceStrategy() { return new NoWorkableTiles(); }
 }

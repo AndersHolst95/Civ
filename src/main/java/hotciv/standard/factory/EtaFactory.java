@@ -15,10 +15,10 @@ import hotciv.framework.workforce.WorkableTiles;
 import hotciv.framework.workforce.WorkforceStrategy;
 
 public class EtaFactory {
-    public AgeStrategy getAgeStrategy() { return new ConstantAging(); }
-    public VictoryStrategy getVictoryStrategy() { return new TimeVictory();}
-    public LayoutStrategy getLayoutStrategy() { return new StandardLayout(); }
-    public ResolveAttackStrategy getAttackStrategy() { return new AttackerWins(); }
-    public UnitActionStrategy getActionStrategy() { return new NoAction(); }
-    public WorkforceStrategy getWorkforceStrategy() { return new WorkableTiles(); }
+    public AgeStrategy createAgeStrategy() { return new ConstantAging(); }
+    public VictoryStrategy createVictoryStrategy() { return new TimeVictory();}
+    public LayoutStrategy createLayoutStrategy() { return new StandardLayout(); }
+    public ResolveAttackStrategy createAttackStrategy() { return new AttackerWins(); }
+    public UnitActionStrategy createActionStrategy() { return new NoAction(); }
+    public WorkforceStrategy createWorkforceStrategy() { return new WorkableTiles(); }
 }

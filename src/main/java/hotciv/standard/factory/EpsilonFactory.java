@@ -17,12 +17,12 @@ import hotciv.framework.workforce.WorkforceStrategy;
 public class EpsilonFactory implements StrategyFactory {
     private ActualCombat combat;
 
-    public AgeStrategy getAgeStrategy() { return new ConstantAging(); }
-    public VictoryStrategy getVictoryStrategy() { return new ThreeCombatVictories();}
-    public LayoutStrategy getLayoutStrategy() { return new StandardLayout(); }
-    public ResolveAttackStrategy getAttackStrategy() { return combat; }
-    public UnitActionStrategy getActionStrategy() { return new NoAction(); }
-    public WorkforceStrategy getWorkforceStrategy() { return new NoWorkableTiles(); }
+    public AgeStrategy createAgeStrategy() { return new ConstantAging(); }
+    public VictoryStrategy createVictoryStrategy() { return new ThreeCombatVictories();}
+    public LayoutStrategy createLayoutStrategy() { return new StandardLayout(); }
+    public ResolveAttackStrategy createAttackStrategy() { return combat; }
+    public UnitActionStrategy createActionStrategy() { return new NoAction(); }
+    public WorkforceStrategy createWorkforceStrategy() { return new NoWorkableTiles(); }
 
     public EpsilonFactory() {
         combat = new ActualCombat();

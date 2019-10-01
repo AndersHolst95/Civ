@@ -8,11 +8,11 @@ import hotciv.framework.victoryStrategy.*;
 import hotciv.framework.workforce.WorkforceStrategy;
 
 public interface StrategyFactory {
-    AgeStrategy getAgeStrategy();
-    VictoryStrategy getVictoryStrategy();
-    LayoutStrategy getLayoutStrategy();
-    ResolveAttackStrategy getAttackStrategy();
-    UnitActionStrategy getActionStrategy();
-    WorkforceStrategy getWorkforceStrategy();
+    AgeStrategy createAgeStrategy();
+    VictoryStrategy createVictoryStrategy();
+    LayoutStrategy createLayoutStrategy();
+    ResolveAttackStrategy createAttackStrategy();
+    UnitActionStrategy createActionStrategy();
+    WorkforceStrategy createWorkforceStrategy();
 }
 

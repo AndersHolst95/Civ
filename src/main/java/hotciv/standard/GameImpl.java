@@ -17,12 +17,12 @@ public class GameImpl implements Game {
     private WorkforceStrategy workforceStrategy;
 
     public GameImpl(StrategyFactory strategy) {
-        worldAgeStrategy = strategy.getAgeStrategy();
-        winCondition = strategy.getVictoryStrategy();
-        unitActionStrategy = strategy.getActionStrategy();
-        attackStrategy = strategy.getAttackStrategy();
-        workforceStrategy = strategy.getWorkforceStrategy();
-        World.setMap(strategy.getLayoutStrategy().getLayout());
+        worldAgeStrategy = strategy.createAgeStrategy();
+        winCondition = strategy.createVictoryStrategy();
+        unitActionStrategy = strategy.createActionStrategy();
+        attackStrategy = strategy.createAttackStrategy();
+        workforceStrategy = strategy.createWorkforceStrategy();
+        World.setMap(strategy.createLayoutStrategy().getLayout());
         GameVariables.initialize();
     }
 
