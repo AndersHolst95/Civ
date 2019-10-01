@@ -6,7 +6,7 @@ public class GammaAction implements UnitActionStrategy {
     public boolean doAction(Position pos) {
         switch (World.getUnitAt(pos).getTypeString()) {
             case GameConstants.SETTLER:
-                World.setCityAt(pos, new CityImpl(World.getUnitAt(pos).getOwner()));
+                World.setCityAt(new CityImpl(World.getUnitAt(pos).getOwner(), pos));
                 World.removeUnit(pos);
                 return true;
             case GameConstants.ARCHER:

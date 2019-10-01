@@ -134,7 +134,8 @@ public class World {
         return true;
     }
 
-    public static void setCityAt(Position pos, CityImpl city) {
+    public static void setCityAt(CityImpl city){
+        Position pos = city.getLocation();
         map[pos.getRow()][pos.getColumn()].setCity(city);
     }
 

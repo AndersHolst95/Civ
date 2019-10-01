@@ -14,7 +14,7 @@ import hotciv.framework.workforce.NoWorkableTiles;
 import hotciv.framework.workforce.WorkableTiles;
 import hotciv.framework.workforce.WorkforceStrategy;
 
-public class EtaFactory {
+public class EtaFactory implements StrategyFactory{
     public AgeStrategy createAgeStrategy() { return new ConstantAging(); }
     public VictoryStrategy createVictoryStrategy() { return new TimeVictory();}
     public LayoutStrategy createLayoutStrategy() { return new StandardLayout(); }

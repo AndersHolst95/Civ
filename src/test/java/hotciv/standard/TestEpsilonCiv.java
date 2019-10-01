@@ -55,7 +55,7 @@ public class TestEpsilonCiv {
     public void blueDefendingArcherWinsWithCityBonus() {
         Position pos1 = new Position(7, 7); // plains
         Position pos2 = new Position(7, 8); // also plains
-        game.setCityAt(pos2, new CityImpl(Player.BLUE));
+        game.setCityAt(new CityImpl(Player.BLUE, pos2));
         game.setUnitAt(pos1, new UnitImpl(GameConstants.LEGION, Player.RED));
         game.setUnitAt(pos2, new UnitImpl(GameConstants.ARCHER, Player.BLUE));
         assertFalse(game.moveUnit(pos1, pos2)); // assert that the blue archer wins
@@ -106,9 +106,9 @@ public class TestEpsilonCiv {
         game.setUnitAt(blue3, new UnitImpl(GameConstants.LEGION, Player.BLUE));
 
         // Set cities at reds units
-        game.setCityAt(red1, new CityImpl(Player.RED));
-        game.setCityAt(red2, new CityImpl(Player.RED));
-        game.setCityAt(red3, new CityImpl(Player.RED));
+        game.setCityAt(new CityImpl(Player.RED, red1));
+        game.setCityAt(new CityImpl(Player.RED, red2));
+        game.setCityAt(new CityImpl(Player.RED, red3));
 
         // Do combat
         game.moveUnit(red1, blue1);

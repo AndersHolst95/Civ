@@ -1,10 +1,11 @@
 package hotciv.framework.workforce;
 
-import hotciv.framework.City;
+
 import hotciv.framework.Position;
+import hotciv.standard.CityImpl;
 
 public interface WorkforceStrategy {
-    void workTiles(Position pos);
-    void growCity(City city);
+    void workTiles(CityImpl city);
+    void growCity(CityImpl city);
 }
 

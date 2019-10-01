@@ -13,18 +13,20 @@ public class CityImpl implements City {
     private int productionValue;
     private int productionCost;
     private int food;
+    private Position location;
 
-    public CityImpl(Player owner) {
-        this(1, 0, owner, GameConstants.ARCHER, null);
+    public CityImpl(Player owner, Position loc) {
+        this(1, 0, owner, GameConstants.ARCHER, GameConstants.foodFocus, loc);
     }
 
-    public CityImpl(int size, int treasury, Player owner, String production, String workforceFocus) {
+    public CityImpl(int size, int treasury, Player owner, String production, String workforceFocus, Position loc) {
         this.size = size;
         this.treasury = treasury;
         this.owner = owner;
         this.workforceFocus = workforceFocus;
         productionValue = 0;
         setProduction(production);
+        this.location = loc;
     }
 
     @Override
@@ -77,7 +79,25 @@ public class CityImpl implements City {
         return food;
     }
 
-    public void setFood(int food) {
-        this.food = food;
+    public void resetFood() {
+        this.food = 0;
+    }
+
+    public Position getLocation() {
+        return location;
+    }
+
+    public void increaseSize(){
+        if (size >= 9 )
+            return;
+        size += 1;
+    }
+
+    public void addFood(int food) {
+        this.food += food;
+    }
+
+    public void setWorkforceFocus(String workforceFocus) {
+        this.workforceFocus = workforceFocus;
     }
 }

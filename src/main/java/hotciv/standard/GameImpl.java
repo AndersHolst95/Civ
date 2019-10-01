@@ -110,7 +110,7 @@ public class GameImpl implements Game {
                 // If the tile contains a city..
                 if (getCityAt(new Position(i,j)) != null){
                     CityImpl city = ((CityImpl) getCityAt(new Position(i,j)));
-                    workforceStrategy.workTiles(new Position(i, j)); // Work the tiles around the city to add extra production and food
+                    workforceStrategy.workTiles(city); // Work the tiles around the city to add extra production and food
                     produceUnit(i, j, city); // produce eventual units
                 }
                 // If the tile contains a unit..
@@ -166,7 +166,7 @@ public class GameImpl implements Game {
         World.setTypeAt(pos, type);
     }
 
-    public void setCityAt(Position pos, CityImpl city) {
-        World.setCityAt(pos, city);
+    public void setCityAt(CityImpl city) {
+        World.setCityAt(city);
     }
 }
