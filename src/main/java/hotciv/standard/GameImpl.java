@@ -99,6 +99,11 @@ public class GameImpl implements Game {
         // Checking if anybody has won
         updateWinner();
 
+        // Iterate map
+        iterateMapEndOfRound();
+    }
+
+    private void iterateMapEndOfRound(){
         // Iterating over each tile on the map
         for(int i = 0; i < GameConstants.WORLDSIZE; i++){
             for(int j = 0; j< GameConstants.WORLDSIZE; j++){
@@ -116,6 +121,7 @@ public class GameImpl implements Game {
             }
         }
     }
+
 
     /**
      * Checks if a given city can produce a unit, and if so, tries to place it
