@@ -132,4 +132,6 @@ public class World {
     public static void removeUnit(Position pos) {
         map[pos.getRow()][pos.getColumn()].setUnit(null);
     }
+
+    public static void removeCity(Position pos) { map[pos.getRow()][pos.getColumn()].setCity(null); }
 }

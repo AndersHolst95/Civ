@@ -100,4 +100,11 @@ public class CityImpl implements City {
     public void setWorkforceFocus(String workforceFocus) {
         this.workforceFocus = workforceFocus;
     }
+
+    public boolean decrementSize() {
+        if(size == 1)
+            return false;
+        size -= 1;
+        return true;
+    }
 }
