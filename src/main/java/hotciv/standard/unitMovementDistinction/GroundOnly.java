@@ -5,7 +5,7 @@ import hotciv.framework.Position;
 import hotciv.framework.World;
 
 public class GroundOnly implements UnitMovementDistinctionStrategy {
-    public boolean validUnitPosition(Position pos) {
+    public boolean validUnitPosition(Position pos, String type) {
         // check if the position is null and within the world border
         if (!validPosition(pos))
             return false;

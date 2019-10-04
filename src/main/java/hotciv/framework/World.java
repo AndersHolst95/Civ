@@ -39,13 +39,11 @@ public class World {
         if(unit.getOwner() != GameVariables.currentPlayer){ return false;}
 
         // Check if unit has enough movement points left
-        if (unit.getMoveCount() > 0)
-            unit.setMoveCount(unit.getMoveCount() - 1);
-        else
+        if (!(unit.getMoveCount() > 0))
             return false;
 
         // Check if the "to" position is a valid position
-        if (!validUnitPosition(to, moveStrategy))
+        if (!validUnitPosition(to, unit.getTypeString(), moveStrategy))
             return false;
 
         // Check unit collision
@@ -69,6 +67,7 @@ public class World {
                 Math.abs(from.getRow() - to.getRow()) > 1)
             return false;
 
+        unit.setMoveCount(unit.getMoveCount() - 1);
         map[to.getRow()][to.getColumn()].setUnit(unit); // replaces unit on to
         map[from.getRow()][from.getColumn()].setUnit(null); // removes unit on from
         return true;
@@ -87,10 +86,10 @@ public class World {
      * @param pos the position in question
      * @return the nearest free tile
      */
-    public static Position getNearestAvailableTile(Position pos, UnitMovementDistinctionStrategy moveStrategy) {
+    public static Position getNearestAvailableTile(Position pos, String type, UnitMovementDistinctionStrategy moveStrategy) {
         Position[] posList = Utility.nearestTileList(pos);
         for (int i = 0; i < 9; i++) {
-            if (validUnitPosition(posList[i], moveStrategy) && (getUnitAt(posList[i]) == null))
+            if (validUnitPosition(posList[i], type, moveStrategy) && (getUnitAt(posList[i]) == null))
                 return posList[i];
         }
         return null;
@@ -101,8 +100,8 @@ public class World {
      * @param pos the parameter to be checked
      * @return true if valid
      */
-    private static boolean validUnitPosition(Position pos, UnitMovementDistinctionStrategy strategy) {
-        return strategy.validUnitPosition(pos);
+    private static boolean validUnitPosition(Position pos, String type, UnitMovementDistinctionStrategy strategy) {
+        return strategy.validUnitPosition(pos,type);
     }
 
     public static void setTypeAt(Position pos, String type) {
@@ -110,7 +109,7 @@ public class World {
     }
 
     public static boolean setUnitAt(Position pos, UnitImpl unit, UnitMovementDistinctionStrategy moveStrategy) {
-        if (!validUnitPosition(pos, moveStrategy))
+        if (!validUnitPosition(pos, unit.getTypeString(), moveStrategy))
             return false;
         // check for other units
         if (getUnitAt(pos) != null)

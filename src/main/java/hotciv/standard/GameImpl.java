@@ -149,7 +149,7 @@ public class GameImpl implements Game {
         // check if it can produce a unit
         if (city.getProductionValue() >= city.getProductionCost()) {
             // Try to place a unit at the nearest available tile around the city, and subtracts the production if successful
-            if (World.setUnitAt(World.getNearestAvailableTile(new Position(row, col), unitMovementDistinctionStrategy),
+            if (World.setUnitAt(World.getNearestAvailableTile(new Position(row, col), city.getProduction(), unitMovementDistinctionStrategy),
                     new UnitImpl(city.getProduction(), city.getOwner()), unitMovementDistinctionStrategy))
                 city.addProductionValue(-city.getProductionCost());
         }
