@@ -1,12 +1,11 @@
 package hotciv.standard;
 
 import hotciv.framework.*;
-import hotciv.framework.age.*;
-import hotciv.framework.layout.*;
-import hotciv.framework.resolveAttack.ResolveAttackStrategy;
-import hotciv.framework.unitAction.*;
-import hotciv.framework.victoryStrategy.*;
-import hotciv.framework.workforce.WorkforceStrategy;
+import hotciv.standard.age.*;
+import hotciv.standard.resolveAttack.ResolveAttackStrategy;
+import hotciv.standard.unitAction.*;
+import hotciv.standard.victoryStrategy.*;
+import hotciv.standard.workforce.WorkforceStrategy;
 import hotciv.standard.factory.StrategyFactory;
 
 public class GameImpl implements Game {

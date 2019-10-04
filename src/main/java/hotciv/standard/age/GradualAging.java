@@ -1,5 +1,5 @@
-package hotciv.framework.age;
-import hotciv.framework.World;
+package hotciv.standard.age;
+
 public class GradualAging implements AgeStrategy {
     public int getNextYear(int age) {
         if(age < -100){age += 100;} // While the world is younger than 100BC, the world increments by 100 years

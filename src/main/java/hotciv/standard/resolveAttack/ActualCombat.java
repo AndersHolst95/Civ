@@ -1,10 +1,10 @@
-package hotciv.framework.resolveAttack;
+package hotciv.standard.resolveAttack;
 
 import hotciv.framework.*;
 import hotciv.framework.Position;
 import hotciv.framework.World;
-import hotciv.framework.random.RandomStrategy;
-import hotciv.framework.random.DieRoll;
+import hotciv.standard.random.RandomStrategy;
+import hotciv.standard.random.DieRoll;
 import hotciv.standard.UnitImpl;
 
 public class ActualCombat implements  ResolveAttackStrategy{

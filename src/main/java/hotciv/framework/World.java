@@ -1,8 +1,7 @@
 package hotciv.framework;
 
-import hotciv.framework.layout.*;
-import hotciv.framework.*;
-import hotciv.framework.resolveAttack.ResolveAttackStrategy;
+import hotciv.standard.layout.*;
+import hotciv.standard.resolveAttack.ResolveAttackStrategy;
 import hotciv.standard.*;
 
 public class World {
@@ -101,7 +100,7 @@ public class World {
      * @param pos the parameter to be checked
      * @return true if valid
      */
-    private static Boolean validUnitPosition(Position pos) {
+    private static boolean validUnitPosition(Position pos) {
         // Check for null-position
         if(pos == null)
             return false;

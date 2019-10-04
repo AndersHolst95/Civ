@@ -1,7 +1,6 @@
-package hotciv.framework.layout;
+package hotciv.standard.layout;
 
 import hotciv.framework.*;
-import hotciv.framework.layout.*;
 
 public class StandardLayout implements LayoutStrategy {
     public String[][] getLayout() {

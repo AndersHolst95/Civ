@@ -1,4 +1,4 @@
-package hotciv.framework.layout;
+package hotciv.standard.layout;
 
 import hotciv.framework.*;
 import hotciv.standard.*;
@@ -7,44 +7,15 @@ public interface LayoutStrategy {
     String[][] getLayout();
 
     static String tileInterpreter(char c) {
-        switch (c) {
-            case 'p': // plains
-                return GameConstants.PLAINS;
-            case 'o': // ocean
-                return GameConstants.OCEANS;
-            case 'm': // mountains
-                return GameConstants.MOUNTAINS;
-            case 'f': // forest
-                return GameConstants.FOREST;
-            case 'h': // hills
-                return GameConstants.HILLS;
-            default: // default is just plains
-                return GameConstants.PLAINS;
-        }
+        return GameConstants.MAP_SYMBOLS.tileSymbols.get(c);
     }
 
     static Player playerInterpreter(char c) {
-        switch (c) {
-            case '1':
-                return Player.RED;
-            case '2':
-                return Player.BLUE;
-            default: // default is just red
-                return Player.RED;
-        }
+        return GameConstants.MAP_SYMBOLS.playerSymbols.get(c);
     }
 
     static String unitInterpreter(char c) {
-        switch (c) {
-            case 'a': // archer
-                return GameConstants.ARCHER;
-            case 'l': // legion
-                return GameConstants.LEGION;
-            case 's': // settler
-                return GameConstants.SETTLER;
-            default: // default is an archer
-                return GameConstants.ARCHER;
-        }
+        return GameConstants.MAP_SYMBOLS.unitSymbols.get(c);
     }
 
     /**

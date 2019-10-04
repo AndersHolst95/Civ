@@ -1,18 +1,18 @@
 package hotciv.standard.factory;
 
-import hotciv.framework.age.AgeStrategy;
-import hotciv.framework.age.ConstantAging;
-import hotciv.framework.layout.LayoutStrategy;
-import hotciv.framework.layout.StandardLayout;
-import hotciv.framework.random.RandomStrategy;
-import hotciv.framework.resolveAttack.ActualCombat;
-import hotciv.framework.resolveAttack.ResolveAttackStrategy;
-import hotciv.framework.unitAction.NoAction;
-import hotciv.framework.unitAction.UnitActionStrategy;
-import hotciv.framework.victoryStrategy.ThreeCombatVictories;
-import hotciv.framework.victoryStrategy.VictoryStrategy;
-import hotciv.framework.workforce.NoWorkableTiles;
-import hotciv.framework.workforce.WorkforceStrategy;
+import hotciv.standard.age.AgeStrategy;
+import hotciv.standard.age.ConstantAging;
+import hotciv.standard.layout.LayoutStrategy;
+import hotciv.standard.layout.StandardLayout;
+import hotciv.standard.random.RandomStrategy;
+import hotciv.standard.resolveAttack.ActualCombat;
+import hotciv.standard.resolveAttack.ResolveAttackStrategy;
+import hotciv.standard.unitAction.NoAction;
+import hotciv.standard.unitAction.UnitActionStrategy;
+import hotciv.standard.victoryStrategy.ThreeCombatVictories;
+import hotciv.standard.victoryStrategy.VictoryStrategy;
+import hotciv.standard.workforce.NoWorkableTiles;
+import hotciv.standard.workforce.WorkforceStrategy;
 
 public class EpsilonFactory implements StrategyFactory {
     private ActualCombat combat;

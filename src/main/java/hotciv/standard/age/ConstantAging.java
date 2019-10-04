@@ -1,7 +1,4 @@
-package hotciv.framework.age;
-
-import hotciv.framework.*;
-import hotciv.framework.age.AgeStrategy;
+package hotciv.standard.age;
 
 public class ConstantAging implements AgeStrategy {
     public int getNextYear(int age) {

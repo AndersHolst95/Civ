@@ -2,12 +2,7 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
-import hotciv.framework.age.ConstantAging;
-import hotciv.framework.layout.StandardLayout;
-import hotciv.framework.random.RandomStrategy;
-import hotciv.framework.resolveAttack.ActualCombat;
-import hotciv.framework.unitAction.GammaAction;
-import hotciv.framework.victoryStrategy.ThreeCombatVictories;
+import hotciv.standard.random.RandomStrategy;
 import hotciv.standard.factory.EpsilonFactory;
 import org.junit.*;
 

@@ -1,17 +1,17 @@
 package hotciv.standard.factory;
 
-import hotciv.framework.age.AgeStrategy;
-import hotciv.framework.age.ConstantAging;
-import hotciv.framework.layout.LayoutStrategy;
-import hotciv.framework.layout.StandardLayout;
-import hotciv.framework.resolveAttack.AttackerWins;
-import hotciv.framework.resolveAttack.ResolveAttackStrategy;
-import hotciv.framework.unitAction.NoAction;
-import hotciv.framework.unitAction.UnitActionStrategy;
-import hotciv.framework.victoryStrategy.VictoryStrategy;
-import hotciv.framework.victoryStrategy.ZetaVictory;
-import hotciv.framework.workforce.NoWorkableTiles;
-import hotciv.framework.workforce.WorkforceStrategy;
+import hotciv.standard.age.AgeStrategy;
+import hotciv.standard.age.ConstantAging;
+import hotciv.standard.layout.LayoutStrategy;
+import hotciv.standard.layout.StandardLayout;
+import hotciv.standard.resolveAttack.AttackerWins;
+import hotciv.standard.resolveAttack.ResolveAttackStrategy;
+import hotciv.standard.unitAction.NoAction;
+import hotciv.standard.unitAction.UnitActionStrategy;
+import hotciv.standard.victoryStrategy.VictoryStrategy;
+import hotciv.standard.victoryStrategy.ZetaVictory;
+import hotciv.standard.workforce.NoWorkableTiles;
+import hotciv.standard.workforce.WorkforceStrategy;
 
 public class ZetaFactory implements StrategyFactory {
     public AgeStrategy createAgeStrategy() { return new ConstantAging(); }

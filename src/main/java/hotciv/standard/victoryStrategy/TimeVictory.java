@@ -1,4 +1,4 @@
-package hotciv.framework.victoryStrategy;
+package hotciv.standard.victoryStrategy;
 import hotciv.framework.*;
 
 public class TimeVictory implements VictoryStrategy {

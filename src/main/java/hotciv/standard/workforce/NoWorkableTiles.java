@@ -1,8 +1,6 @@
-package hotciv.framework.workforce;
+package hotciv.standard.workforce;
 
 import hotciv.framework.GameConstants;
-import hotciv.framework.Position;
-import hotciv.framework.World;
 import hotciv.standard.CityImpl;
 
 public class NoWorkableTiles implements WorkforceStrategy{

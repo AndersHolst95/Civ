@@ -1,4 +1,4 @@
-package hotciv.framework.random;
+package hotciv.standard.random;
 
 import java.util.Random;
 

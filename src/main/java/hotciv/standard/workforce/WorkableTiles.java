@@ -1,4 +1,4 @@
-package hotciv.framework.workforce;
+package hotciv.standard.workforce;
 
 import hotciv.framework.*;
 import hotciv.standard.CityImpl;

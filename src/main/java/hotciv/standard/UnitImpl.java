@@ -1,6 +1,5 @@
 package hotciv.standard;
 import hotciv.framework.*;
-import hotciv.framework.unitAction.*;
 
 public class UnitImpl implements Unit {
     private String type;

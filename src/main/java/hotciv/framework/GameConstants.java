@@ -1,5 +1,9 @@
 package hotciv.framework;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.*;
+
 /**
  * Collection of constants used in HotCiv Game. Note that strings are
  * used instead of enumeration types to keep the set of valid
@@ -38,6 +42,7 @@ public class GameConstants {
     public static final String ARCHER = "archer";
     public static final String LEGION = "legion";
     public static final String SETTLER = "settler";
+    public static final String B52 = "b52";
     // Valid terrain types
     public static final String PLAINS = "plains";
     public static final String OCEANS = "ocean";
@@ -47,6 +52,31 @@ public class GameConstants {
     // Valid production balance types
     public static final String productionFocus = "hammer";
     public static final String foodFocus = "apple";
+
+    public static class MAP_SYMBOLS {
+        public static final Map<Character, String> unitSymbols = new HashMap<Character, String>(){{
+                put('a', ARCHER);
+                put('l', LEGION);
+                put('s', SETTLER);
+                put('b', B52);
+            }};
+
+        public static final Map<Character, String> tileSymbols = new HashMap<Character, String>(){{
+                put('p', TILE.PLAINS.string);
+                put('o', TILE.OCEANS.string);
+                put('m', TILE.MOUNTAINS.string);
+                put('f', TILE.FOREST.string);
+                put('h', TILE.HILLS.string);
+            }};
+
+        public static final Map<Character, Player> playerSymbols = new HashMap<Character, Player>(){
+            {
+                put('1', Player.RED);
+                put('2', Player.BLUE);
+                put('3', Player.GREEN);
+                put('4', Player.YELLOW);
+            }};
+    }
 
     public interface TILE {
         int CITY_COMBAT_BONUS = 3;
@@ -79,7 +109,7 @@ public class GameConstants {
         }
 
         class OCEANS implements TILE {
-            public static final String string = GameConstants.OCEANS;
+            public static final String string = OCEANS;
             public static final int combatBonus = 1;
             public static final int food = 1;
             public static final int production = 0;
@@ -91,7 +121,7 @@ public class GameConstants {
         }
 
         class FOREST implements TILE {
-            public static final String string = GameConstants.FOREST;
+            public static final String string = FOREST;
             public static final int combatBonus = 2;
             public static final int food = 0;
             public static final int production = 3;
@@ -103,7 +133,7 @@ public class GameConstants {
         }
 
         class HILLS implements TILE {
-            public static final String string = GameConstants.HILLS;
+            public static final String string = HILLS;
             public static final int combatBonus = 2;
             public static final int food = 0;
             public static final int production = 2;
@@ -115,7 +145,7 @@ public class GameConstants {
         }
 
         class MOUNTAINS implements TILE {
-            public static final String string = GameConstants.MOUNTAINS;
+            public static final String string = MOUNTAINS;
             public static final int combatBonus = 1;
             public static final int food = 0;
             public static final int production = 1;
@@ -128,60 +158,88 @@ public class GameConstants {
     }
 
     public interface UNITS {
+        String GROUND = "ground";
+        String FLYING = "flying";
+        String SAILING = "sail";
+
         String getString();
         int getCost();
         int getDefStrength();
         int getMovement();
         int getAttStrength();
+        String getMovementCategory();
 
         static UNITS toClass(String string) {
             switch (string) {
                 case GameConstants.ARCHER: return new ARCHER();
                 case GameConstants.LEGION: return new LEGION();
                 case GameConstants.SETTLER: return new SETTLER();
+                case GameConstants.B52: return new B52();
             }
             return null;
         }
         class ARCHER implements UNITS {
-            public static final String string = GameConstants.ARCHER;
+            public static final String string = ARCHER;
             public static final int attStrength = 2;
             public static final int defStrength = 3;
             public static final int movement = 1;
             public static final int cost = 10;
+            public static final String movementCategory = GROUND;
 
             public String getString() { return string; }
             public int getCost() { return cost; }
             public int getDefStrength() { return defStrength; }
             public int getMovement() { return movement; }
             public int getAttStrength() { return attStrength; }
+            public String getMovementCategory() { return movementCategory; }
         }
 
         class LEGION implements UNITS {
-            public static final String string = GameConstants.LEGION;
+            public static final String string = LEGION;
             public static final int attStrength = 4;
             public static final int defStrength = 2;
             public static final int movement = 1;
             public static final int cost = 15;
+            public static final String movementCategory = GROUND;
 
             public String getString() { return string; }
             public int getCost() { return cost; }
             public int getDefStrength() { return defStrength; }
             public int getMovement() { return movement; }
             public int getAttStrength() { return attStrength; }
+            public String getMovementCategory() { return movementCategory; }
         }
 
         class SETTLER implements UNITS {
-            public static final String string = GameConstants.SETTLER;
+            public static final String string = SETTLER;
             public static final int attStrength = 0;
             public static final int defStrength = 3;
             public static final int movement = 1;
             public static final int cost = 30;
+            public static final String movementCategory = GROUND;
 
             public String getString() { return string; }
             public int getCost() { return cost; }
             public int getDefStrength() { return defStrength; }
             public int getMovement() { return movement; }
             public int getAttStrength() { return attStrength; }
+            public String getMovementCategory() { return movementCategory; }
+        }
+
+        class B52 implements UNITS {
+            public static final String string = B52;
+            public static final int attStrength = 1;
+            public static final int defStrength = 8;
+            public static final int movement = 2;
+            public static final int cost = 60;
+            public static final String movementCategory = FLYING;
+
+            public String getString() { return string; }
+            public int getCost() { return cost; }
+            public int getDefStrength() { return defStrength; }
+            public int getMovement() { return movement; }
+            public int getAttStrength() { return attStrength; }
+            public String getMovementCategory() { return movementCategory; }
         }
     }
 }

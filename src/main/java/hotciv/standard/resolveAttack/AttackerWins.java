@@ -1,4 +1,4 @@
-package hotciv.framework.resolveAttack;
+package hotciv.standard.resolveAttack;
 
 import hotciv.framework.Position;
 

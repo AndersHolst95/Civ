@@ -1,4 +1,4 @@
-package hotciv.framework.unitAction;
+package hotciv.standard.unitAction;
 import hotciv.framework.*;
 
 public interface UnitActionStrategy {
