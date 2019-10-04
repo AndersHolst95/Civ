@@ -2,8 +2,10 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 import hotciv.standard.age.*;
+import hotciv.standard.availableUnit.AvailableUnitStrategy;
 import hotciv.standard.resolveAttack.ResolveAttackStrategy;
 import hotciv.standard.unitAction.*;
+import hotciv.standard.unitMovementDistinction.UnitMovementDistinctionStrategy;
 import hotciv.standard.victoryStrategy.*;
 import hotciv.standard.workforce.WorkforceStrategy;
 import hotciv.standard.factory.StrategyFactory;
@@ -14,6 +16,8 @@ public class GameImpl implements Game {
     private UnitActionStrategy unitActionStrategy;
     private ResolveAttackStrategy attackStrategy;
     private WorkforceStrategy workforceStrategy;
+    private UnitMovementDistinctionStrategy unitMovementDistinctionStrategy;
+    private AvailableUnitStrategy availableUnitsStrategy;
 
     public GameImpl(StrategyFactory strategy) {
         worldAgeStrategy = strategy.createAgeStrategy();
@@ -21,6 +25,8 @@ public class GameImpl implements Game {
         unitActionStrategy = strategy.createActionStrategy();
         attackStrategy = strategy.createAttackStrategy();
         workforceStrategy = strategy.createWorkforceStrategy();
+        unitMovementDistinctionStrategy = strategy.createUnitMovementDistinctionStrategy();
+        availableUnitsStrategy = strategy.createAvailableUnitStrategy();
         World.setMap(strategy.createLayoutStrategy().getLayout());
         GameVariables.initialize();
     }
@@ -72,8 +78,20 @@ public class GameImpl implements Game {
         return GameVariables.age;
     }
 
+    public UnitImpl createUnit(String type, Player owner){
+        // A new unit is created, if the type is not valid, an archer is created
+        return availableUnitsStrategy.validUnitType(type) ? new UnitImpl(type, owner) : new UnitImpl(GameConstants.ARCHER, owner);
+    }
+
+    public boolean setProduction(String production, CityImpl city){
+         if(! availableUnitsStrategy.validUnitType(production))
+             return false;
+         city.setProduction(production);
+         return true;
+    }
+
     public boolean moveUnit(Position from, Position to) {
-        return World.moveUnit(from, to, attackStrategy);
+        return World.moveUnit(from, to, attackStrategy, unitMovementDistinctionStrategy);
     }
 
     /**
@@ -131,7 +149,8 @@ public class GameImpl implements Game {
         // check if it can produce a unit
         if (city.getProductionValue() >= city.getProductionCost()) {
             // Try to place a unit at the nearest available tile around the city, and subtracts the production if successful
-            if (World.setUnitAt(World.getNearestAvailableTile(new Position(row, col)), new UnitImpl(city.getProduction(), city.getOwner())))
+            if (World.setUnitAt(World.getNearestAvailableTile(new Position(row, col), unitMovementDistinctionStrategy),
+                    new UnitImpl(city.getProduction(), city.getOwner()), unitMovementDistinctionStrategy))
                 city.addProductionValue(-city.getProductionCost());
         }
     }
@@ -158,7 +177,7 @@ public class GameImpl implements Game {
     }
 
     public boolean setUnitAt(Position pos, UnitImpl unit) {
-        return World.setUnitAt(pos, unit);
+        return World.setUnitAt(pos, unit, unitMovementDistinctionStrategy);
     }
 
     public void setTypeAt(Position pos, String type) {

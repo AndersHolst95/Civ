@@ -3,6 +3,7 @@ package hotciv.framework;
 import hotciv.standard.layout.*;
 import hotciv.standard.resolveAttack.ResolveAttackStrategy;
 import hotciv.standard.*;
+import hotciv.standard.unitMovementDistinction.UnitMovementDistinctionStrategy;
 
 public class World {
     private static TileImpl[][] map;
@@ -27,7 +28,7 @@ public class World {
         return map[p.getRow()][p.getColumn()].getCity();
     }
 
-    public static boolean moveUnit(Position from, Position to, ResolveAttackStrategy attackStrategy) {
+    public static boolean moveUnit(Position from, Position to, ResolveAttackStrategy attackStrategy, UnitMovementDistinctionStrategy moveStrategy) {
         UnitImpl unit = map[from.getRow()][from.getColumn()].getUnit();
 
         // Check if unit exists
@@ -44,7 +45,7 @@ public class World {
             return false;
 
         // Check if the "to" position is a valid position
-        if (!validUnitPosition(to))
+        if (!validUnitPosition(to, moveStrategy))
             return false;
 
         // Check unit collision
@@ -86,10 +87,10 @@ public class World {
      * @param pos the position in question
      * @return the nearest free tile
      */
-    public static Position getNearestAvailableTile(Position pos) {
+    public static Position getNearestAvailableTile(Position pos, UnitMovementDistinctionStrategy moveStrategy) {
         Position[] posList = Utility.nearestTileList(pos);
         for (int i = 0; i < 9; i++) {
-            if (validUnitPosition(posList[i]) && (getUnitAt(posList[i]) == null))
+            if (validUnitPosition(posList[i], moveStrategy) && (getUnitAt(posList[i]) == null))
                 return posList[i];
         }
         return null;
@@ -100,30 +101,16 @@ public class World {
      * @param pos the parameter to be checked
      * @return true if valid
      */
-    private static boolean validUnitPosition(Position pos) {
-        // Check for null-position
-        if(pos == null)
-            return false;
-
-        // check for out-of-bounds
-        if (pos.getColumn() < 0 || GameConstants.WORLDSIZE < pos.getColumn())
-            return false;
-        if (pos.getRow() < 0 || GameConstants.WORLDSIZE < pos.getRow())
-            return false;
-
-        // check for mountains and ocean
-        if (getTileAt(pos).getTypeString().equals(GameConstants.MOUNTAINS) || getTileAt(pos).getTypeString().equals(GameConstants.OCEANS))
-            return false;
-
-        return true;
+    private static boolean validUnitPosition(Position pos, UnitMovementDistinctionStrategy strategy) {
+        return strategy.validUnitPosition(pos);
     }
 
     public static void setTypeAt(Position pos, String type) {
         map[pos.getRow()][pos.getColumn()].setType(type);
     }
 
-    public static boolean setUnitAt(Position pos, UnitImpl unit) {
-        if (!validUnitPosition(pos))
+    public static boolean setUnitAt(Position pos, UnitImpl unit, UnitMovementDistinctionStrategy moveStrategy) {
+        if (!validUnitPosition(pos, moveStrategy))
             return false;
         // check for other units
         if (getUnitAt(pos) != null)

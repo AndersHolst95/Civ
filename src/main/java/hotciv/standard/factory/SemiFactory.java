@@ -1,22 +1,22 @@
 package hotciv.standard.factory;
 
-import hotciv.framework.age.AgeStrategy;
-import hotciv.framework.age.ConstantAging;
-import hotciv.framework.age.GradualAging;
-import hotciv.framework.layout.DeltaLayout;
-import hotciv.framework.layout.LayoutStrategy;
-import hotciv.framework.resolveAttack.ActualCombat;
-import hotciv.framework.resolveAttack.AttackerWins;
-import hotciv.framework.resolveAttack.ResolveAttackStrategy;
-import hotciv.framework.unitAction.GammaAction;
-import hotciv.framework.unitAction.NoAction;
-import hotciv.framework.unitAction.UnitActionStrategy;
-import hotciv.framework.victoryStrategy.ThreeCombatVictories;
-import hotciv.framework.victoryStrategy.TimeVictory;
-import hotciv.framework.victoryStrategy.VictoryStrategy;
-import hotciv.framework.workforce.NoWorkableTiles;
-import hotciv.framework.workforce.WorkableTiles;
-import hotciv.framework.workforce.WorkforceStrategy;
+
+import hotciv.standard.age.AgeStrategy;
+import hotciv.standard.age.GradualAging;
+import hotciv.standard.availableUnit.AvailableUnitStrategy;
+import hotciv.standard.availableUnit.StandardUnits;
+import hotciv.standard.layout.DeltaLayout;
+import hotciv.standard.layout.LayoutStrategy;
+import hotciv.standard.resolveAttack.ActualCombat;
+import hotciv.standard.resolveAttack.ResolveAttackStrategy;
+import hotciv.standard.unitAction.GammaAction;
+import hotciv.standard.unitAction.UnitActionStrategy;
+import hotciv.standard.unitMovementDistinction.GroundOnly;
+import hotciv.standard.unitMovementDistinction.UnitMovementDistinctionStrategy;
+import hotciv.standard.victoryStrategy.ThreeCombatVictories;
+import hotciv.standard.victoryStrategy.VictoryStrategy;
+import hotciv.standard.workforce.WorkableTiles;
+import hotciv.standard.workforce.WorkforceStrategy;
 
 public class SemiFactory implements StrategyFactory {
     public AgeStrategy createAgeStrategy() { return new GradualAging(); }
@@ -25,4 +25,6 @@ public class SemiFactory implements StrategyFactory {
     public ResolveAttackStrategy createAttackStrategy() { return new ActualCombat(); }
     public UnitActionStrategy createActionStrategy() { return new GammaAction(); }
     public WorkforceStrategy createWorkforceStrategy() { return new WorkableTiles(); }
+    public AvailableUnitStrategy createAvailableUnitStrategy() {return new StandardUnits(); }
+    public UnitMovementDistinctionStrategy createUnitMovementDistinctionStrategy() { return new GroundOnly(); }
 }
