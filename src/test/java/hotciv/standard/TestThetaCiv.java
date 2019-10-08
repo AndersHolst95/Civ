@@ -30,11 +30,11 @@ public class TestThetaCiv {
     @Test
     public void citiesCanProduceBombers() {
         Position pos = new Position(1, 1);
-        CityImpl city = (CityImpl) World.getCityAt(pos);
+        CityImpl city = (CityImpl) game.getCityAt(pos);
         city.addProductionValue(60);
         game.setProduction(GameConstants.B52, city);
         endRound();
-        assertThat(World.getUnitAt(pos).getTypeString(), is(GameConstants.B52));
+        assertThat(game.getUnitAt(pos).getTypeString(), is(GameConstants.B52));
     }
 
     @Test
@@ -69,6 +69,7 @@ public class TestThetaCiv {
         Position pos1 = new Position(1,1);
         game.setUnitAt(pos1, game.createUnit(GameConstants.B52, Player.BLUE));
         assertNotNull(game.getCityAt(pos1));
+        game.endOfTurn();
         game.performUnitActionAt(pos1);
         assertNull(game.getCityAt(pos1));
     }
@@ -79,15 +80,62 @@ public class TestThetaCiv {
         game.setUnitAt(pos1, game.createUnit(GameConstants.B52, Player.BLUE));
         ((CityImpl) game.getCityAt(pos1)).increaseSize();
         assertNotNull(game.getCityAt(pos1));
+
+        game.endOfTurn();
         game.performUnitActionAt(pos1);
         assertNotNull(game.getCityAt(pos1));
         assertThat(((CityImpl) game.getCityAt(pos1)).getSize(), is(1));
     }
 
+    @Test
+    public void BomberCanRemoveForest() {
+        Position pos = new Position(7, 7);
+        game.setTypeAt(pos, GameConstants.FOREST);
 
-    // BomberCanRemoveForrest
-    // BomberCanRemoveCityAndForrest
-    // Bombefly kan ikke blive ved med at bombe på samme tur
+        game.setUnitAt(pos, game.createUnit(GameConstants.B52, Player.RED));
+        assertThat(game.getTileAt(pos).getTypeString(), is(GameConstants.FOREST));
+        game.performUnitActionAt(pos);
+        assertThat(game.getTileAt(pos).getTypeString(), is(GameConstants.PLAINS));
+    }
+
+    @Test
+    public void bomberCanRemoveCityAndForest() {
+        Position pos = new Position(7, 7);
+        game.setCityAt(new CityImpl(Player.BLUE, pos));
+        game.setTypeAt(pos, GameConstants.FOREST);
+
+        game.setUnitAt(pos, game.createUnit(GameConstants.B52, Player.RED));
+        assertThat(game.getTileAt(pos).getTypeString(), is(GameConstants.FOREST));
+        game.performUnitActionAt(pos);
+        assertThat(game.getTileAt(pos).getTypeString(), is(GameConstants.PLAINS));
+        assertNull(game.getCityAt(pos));
+    }
+
+    @Test
+    public void bomberCantKeepBombing() {
+        Position pos = new Position(7, 7);
+        CityImpl city = new CityImpl(Player.BLUE, pos);
+        game.setUnitAt(pos, game.createUnit(GameConstants.B52, Player.RED));
+        game.setCityAt(city);
+        city.increaseSize();
+        game.performUnitActionAt(pos);
+        game.performUnitActionAt(pos);
+        assertNotNull(game.getCityAt(pos));
+    }
+
+    @Test
+    public void blueCantPerformRedBomberAction() {
+        Position pos = new Position(7, 7);
+        game.setTypeAt(pos, GameConstants.FOREST);
+        game.setUnitAt(pos, game.createUnit(GameConstants.B52, Player.RED));
+        assertThat(game.getTileAt(pos).getTypeString(), is(GameConstants.FOREST));
+
+        game.endOfTurn(); // It is now blues turn
+        assertThat(game.getPlayerInTurn(), is(Player.BLUE));
+
+        game.performUnitActionAt(pos);
+        assertThat(game.getTileAt(pos).getTypeString(), is(GameConstants.FOREST));
+    }
     // Kan modspilleren bruge din unitaction?
 
 }

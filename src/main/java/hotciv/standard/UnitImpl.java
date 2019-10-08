@@ -10,6 +10,7 @@ public class UnitImpl implements Unit {
     private int moveCount; // current number of movement points for the unit
     private int cost;
     private boolean isFortified = false; // is the unit fortified
+    private boolean usedAction = false;
 
     public UnitImpl(String type, Player owner){
         this.type = type;
@@ -74,5 +75,13 @@ public class UnitImpl implements Unit {
 
     public int getCost() {
         return cost;
+    }
+
+    public void setUsedAction(boolean usedAction) {
+        this.usedAction = usedAction;
+    }
+
+    public boolean getUsedAction() {
+        return usedAction;
     }
 }

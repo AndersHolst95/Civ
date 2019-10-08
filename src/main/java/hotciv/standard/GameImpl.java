@@ -134,6 +134,7 @@ public class GameImpl implements Game {
                 if (getUnitAt(new Position(i, j)) != null){
                     UnitImpl unit = ((UnitImpl) getUnitAt(new Position(i, j)));
                     unit.refreshMoveCount(); // refresh its movement
+                    unit.setUsedAction(false);
                 }
             }
         }
@@ -173,6 +174,13 @@ public class GameImpl implements Game {
      * @param pos the position of the unit
      */
     public void performUnitActionAt(Position pos) {
+        if (World.getUnitAt(pos) == null)
+            return;
+        if (World.getUnitAt(pos).getOwner() != GameVariables.currentPlayer)
+            return;
+        if (((UnitImpl) World.getUnitAt(pos)).getUsedAction()) // If the action has been used this round
+            return;
+        ((UnitImpl) World.getUnitAt(pos)).setUsedAction(true);
         unitActionStrategy.doAction(pos);
     }
 
