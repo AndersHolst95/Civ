@@ -136,6 +136,4 @@ public class TestThetaCiv {
         game.performUnitActionAt(pos);
         assertThat(game.getTileAt(pos).getTypeString(), is(GameConstants.FOREST));
     }
-    // Kan modspilleren bruge din unitaction?
-
 }
