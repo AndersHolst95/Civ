@@ -6,7 +6,7 @@ import hotciv.framework.GameConstants;
 import java.util.ArrayList;
 
 public class B52Expansion implements AvailableUnitStrategy{
-    ArrayList<String> validTypes = new ArrayList<>(){
+    ArrayList<String> validTypes = new ArrayList<String>(){
         {
             add(GameConstants.UNITS.ARCHER.string);
             add(GameConstants.UNITS.LEGION.string);

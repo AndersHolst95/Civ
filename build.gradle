@@ -27,9 +27,13 @@ apply plugin: 'jacoco'
 
 repositories {
     jcenter()
+    maven {
+        url 'https://dl.bintray.com/henrikbaerbak/maven'
+    }
 }
     
 dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.hamcrest:hamcrest-library:1.3'
+    compile 'com.baerbak.maven:hotciv-fractal:1.0'
 }

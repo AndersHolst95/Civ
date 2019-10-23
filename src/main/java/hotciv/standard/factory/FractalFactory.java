@@ -1,11 +1,11 @@
 package hotciv.standard.factory;
 
-import hotciv.standard.availableUnit.AvailableUnitStrategy;
 import hotciv.standard.age.AgeStrategy;
 import hotciv.standard.age.ConstantAging;
+import hotciv.standard.availableUnit.AvailableUnitStrategy;
 import hotciv.standard.availableUnit.StandardUnits;
+import hotciv.standard.layout.FractalLayout;
 import hotciv.standard.layout.LayoutStrategy;
-import hotciv.standard.layout.StandardLayout;
 import hotciv.standard.resolveAttack.AttackerWins;
 import hotciv.standard.resolveAttack.ResolveAttackStrategy;
 import hotciv.standard.unitAction.NoAction;
@@ -17,10 +17,10 @@ import hotciv.standard.victoryStrategy.VictoryStrategy;
 import hotciv.standard.workforce.NoWorkableTiles;
 import hotciv.standard.workforce.WorkforceStrategy;
 
-public class AlphaFactory implements StrategyFactory {
+public class FractalFactory implements StrategyFactory {
     public AgeStrategy createAgeStrategy() { return new ConstantAging(); }
     public VictoryStrategy createVictoryStrategy() { return new TimeVictory();}
-    public LayoutStrategy createLayoutStrategy() { return new StandardLayout(); }
+    public LayoutStrategy createLayoutStrategy() { return new FractalLayout(); }
     public ResolveAttackStrategy createAttackStrategy() { return new AttackerWins(); }
     public UnitActionStrategy createActionStrategy() { return new NoAction(); }
     public WorkforceStrategy createWorkforceStrategy() { return new NoWorkableTiles(); }
