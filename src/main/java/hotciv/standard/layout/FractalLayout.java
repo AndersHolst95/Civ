@@ -9,6 +9,8 @@ public class FractalLayout implements LayoutStrategy {
         for (int i = 0; i < GameConstants.WORLDSIZE; i++) {
             for (int j = 0; j < GameConstants.WORLDSIZE; j++) {
                 Character c = generator.getLandscapeAt(i, j);
+                if(c.equals('.'))
+                    c = 'p';
                 layout[i][j] = c.toString();
             }
         }

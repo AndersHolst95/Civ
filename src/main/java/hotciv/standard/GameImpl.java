@@ -201,4 +201,8 @@ public class GameImpl implements Game {
     public void setCityAt(CityImpl city) {
         World.setCityAt(city);
     }
+
+    public void addObserver(GameObserver observer){};
+
+    public void setTileFocus(Position position){};
 }

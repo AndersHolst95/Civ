@@ -29,8 +29,7 @@ public class TestFractalLayout {
         Position pos = new Position(0, 0); // the position being examined
         boolean foundDifferent = false;
         String firstType = game.getTileAt(pos).getTypeString();
-
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 25; i++) {
             tempGame = new GameImpl(new FractalFactory());
             if (!firstType.equals(tempGame.getTileAt(pos).getTypeString()))
                 foundDifferent = true;
