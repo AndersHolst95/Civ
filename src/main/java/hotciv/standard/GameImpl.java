@@ -164,9 +164,15 @@ public class GameImpl implements Game {
     }
 
     public void changeWorkForceFocusInCityAt(Position p, String balance) {
+        CityImpl city = (CityImpl) getCityAt(p);
+        if (city != null)
+            city.setWorkforceFocus(balance);
     }
 
     public void changeProductionInCityAt(Position p, String unitType) {
+        CityImpl city = (CityImpl) getCityAt(p);
+        if (city != null)
+            city.setProduction(unitType);
     }
 
     /**
