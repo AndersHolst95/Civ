@@ -40,9 +40,8 @@ public interface GameObserver {
   /** invoked just after the game's end of turn is called
    * to signal the new "player in turn" and world age state.
    * @param nextPlayer the next player that may move units etc.
-   * @param age the present age of the world
    */
-  public void turnEnds(Player nextPlayer, int age);
+  public void turnEnds(Player nextPlayer);
     
   /** invoked whenever the user changes focus to another
    * tile (for inspecting the tile's unit and city

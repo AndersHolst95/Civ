@@ -10,6 +10,8 @@ import hotciv.standard.victoryStrategy.*;
 import hotciv.standard.workforce.WorkforceStrategy;
 import hotciv.standard.factory.StrategyFactory;
 
+import java.util.ArrayList;
+
 public class GameImpl implements Game {
     private AgeStrategy worldAgeStrategy;
     private VictoryStrategy winCondition;
@@ -18,6 +20,7 @@ public class GameImpl implements Game {
     private WorkforceStrategy workforceStrategy;
     private UnitMovementDistinctionStrategy unitMovementDistinctionStrategy;
     private AvailableUnitStrategy availableUnitsStrategy;
+    private ArrayList<GameObserver> observers = new ArrayList<>();
 
     public GameImpl(StrategyFactory strategy) {
         worldAgeStrategy = strategy.createAgeStrategy();
@@ -87,22 +90,31 @@ public class GameImpl implements Game {
          if(! availableUnitsStrategy.validUnitType(production))
              return false;
          city.setProduction(production);
+         notifyWorldChange(city.getLocation());
          return true;
     }
 
     public boolean moveUnit(Position from, Position to) {
-        return World.moveUnit(from, to, attackStrategy, unitMovementDistinctionStrategy);
+        boolean hasMoved = World.moveUnit(from, to, attackStrategy, unitMovementDistinctionStrategy);
+        if (hasMoved) {
+            notifyWorldChange(from);
+            notifyWorldChange(to);
+        }
+        return hasMoved;
     }
 
     /**
      * Ends the turn for the current player. If that player is blue, endOfRound effects are resolved.
      */
     public void endOfTurn() {
-        if (GameVariables.currentPlayer == Player.RED)
+        if (GameVariables.currentPlayer == Player.RED) {
             GameVariables.setCurrentPlayer(Player.BLUE);
+            notifyTurnChange(GameVariables.currentPlayer);
+        }
         else { // resolve end-of-turn stuff and begin the next turn
             endOfRound();
             GameVariables.setCurrentPlayer(Player.RED);
+            notifyTurnChange(GameVariables.currentPlayer);
         }
     }
 
@@ -124,17 +136,20 @@ public class GameImpl implements Game {
         // Iterating over each tile on the map
         for(int i = 0; i < GameConstants.WORLDSIZE; i++){
             for(int j = 0; j< GameConstants.WORLDSIZE; j++){
+                Position pos = new Position(i, j);
                 // If the tile contains a city..
-                if (getCityAt(new Position(i,j)) != null){
-                    CityImpl city = ((CityImpl) getCityAt(new Position(i,j)));
+                if (getCityAt(pos) != null){
+                    CityImpl city = ((CityImpl) getCityAt(pos));
                     workforceStrategy.workTiles(city); // Work the tiles around the city to add extra production and food
-                    produceUnit(i, j, city); // produce eventual units
+                    produceUnit(pos, city); // produce eventual units
+                    notifyWorldChange(pos);
                 }
                 // If the tile contains a unit..
-                if (getUnitAt(new Position(i, j)) != null){
-                    UnitImpl unit = ((UnitImpl) getUnitAt(new Position(i, j)));
+                if (getUnitAt(pos) != null){
+                    UnitImpl unit = ((UnitImpl) getUnitAt(pos));
                     unit.refreshMoveCount(); // refresh its movement
                     unit.setUsedAction(false);
+                    notifyWorldChange(pos);
                 }
             }
         }
@@ -142,17 +157,18 @@ public class GameImpl implements Game {
 
     /**
      * Checks if a given city can produce a unit, and if so, tries to place it
-     * @param row The row index of the position
-     * @param col The column index of the position
+     * @param pos The position of the city
      * @param city The city in question
      */
-    private void produceUnit(int row, int col, CityImpl city) {
+    private void produceUnit(Position pos, CityImpl city) {
         // check if it can produce a unit
         if (city.getProductionValue() >= city.getProductionCost()) {
             // Try to place a unit at the nearest available tile around the city, and subtracts the production if successful
-            if (World.setUnitAt(World.getNearestAvailableTile(new Position(row, col), city.getProduction(), unitMovementDistinctionStrategy),
-                    new UnitImpl(city.getProduction(), city.getOwner()), unitMovementDistinctionStrategy))
+            Position nearestTile = World.getNearestAvailableTile(pos, city.getProduction(), unitMovementDistinctionStrategy);
+            if (World.setUnitAt(nearestTile, new UnitImpl(city.getProduction(), city.getOwner()), unitMovementDistinctionStrategy)) {
                 city.addProductionValue(-city.getProductionCost());
+                notifyWorldChange(nearestTile);
+            }
         }
     }
 
@@ -165,14 +181,18 @@ public class GameImpl implements Game {
 
     public void changeWorkForceFocusInCityAt(Position p, String balance) {
         CityImpl city = (CityImpl) getCityAt(p);
-        if (city != null)
+        if (city != null) {
             city.setWorkforceFocus(balance);
+            notifyWorldChange(p);
+        }
     }
 
     public void changeProductionInCityAt(Position p, String unitType) {
         CityImpl city = (CityImpl) getCityAt(p);
-        if (city != null)
+        if (city != null) {
             city.setProduction(unitType);
+            notifyWorldChange(p);
+        }
     }
 
     /**
@@ -188,21 +208,46 @@ public class GameImpl implements Game {
             return;
         ((UnitImpl) World.getUnitAt(pos)).setUsedAction(true);
         unitActionStrategy.doAction(pos);
+        notifyWorldChange(pos);
     }
 
     public boolean setUnitAt(Position pos, UnitImpl unit) {
-        return World.setUnitAt(pos, unit, unitMovementDistinctionStrategy);
+        boolean placedUnit = World.setUnitAt(pos, unit, unitMovementDistinctionStrategy);
+        if (placedUnit)
+            notifyWorldChange(pos);
+        return placedUnit;
     }
 
     public void setTypeAt(Position pos, String type) {
         World.setTypeAt(pos, type);
+        notifyWorldChange(pos);
     }
 
     public void setCityAt(CityImpl city) {
         World.setCityAt(city);
+        notifyWorldChange(city.getLocation());
     }
 
-    public void addObserver(GameObserver observer){};
+    public void addObserver(GameObserver observer){
+        observers.add(observer);
+    };
 
-    public void setTileFocus(Position position){return;};
+    public void setTileFocus(Position pos){
+        notifyTileFocusChange(pos);
+    };
+
+    private void notifyWorldChange(Position pos){
+        for(GameObserver observer : observers)
+            observer.worldChangedAt(pos);
+    }
+
+    private void notifyTurnChange(Player nextPlayer){
+        for(GameObserver observer : observers)
+            observer.turnEnds(nextPlayer);
+    }
+
+    private void notifyTileFocusChange(Position pos){
+        for(GameObserver observer : observers)
+            observer.tileFocusChangedAt(pos);
+    }
 }
