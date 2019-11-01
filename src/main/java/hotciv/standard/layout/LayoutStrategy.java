@@ -7,15 +7,15 @@ public interface LayoutStrategy {
     String[][] getLayout();
 
     static String tileInterpreter(char c) {
-        return GameConstants.MAP_SYMBOLS.tileSymbols.get(c);
+        return GameConstants.MAP_SYMBOLS.tileSymbols.getOrDefault(c, GameConstants.PLAINS);
     }
 
     static Player playerInterpreter(char c) {
-        return GameConstants.MAP_SYMBOLS.playerSymbols.get(c);
+        return GameConstants.MAP_SYMBOLS.playerSymbols.getOrDefault(c, Player.RED);
     }
 
     static String unitInterpreter(char c) {
-        return GameConstants.MAP_SYMBOLS.unitSymbols.get(c);
+        return GameConstants.MAP_SYMBOLS.unitSymbols.getOrDefault(c, GameConstants.ARCHER);
     }
 
     /**

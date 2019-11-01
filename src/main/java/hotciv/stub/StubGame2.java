@@ -79,7 +79,7 @@ public class StubGame2 implements Game {
               Player.BLUE : 
               Player.RED );
     // no age increments
-    gameObserver.turnEnds(inTurn, -4000);
+    gameObserver.turnEnds(inTurn);
   }
   public Player getPlayerInTurn() { return inTurn; }
   

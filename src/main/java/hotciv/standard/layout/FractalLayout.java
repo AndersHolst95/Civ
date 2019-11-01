@@ -11,6 +11,8 @@ public class FractalLayout implements LayoutStrategy {
                 Character c = generator.getLandscapeAt(i, j);
                 if(c.equals('.'))
                     c = 'p';
+                if(c.equals('M'))
+                    c = 'm';
                 layout[i][j] = c.toString();
             }
         }
