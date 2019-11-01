@@ -57,4 +57,6 @@ public class TestGUI {
         assertThat(testObserver.getLatestPlayer(), is(Player.BLUE));
     }
 
+
+
 }

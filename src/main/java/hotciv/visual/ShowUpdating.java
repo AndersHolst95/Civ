@@ -41,7 +41,7 @@ public class ShowUpdating {
     // Try to set the selection tool instead to see
     // completely free movement of figures, including the icon
 
-    // editor.setTool( new SelectionTool(editor) );
+     //  editor.setTool( new SelectionTool(editor) );
   }
 }
 
@@ -83,6 +83,13 @@ class UpdateTool extends NullTool {
       game.setTileFocus(new Position(4,3));
       break;
     }
+
+      case 5: {
+        editor.showStatus("State change: Inspect tile at (7,7)");
+        game.setTileFocus(new Position(7,7));
+        break;
+      }
+
       // TODO: Add more state changes for other things to test
     default: {
       editor.showStatus("No more changes in my list...");
