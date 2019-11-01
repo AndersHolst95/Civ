@@ -155,6 +155,7 @@ public class CivDrawing implements Drawing, GameObserver {
     protected ImageFigure workforceFocusIcon;
     protected ImageFigure cityProductionIcon;
     protected ImageFigure refreshButtonIcon;
+    protected TextFigure moveCountText;
     protected TextFigure ageText;
     protected void defineIcons() {
         // TODO: Further development to include rest of figures needed - DONE
@@ -165,6 +166,7 @@ public class CivDrawing implements Drawing, GameObserver {
         cityProductionIcon = new ImageFigure(GfxConstants.NOTHING, new Point(GfxConstants.CITY_PRODUCTION_X, GfxConstants.CITY_PRODUCTION_Y));
         refreshButtonIcon = new ImageFigure(GfxConstants.REFRESH_BUTTON, new Point(GfxConstants.REFRESH_BUTTON_X, GfxConstants.REFRESH_BUTTON_Y));
         ageText = new TextFigure(((Integer)GameVariables.age).toString(), new Point(GfxConstants.AGE_TEXT_X, GfxConstants.AGE_TEXT_Y));
+        moveCountText = new TextFigure("", new Point(GfxConstants.UNIT_COUNT_X, GfxConstants.UNIT_COUNT_Y));
 
         // insert in delegate figure list to ensure graphical rendering.
         delegate.add(turnShieldIcon);
@@ -174,6 +176,7 @@ public class CivDrawing implements Drawing, GameObserver {
         delegate.add(cityProductionIcon);
         delegate.add(refreshButtonIcon);
         delegate.add(ageText);
+        delegate.add(moveCountText);
     }
 
     // === Observer Methods ===
@@ -207,10 +210,11 @@ public class CivDrawing implements Drawing, GameObserver {
         if(game.getUnitAt(pos) != null){
             String ownerName = playerHashMap.get(game.getUnitAt(pos).getOwner());
             unitShieldIcon.set(ownerName + "shield", new Point( GfxConstants.UNIT_SHIELD_X, GfxConstants.UNIT_SHIELD_Y ));
+            moveCountText.setText(((Integer) game.getUnitAt(pos).getMoveCount()).toString());
         }
         else {
             unitShieldIcon.set(GfxConstants.NOTHING, new Point( GfxConstants.UNIT_SHIELD_X, GfxConstants.UNIT_SHIELD_Y ));
-
+            moveCountText.setText("");
         }
 
         // If you select a city

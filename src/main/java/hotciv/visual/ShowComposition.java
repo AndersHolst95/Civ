@@ -50,6 +50,7 @@ class CompositeTool extends NullTool {
     private Game game;
     private DrawingEditor editor;
     boolean selectedUnit = false;
+    Position selectedPos;
     public CompositeTool(DrawingEditor editor, Game game) {
         this.editor = editor;
         this.game = game;
@@ -60,10 +61,36 @@ class CompositeTool extends NullTool {
     }
 
     public void mouseDown(MouseEvent e, int x, int y) {
-        if (!selectedUnit)
+        Position currentPos = GfxConstants.getPositionFromXY(x, y);
+        if (GfxConstants.TURN_SHIELD_X < x && x < GfxConstants.TURN_SHIELD_X + 27
+                && GfxConstants.TURN_SHIELD_Y < y && y < GfxConstants.TURN_SHIELD_Y + 39) {
+            endTurnTool.mouseDown(e, x, y);
+            selectedUnit = false;
+        }
+
+        if (!selectedUnit) {
             focusTool.mouseDown(e, x, y);
+            selectedUnit = game.getUnitAt(currentPos) != null;
+        }
         else {
+            // if you click the same unit twice, use its action
+            if (selectedPos == currentPos)
+                actionTool.mouseDown(e, x, y);
+
+            // if you have selected a unit and click anywhere in its movement range, move it
+            if (Math.abs(selectedPos.getRow() - currentPos.getRow()) <= game.getUnitAt(selectedPos).getMoveCount()
+                    && Math.abs(selectedPos.getColumn() - currentPos.getColumn()) <= game.getUnitAt(selectedPos).getMoveCount()) {
+                game.moveUnit(selectedPos, currentPos);
+                selectedUnit = false; // deselect the unit
+            }
+
+            // else focus whatever you clicked on
+            else
+                focusTool.mouseDown(e, x, y);
+
+
             // TODO: IMPLEMENT EVERYTHING ELSE
         }
+        selectedPos = GfxConstants.getPositionFromXY(x, y);
     }
 }
