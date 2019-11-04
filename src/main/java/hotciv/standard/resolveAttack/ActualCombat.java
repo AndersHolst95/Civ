@@ -7,6 +7,8 @@ import hotciv.standard.random.RandomStrategy;
 import hotciv.standard.random.DieRoll;
 import hotciv.standard.UnitImpl;
 
+import java.util.ArrayList;
+
 public class ActualCombat implements  ResolveAttackStrategy{
     RandomStrategy rand;
 
@@ -54,10 +56,11 @@ public class ActualCombat implements  ResolveAttackStrategy{
     private int checkFriendlySupport(Position pos) {
         int n = 0; // the current bonus from supporting units
         Player owner = World.getUnitAt(pos).getOwner(); // the owner of the unit
-        Position[] posList = Utility.nearestTileList(pos);
+        ArrayList<Position> posList = Utility.nearestTileList(pos);
 
-        for (int i = 1; i < 9; i++) { // iterating through each nearby tile
-            Unit unit = World.getUnitAt(posList[i]); // retrieving the unit
+        posList.remove(pos);
+        for (Position supportPos : posList) { // iterating through each nearby tile
+            Unit unit = World.getUnitAt(supportPos); // retrieving the unit
             if (unit != null && unit.getOwner().equals(owner)) // if a friendly unit exists on the tile
                 n++; // increase the number of supporting units
         }

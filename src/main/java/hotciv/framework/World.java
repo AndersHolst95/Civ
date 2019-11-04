@@ -5,6 +5,8 @@ import hotciv.standard.resolveAttack.ResolveAttackStrategy;
 import hotciv.standard.*;
 import hotciv.standard.unitMovementDistinction.UnitMovementDistinctionStrategy;
 
+import java.util.ArrayList;
+
 public class World {
     private static TileImpl[][] map;
 
@@ -17,14 +19,23 @@ public class World {
     }
 
     public static Tile getTileAt(Position p) {
+        if (p.getRow() < 0 || GameConstants.WORLDSIZE <= p.getRow()
+                || p.getColumn() < 0 || GameConstants.WORLDSIZE <= p.getColumn())
+            return null;
         return map[p.getRow()][p.getColumn()];
     }
 
     public static Unit getUnitAt(Position p) {
+        if (p.getRow() < 0 || GameConstants.WORLDSIZE <= p.getRow()
+                || p.getColumn() < 0 || GameConstants.WORLDSIZE <= p.getColumn())
+            return null;
         return map[p.getRow()][p.getColumn()].getUnit();
     }
 
     public static City getCityAt(Position p) {
+        if (p.getRow() < 0 || GameConstants.WORLDSIZE <= p.getRow()
+                || p.getColumn() < 0 || GameConstants.WORLDSIZE <= p.getColumn())
+            return null;
         return map[p.getRow()][p.getColumn()].getCity();
     }
 
@@ -46,6 +57,12 @@ public class World {
         if (!validUnitPosition(to, unit.getTypeString(), moveStrategy))
             return false;
 
+        // Check if destination is a single tile away
+        // Note that this implies the difference in columns or rows is greater than 1
+        if ((Math.abs(from.getColumn() - to.getColumn()) > 1) ||
+                Math.abs(from.getRow() - to.getRow()) > 1)
+            return false;
+
         // Check unit collision
         UnitImpl toUnit = map[to.getRow()][to.getColumn()].getUnit();
         if (toUnit != null){
@@ -56,16 +73,16 @@ public class World {
              // Enemy unit, resolve combat
              else{
                  boolean attackerWins = unitAttack(from, to, attackStrategy);
-                  if (! attackerWins)
+                  if (! attackerWins) {
+                      removeUnit(from); // the attacker dies
                       return false;
+                  }
              }
         }
 
-        // Check if destination is a single tile away
-        // Note that this implies the difference in columns or rows is greater than 1
-        if ((Math.abs(from.getColumn() - to.getColumn()) > 1) ||
-                Math.abs(from.getRow() - to.getRow()) > 1)
-            return false;
+        // Conquer any city entered
+        if (getCityAt(to) != null)
+            ((CityImpl) getCityAt(to)).setOwner(GameVariables.currentPlayer);
 
         unit.setMoveCount(unit.getMoveCount() - 1);
         map[to.getRow()][to.getColumn()].setUnit(unit); // replaces unit on to
@@ -87,10 +104,10 @@ public class World {
      * @return the nearest free tile
      */
     public static Position getNearestAvailableTile(Position pos, String type, UnitMovementDistinctionStrategy moveStrategy) {
-        Position[] posList = Utility.nearestTileList(pos);
-        for (int i = 0; i < 9; i++) {
-            if (validUnitPosition(posList[i], type, moveStrategy) && (getUnitAt(posList[i]) == null))
-                return posList[i];
+        ArrayList<Position> posList = Utility.nearestTileList(pos);
+        for (Position availablePos : posList) {
+            if (validUnitPosition(availablePos, type, moveStrategy) && (getUnitAt(availablePos) == null))
+                return availablePos;
         }
         return null;
     }

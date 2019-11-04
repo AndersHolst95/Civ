@@ -1,6 +1,7 @@
 package hotciv.stub;
 
 import hotciv.framework.*;
+import hotciv.standard.CityImpl;
 
 import java.util.*;
 
@@ -99,7 +100,10 @@ public class StubGame2 implements Game {
 
   // TODO: Add more stub behaviour to test MiniDraw updating
   public City getCityAt(Position p) {
-    return null;
+    if (city.getLocation() == p)
+      return city;
+    else
+      return null;
   }
 
   public Player getWinner() {
@@ -116,7 +120,9 @@ public class StubGame2 implements Game {
   public void changeProductionInCityAt(Position p, String unitType) {
   }
 
+  CityImpl city = new CityImpl(Player.RED, new Position(0, 0));
   public void performUnitActionAt(Position p) {
+     city = new CityImpl(Player.RED, p);
   }
 
   public void setTileFocus(Position pos) {

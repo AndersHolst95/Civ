@@ -1,5 +1,7 @@
 package hotciv.framework;
 
+import java.util.ArrayList;
+
 public class Utility {
 
     /**
@@ -7,18 +9,32 @@ public class Utility {
      * @param pos The position in question
      * @return A list of the surrounding 9 tiles centered on pos
      */
-    public static Position[] nearestTileList(Position pos) {
-        Position[] posList = new Position[9];
+    public static ArrayList<Position> nearestTileList(Position pos) {
+        ArrayList<Position> posList = new ArrayList<>();
+
         // positions start at the right and runs clockwise
-        posList[0] = pos;
-        posList[1] = new Position(pos.getRow() - 1, pos.getColumn()); // north
-        posList[2] = new Position(pos.getRow() - 1, pos.getColumn() + 1); // northeast
-        posList[3] = new Position(pos.getRow(), pos.getColumn() + 1); // east
-        posList[4] = new Position(pos.getRow() + 1, pos.getColumn() + 1); // southeast
-        posList[5] = new Position(pos.getRow() + 1, pos.getColumn()); // south
-        posList[6] = new Position(pos.getRow() + 1, pos.getColumn() - 1); // southwest
-        posList[7] = new Position(pos.getRow(), pos.getColumn() - 1); // west
-        posList[8] = new Position(pos.getRow() - 1, pos.getColumn() - 1); // northwest
+        posList.add(pos);
+        if (pos.getRow() != 0) {
+            posList.add(new Position(pos.getRow() - 1, pos.getColumn())); // north
+            if (pos.getColumn() != GameConstants.WORLDSIZE-1)
+                posList.add(new Position(pos.getRow() - 1, pos.getColumn() + 1)); // northeast
+        }
+        if (pos.getColumn() != GameConstants.WORLDSIZE-1) {
+            posList.add(new Position(pos.getRow(), pos.getColumn() + 1)); // east
+            if (pos.getRow() != GameConstants.WORLDSIZE-1) {
+                posList.add(new Position(pos.getRow() + 1, pos.getColumn() + 1)); // southeast
+            }
+        }
+        if (pos.getRow() != GameConstants.WORLDSIZE-1) {
+            posList.add(new Position(pos.getRow() + 1, pos.getColumn())); // south
+            if (pos.getColumn() != 0)
+                posList.add(new Position(pos.getRow() + 1, pos.getColumn() - 1)); // southwest
+        }
+        if (pos.getColumn() != 0) {
+            posList.add(new Position(pos.getRow(), pos.getColumn() - 1)); // west
+            if (pos.getRow() != 0)
+                posList.add(new Position(pos.getRow() - 1, pos.getColumn() - 1)); // northwest
+        }
         return posList;
     }
 

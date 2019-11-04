@@ -101,7 +101,6 @@ public class CivDrawing implements Drawing, GameObserver {
         }
     }
 
-
     protected void defineCityMap() {
         // ensure no units of the old list are accidental in
         // the selection!
@@ -178,8 +177,9 @@ public class CivDrawing implements Drawing, GameObserver {
     protected ImageFigure refreshButtonIcon;
     protected TextFigure moveCountText;
     protected TextFigure ageText;
-
     protected void defineIcons() {
+        removeAlImageFigures();
+        removeAllTextFigures();
         // TODO: Further development to include rest of figures needed - DONE
         turnShieldIcon = new ImageFigure( GfxConstants.RED_SHIELD, new Point( GfxConstants.TURN_SHIELD_X, GfxConstants.TURN_SHIELD_Y ));
         unitShieldIcon = new ImageFigure(GfxConstants.NOTHING, new Point(GfxConstants.UNIT_SHIELD_X, GfxConstants.UNIT_SHIELD_Y));
@@ -210,6 +210,14 @@ public class CivDrawing implements Drawing, GameObserver {
         delegate.add(moveCountText);
     }
 
+    protected void resetIcons() {
+        unitShieldIcon.set(GfxConstants.NOTHING, new Point(GfxConstants.UNIT_SHIELD_X, GfxConstants.UNIT_SHIELD_Y));
+        cityShieldIcon.set(GfxConstants.NOTHING, new Point(GfxConstants.CITY_SHIELD_X, GfxConstants.CITY_SHIELD_Y));
+        workforceFocusIcon.set(GfxConstants.NOTHING, new Point(GfxConstants.WORKFORCEFOCUS_X, GfxConstants.WORKFORCEFOCUS_Y));
+        cityProductionIcon.set(GfxConstants.NOTHING, new Point(GfxConstants.CITY_PRODUCTION_X, GfxConstants.CITY_PRODUCTION_Y));
+        updateIcons();
+    }
+
     protected void updateIcons(){
         clearSelection();
         removeAlImageFigures();
@@ -224,8 +232,6 @@ public class CivDrawing implements Drawing, GameObserver {
         delegate.add(ageText);
         delegate.add(moveCountText);
     }
-
-
     // === Observer Methods ===
 
     public void worldChangedAt(Position pos) {
@@ -234,7 +240,6 @@ public class CivDrawing implements Drawing, GameObserver {
         // this is a really brute-force algorithm: destroy
         // all known units and build up the entire set again
 
-
         // TODO: Cities may change on position as well - DONE
         defineCityMap();
         defineUnitMap();
@@ -242,6 +247,7 @@ public class CivDrawing implements Drawing, GameObserver {
     }
 
     public void turnEnds(Player nextPlayer) {
+        resetIcons();
         int age = GameVariables.age;
         // TODO: Remove system.out debugging output
         System.out.println("CivDrawing: turnEnds for " + nextPlayer + " at "+age );

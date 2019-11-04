@@ -96,10 +96,8 @@ public class GameImpl implements Game {
 
     public boolean moveUnit(Position from, Position to) {
         boolean hasMoved = World.moveUnit(from, to, attackStrategy, unitMovementDistinctionStrategy);
-        if (hasMoved) {
-            notifyWorldChange(from);
-            notifyWorldChange(to);
-        }
+        notifyWorldChange(from);
+        notifyWorldChange(to);
         return hasMoved;
     }
 

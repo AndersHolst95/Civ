@@ -44,48 +44,24 @@ public class ShowComposition {
     }
 }
 
-
-class ProductionTool extends NullTool {
-    private Game game;
-    private DrawingEditor editor;
-    private ArrayList<String> availableUnits;
-    private int i; // The index in the availableUnits list for the current Unit
-
-    public ProductionTool(DrawingEditor editor, Game game) {
-        this.editor = editor;
-        this.game = game;
-        availableUnits = ((GameImpl)game).getAvailableUnits();
-    }
-
-    public void productionIterator(Position pos) {
-        i++;
-        game.changeProductionInCityAt(pos, availableUnits.get(i % availableUnits.size()));
-    }
-
-
-}
-
-
 class CompositeTool extends NullTool {
-    private MoveTool moveTool;
     private FocusTool focusTool;
     private EndTurnTool endTurnTool;
     private ActionTool actionTool;
-    private ProductionTool productionTool;
 
     private Game game;
     private DrawingEditor editor;
-    boolean selectedUnit = false;
-    Position selectedPos;
-    public CompositeTool(DrawingEditor editor, Game game) {
+    private boolean selectedUnit = false;
+    private Position selectedPos;
+    private ArrayList<String> availableUnits;
+    private int i; // The index in the availableUnits list for the current Unit
+    CompositeTool(DrawingEditor editor, Game game) {
         this.editor = editor;
         this.game = game;
-        moveTool = new MoveTool(editor, game);
         focusTool = new FocusTool(editor, game);
         endTurnTool = new EndTurnTool(editor, game);
         actionTool = new ActionTool(editor, game);
-        productionTool = new ProductionTool(editor,game);
-
+        availableUnits = ((GameImpl)game).getAvailableUnits();
     }
 
     public void mouseDown(MouseEvent e, int x, int y) {
@@ -100,10 +76,19 @@ class CompositeTool extends NullTool {
             return;
         }
 
+        // If a city was clicked..
         if(selectedPos != null && game.getCityAt(selectedPos) != null) {
+            // and the production icon is clicked next, change it
             if (GfxConstants.CITY_PRODUCTION_X < x && x < GfxConstants.CITY_PRODUCTION_X + 30
                     && GfxConstants.CITY_PRODUCTION_Y < y && y < GfxConstants.CITY_PRODUCTION_Y + 30) {
-                productionTool.productionIterator(selectedPos);
+                productionIterator(selectedPos);
+                game.setTileFocus(selectedPos);
+            }
+
+            // and the workforce focus icon is clicked, switch it to the other one
+            if (GfxConstants.WORKFORCEFOCUS_X < x && x < GfxConstants.WORKFORCEFOCUS_X + 45
+                    && GfxConstants.WORKFORCEFOCUS_Y < y && y < GfxConstants.WORKFORCEFOCUS_Y + 49) {
+                switchWorkforce(selectedPos);
                 game.setTileFocus(selectedPos);
             }
         }
@@ -115,26 +100,43 @@ class CompositeTool extends NullTool {
         if (!selectedUnit) {
             focusTool.mouseDown(e, x, y);
             selectedUnit = game.getUnitAt(currentPos) != null;
+            selectedPos = GfxConstants.getPositionFromXY(x, y);
+            return;
         }
-        else {
-            // if you click the same unit twice, use its action
-            if (selectedPos == currentPos)
-                actionTool.mouseDown(e, x, y);
 
-            // if you have selected a unit and click anywhere in its movement range, move it
-            //if (Math.abs(selectedPos.getRow() - currentPos.getRow()) <= game.getUnitAt(selectedPos).getMoveCount()
-            //        && Math.abs(selectedPos.getColumn() - currentPos.getColumn()) <= game.getUnitAt(selectedPos).getMoveCount()) {
-                game.moveUnit(selectedPos, currentPos);
-                selectedUnit = false; // deselect the unit
-            //}
-
-            // else focus whatever you clicked on
-            //else
-            //    focusTool.mouseDown(e, x, y);
-
-
-            // TODO: IMPLEMENT EVERYTHING ELSE
+        // if you click the same unit twice, use its action
+        if (selectedPos.equals(currentPos)) {
+            actionTool.mouseDown(e, x, y);
+            selectedPos = GfxConstants.getPositionFromXY(x, y);
+            selectedUnit = false;
+            return;
         }
+
+        // if you have selected a unit and click anywhere in its movement range, move it
+        if (Math.abs(selectedPos.getRow() - currentPos.getRow()) <= game.getUnitAt(selectedPos).getMoveCount()
+                && Math.abs(selectedPos.getColumn() - currentPos.getColumn()) <= game.getUnitAt(selectedPos).getMoveCount()) {
+            game.moveUnit(selectedPos, currentPos);
+            game.setTileFocus(currentPos);
+            selectedUnit = false; // deselect the unit
+            selectedPos = GfxConstants.getPositionFromXY(x, y);
+            return;
+        }
+
+        // else focus whatever you clicked on
+        focusTool.mouseDown(e, x, y);
         selectedPos = GfxConstants.getPositionFromXY(x, y);
+    }
+
+    private void switchWorkforce(Position pos) {
+        String focus = game.getCityAt(pos).getWorkforceFocus();
+        if (focus.equals(GameConstants.foodFocus))
+            game.changeWorkForceFocusInCityAt(pos, GameConstants.productionFocus);
+        else
+            game.changeWorkForceFocusInCityAt(pos, GameConstants.foodFocus);
+    }
+
+    private void productionIterator(Position pos) {
+        i++;
+        game.changeProductionInCityAt(pos, availableUnits.get(i % availableUnits.size()));
     }
 }

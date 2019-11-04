@@ -1,5 +1,8 @@
 package hotciv.visual;
 
+import hotciv.standard.GameImpl;
+import hotciv.standard.factory.AlphaFactory;
+import hotciv.standard.factory.SemiFactory;
 import minidraw.standard.*;
 import minidraw.framework.*;
 
@@ -29,7 +32,7 @@ import hotciv.stub.*;
  */
 public class ShowAction {
     public static void main(String[] args) {
-        Game game = new StubGame2();
+        Game game = new GameImpl(new AlphaFactory());
 
         DrawingEditor editor = new MiniDrawApplication( "Shift-Click unit to invoke its action", new HotCivFactory4(game));
         editor.open();

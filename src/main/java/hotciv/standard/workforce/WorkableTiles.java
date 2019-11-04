@@ -13,7 +13,7 @@ public class WorkableTiles implements WorkforceStrategy{
         int food = 1;
         int production = 1;
         String focus = city.getWorkforceFocus();
-        ArrayList<Position> tileList = new ArrayList<Position>(Arrays.asList(Utility.nearestTileList(city.getLocation())));
+        ArrayList<Position> tileList = Utility.nearestTileList(city.getLocation());
         tileList.remove(0);
 
         switch (focus){
@@ -40,7 +40,7 @@ public class WorkableTiles implements WorkforceStrategy{
                 Collections.sort(tileList, cp);
                 break;
         }
-        for (int i = 0; i < city.getSize() - 1; i++) {
+        for (int i = 0; (i < city.getSize() - 1) && i < tileList.size(); i++) {
             food += GameConstants.TILE.toClass(World.getTileAt(tileList.get(i)).getTypeString()).getFood();
             production += GameConstants.TILE.toClass(World.getTileAt(tileList.get(i)).getTypeString()).getProduction();
         }
