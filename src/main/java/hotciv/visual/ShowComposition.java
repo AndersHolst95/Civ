@@ -115,14 +115,15 @@ class CompositeTool extends NullTool {
         // if you have selected a unit and click anywhere in its movement range, move it
         if (Math.abs(selectedPos.getRow() - currentPos.getRow()) <= game.getUnitAt(selectedPos).getMoveCount()
                 && Math.abs(selectedPos.getColumn() - currentPos.getColumn()) <= game.getUnitAt(selectedPos).getMoveCount()) {
-            game.moveUnit(selectedPos, currentPos);
-            game.setTileFocus(currentPos);
+            if (game.moveUnit(selectedPos, currentPos))
+                game.setTileFocus(currentPos);
             selectedUnit = false; // deselect the unit
             selectedPos = GfxConstants.getPositionFromXY(x, y);
             return;
         }
 
         // else focus whatever you clicked on
+        selectedUnit = false; // deselect the unit
         focusTool.mouseDown(e, x, y);
         selectedPos = GfxConstants.getPositionFromXY(x, y);
     }
