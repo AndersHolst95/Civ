@@ -18,4 +18,8 @@ public class B52Expansion implements AvailableUnitStrategy{
     public boolean validUnitType(String type) {
         return validTypes.contains(type);
     }
+
+    public ArrayList<String> getAvailableUnits(){
+        return validTypes;
+    }
 }

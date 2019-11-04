@@ -15,6 +15,8 @@ public class CivDrawing implements Drawing, GameObserver {
     /** store all moveable figures visible in this drawing = units */
     protected Map<Unit, UnitFigure> unitFigureMap;
     protected Map<City, CityFigure> cityFigureMap;
+    protected List<TextFigure> textFigures;
+    protected List<ImageFigure> imageFigures;
 
     /** the Game instance that this CivDrawing is going to render units
      * from */
@@ -33,6 +35,8 @@ public class CivDrawing implements Drawing, GameObserver {
         this.game = game;
         this.unitFigureMap = new HashMap<>();
         this.cityFigureMap = new HashMap<>();
+        this.textFigures = new ArrayList<>();
+        this.imageFigures = new ArrayList<>();
 
         // register this unit drawing as listener to any game state
         // changes...
@@ -151,6 +155,21 @@ public class CivDrawing implements Drawing, GameObserver {
         cityFigureMap.clear();
     }
 
+    protected void removeAllTextFigures() {
+        for (TextFigure tf : textFigures) {
+            delegate.remove(tf);
+        }
+        textFigures.clear();
+    }
+
+    protected void removeAlImageFigures() {
+        for (ImageFigure imf : imageFigures) {
+            delegate.remove(imf);
+        }
+        imageFigures.clear();
+    }
+
+
     protected ImageFigure turnShieldIcon;
     protected ImageFigure unitShieldIcon;
     protected ImageFigure cityShieldIcon;
@@ -159,6 +178,7 @@ public class CivDrawing implements Drawing, GameObserver {
     protected ImageFigure refreshButtonIcon;
     protected TextFigure moveCountText;
     protected TextFigure ageText;
+
     protected void defineIcons() {
         // TODO: Further development to include rest of figures needed - DONE
         turnShieldIcon = new ImageFigure( GfxConstants.RED_SHIELD, new Point( GfxConstants.TURN_SHIELD_X, GfxConstants.TURN_SHIELD_Y ));
@@ -170,6 +190,15 @@ public class CivDrawing implements Drawing, GameObserver {
         ageText = new TextFigure(((Integer)GameVariables.age).toString(), new Point(GfxConstants.AGE_TEXT_X, GfxConstants.AGE_TEXT_Y));
         moveCountText = new TextFigure("", new Point(GfxConstants.UNIT_COUNT_X, GfxConstants.UNIT_COUNT_Y));
 
+        imageFigures.add(turnShieldIcon);
+        imageFigures.add(cityShieldIcon);
+        imageFigures.add(workforceFocusIcon);
+        imageFigures.add(cityProductionIcon);
+        imageFigures.add(unitShieldIcon);
+        imageFigures.add(refreshButtonIcon);
+        textFigures.add(ageText);
+        textFigures.add(moveCountText);
+
         // insert in delegate figure list to ensure graphical rendering.
         delegate.add(turnShieldIcon);
         delegate.add(cityShieldIcon);
@@ -180,6 +209,22 @@ public class CivDrawing implements Drawing, GameObserver {
         delegate.add(ageText);
         delegate.add(moveCountText);
     }
+
+    protected void updateIcons(){
+        clearSelection();
+        removeAlImageFigures();
+        removeAllTextFigures();
+
+        delegate.add(turnShieldIcon);
+        delegate.add(cityShieldIcon);
+        delegate.add(workforceFocusIcon);
+        delegate.add(cityProductionIcon);
+        delegate.add(unitShieldIcon);
+        delegate.add(refreshButtonIcon);
+        delegate.add(ageText);
+        delegate.add(moveCountText);
+    }
+
 
     // === Observer Methods ===
 
@@ -193,6 +238,7 @@ public class CivDrawing implements Drawing, GameObserver {
         // TODO: Cities may change on position as well - DONE
         defineCityMap();
         defineUnitMap();
+        updateIcons();
     }
 
     public void turnEnds(Player nextPlayer) {
@@ -244,7 +290,7 @@ public class CivDrawing implements Drawing, GameObserver {
     @Override
     public void requestUpdate() {
         // A request has been issued to repaint everything. We simply rebuild the entire Drawing.
-        defineIcons();
+        updateIcons();
         defineCityMap();
         defineUnitMap();
         // TODO: Cities pending - DONE

@@ -250,4 +250,8 @@ public class GameImpl implements Game {
         for(GameObserver observer : observers)
             observer.tileFocusChangedAt(pos);
     }
+
+    public ArrayList<String> getAvailableUnits(){
+        return availableUnitsStrategy.getAvailableUnits();
+    }
 }

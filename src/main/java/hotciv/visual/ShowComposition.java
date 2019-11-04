@@ -1,10 +1,13 @@
 package hotciv.visual;
 
+import hotciv.standard.CityImpl;
+import hotciv.standard.GameImpl;
 import minidraw.standard.*;
 import minidraw.framework.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import javax.swing.*;
 
 import hotciv.framework.*;
@@ -41,11 +44,34 @@ public class ShowComposition {
     }
 }
 
+
+class ProductionTool extends NullTool {
+    private Game game;
+    private DrawingEditor editor;
+    private ArrayList<String> availableUnits;
+    private int i; // The index in the availableUnits list for the current Unit
+
+    public ProductionTool(DrawingEditor editor, Game game) {
+        this.editor = editor;
+        this.game = game;
+        availableUnits = ((GameImpl)game).getAvailableUnits();
+    }
+
+    public void productionIterator(Position pos) {
+        i++;
+        game.changeProductionInCityAt(pos, availableUnits.get(i % availableUnits.size()));
+    }
+
+
+}
+
+
 class CompositeTool extends NullTool {
     private MoveTool moveTool;
     private FocusTool focusTool;
     private EndTurnTool endTurnTool;
     private ActionTool actionTool;
+    private ProductionTool productionTool;
 
     private Game game;
     private DrawingEditor editor;
@@ -58,6 +84,8 @@ class CompositeTool extends NullTool {
         focusTool = new FocusTool(editor, game);
         endTurnTool = new EndTurnTool(editor, game);
         actionTool = new ActionTool(editor, game);
+        productionTool = new ProductionTool(editor,game);
+
     }
 
     public void mouseDown(MouseEvent e, int x, int y) {
@@ -72,11 +100,13 @@ class CompositeTool extends NullTool {
             return;
         }
 
-        if (GfxConstants.CITY_PRODUCTION_X < x && x < GfxConstants.CITY_PRODUCTION_X + 30
-                && GfxConstants.CITY_PRODUCTION_Y < y && y < GfxConstants.CITY_PRODUCTION_Y + 30)
-            return; // TODO CHANGE ME
-
-
+        if(selectedPos != null && game.getCityAt(selectedPos) != null) {
+            if (GfxConstants.CITY_PRODUCTION_X < x && x < GfxConstants.CITY_PRODUCTION_X + 30
+                    && GfxConstants.CITY_PRODUCTION_Y < y && y < GfxConstants.CITY_PRODUCTION_Y + 30) {
+                productionTool.productionIterator(selectedPos);
+                game.setTileFocus(selectedPos);
+            }
+        }
 
         if(x < GfxConstants.MAP_OFFSET_X || GfxConstants.MAP_OFFSET_X + 16 * 30 < x
                 || y < GfxConstants.MAP_OFFSET_Y || GfxConstants.MAP_OFFSET_Y + 16 * 30 < y)
