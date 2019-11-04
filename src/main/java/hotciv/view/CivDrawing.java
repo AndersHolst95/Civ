@@ -38,10 +38,12 @@ public class CivDrawing implements Drawing, GameObserver {
         // changes...
         game.addObserver(this);
         // ... and build up the set of figures associated with
-        // units in the game.
+        // units in the game
+        defineCityMap();
         defineUnitMap();
         // and the set of 'icons' in the status panel
         defineIcons();
+
     }
 
     /** The CivDrawing should not allow client side
@@ -170,10 +172,10 @@ public class CivDrawing implements Drawing, GameObserver {
 
         // insert in delegate figure list to ensure graphical rendering.
         delegate.add(turnShieldIcon);
-        delegate.add(unitShieldIcon);
         delegate.add(cityShieldIcon);
         delegate.add(workforceFocusIcon);
         delegate.add(cityProductionIcon);
+        delegate.add(unitShieldIcon);
         delegate.add(refreshButtonIcon);
         delegate.add(ageText);
         delegate.add(moveCountText);
@@ -186,10 +188,11 @@ public class CivDrawing implements Drawing, GameObserver {
         System.out.println( "CivDrawing: world changes at "+pos);
         // this is a really brute-force algorithm: destroy
         // all known units and build up the entire set again
-        defineUnitMap();
+
 
         // TODO: Cities may change on position as well - DONE
         defineCityMap();
+        defineUnitMap();
     }
 
     public void turnEnds(Player nextPlayer) {
@@ -241,9 +244,9 @@ public class CivDrawing implements Drawing, GameObserver {
     @Override
     public void requestUpdate() {
         // A request has been issued to repaint everything. We simply rebuild the entire Drawing.
-        defineUnitMap();
         defineIcons();
         defineCityMap();
+        defineUnitMap();
         // TODO: Cities pending - DONE
     }
 

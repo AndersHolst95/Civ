@@ -122,6 +122,6 @@ task semi(type: JavaExec) {
     group 'SWEA Mandatory'
     description ' Play SemiCiv using the GUI :-)'
 
-    main = 'hotciv.visual.NotDefinedYet'
+    main = 'hotciv.visual.SemiGUI'
     classpath = sourceSets.main.runtimeClasspath
 }

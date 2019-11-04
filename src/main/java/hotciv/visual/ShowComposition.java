@@ -37,7 +37,7 @@ public class ShowComposition {
         editor.showStatus("Click and drag any item to see Game's proper response.");
 
         // TODO: Replace the setting of the tool with your CompositionTool implementation.
-        editor.setTool( new CompositeTool(editor, game) );
+        editor.setTool(new CompositeTool(editor, game) );
     }
 }
 
@@ -62,11 +62,25 @@ class CompositeTool extends NullTool {
 
     public void mouseDown(MouseEvent e, int x, int y) {
         Position currentPos = GfxConstants.getPositionFromXY(x, y);
+
+        // Check if the player turn shield is clicked
         if (GfxConstants.TURN_SHIELD_X < x && x < GfxConstants.TURN_SHIELD_X + 27
                 && GfxConstants.TURN_SHIELD_Y < y && y < GfxConstants.TURN_SHIELD_Y + 39) {
             endTurnTool.mouseDown(e, x, y);
+            selectedPos = null;
             selectedUnit = false;
+            return;
         }
+
+        if (GfxConstants.CITY_PRODUCTION_X < x && x < GfxConstants.CITY_PRODUCTION_X + 30
+                && GfxConstants.CITY_PRODUCTION_Y < y && y < GfxConstants.CITY_PRODUCTION_Y + 30)
+            return; // TODO CHANGE ME
+
+
+
+        if(x < GfxConstants.MAP_OFFSET_X || GfxConstants.MAP_OFFSET_X + 16 * 30 < x
+                || y < GfxConstants.MAP_OFFSET_Y || GfxConstants.MAP_OFFSET_Y + 16 * 30 < y)
+            return;
 
         if (!selectedUnit) {
             focusTool.mouseDown(e, x, y);
@@ -78,15 +92,15 @@ class CompositeTool extends NullTool {
                 actionTool.mouseDown(e, x, y);
 
             // if you have selected a unit and click anywhere in its movement range, move it
-            if (Math.abs(selectedPos.getRow() - currentPos.getRow()) <= game.getUnitAt(selectedPos).getMoveCount()
-                    && Math.abs(selectedPos.getColumn() - currentPos.getColumn()) <= game.getUnitAt(selectedPos).getMoveCount()) {
+            //if (Math.abs(selectedPos.getRow() - currentPos.getRow()) <= game.getUnitAt(selectedPos).getMoveCount()
+            //        && Math.abs(selectedPos.getColumn() - currentPos.getColumn()) <= game.getUnitAt(selectedPos).getMoveCount()) {
                 game.moveUnit(selectedPos, currentPos);
                 selectedUnit = false; // deselect the unit
-            }
+            //}
 
             // else focus whatever you clicked on
-            else
-                focusTool.mouseDown(e, x, y);
+            //else
+            //    focusTool.mouseDown(e, x, y);
 
 
             // TODO: IMPLEMENT EVERYTHING ELSE
