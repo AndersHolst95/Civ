@@ -2,6 +2,7 @@ package hotciv.visual;
 
 import hotciv.standard.CityImpl;
 import hotciv.standard.GameImpl;
+import hotciv.standard.factory.SemiFactory;
 import minidraw.standard.*;
 import minidraw.framework.*;
 
@@ -71,6 +72,16 @@ class CompositeTool extends NullTool {
         if (GfxConstants.TURN_SHIELD_X < x && x < GfxConstants.TURN_SHIELD_X + 27
                 && GfxConstants.TURN_SHIELD_Y < y && y < GfxConstants.TURN_SHIELD_Y + 39) {
             endTurnTool.mouseDown(e, x, y);
+            selectedPos = null;
+            selectedUnit = false;
+            if (game.getWinner() != null)
+                editor.showStatus("Player " + game.getWinner() + " has won the game!");
+            return;
+        }
+
+        // Check if the refresh button is clicked
+        if (GfxConstants.REFRESH_BUTTON_X < x && x < GfxConstants.REFRESH_BUTTON_X + 45
+                && GfxConstants.REFRESH_BUTTON_Y < y && y < GfxConstants.REFRESH_BUTTON_Y + 18) {
             selectedPos = null;
             selectedUnit = false;
             return;
