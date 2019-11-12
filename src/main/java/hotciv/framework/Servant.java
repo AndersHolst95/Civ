@@ -28,14 +28,6 @@ public class Servant implements Role {
         return 0;
     }
 
-    public UnitImpl createUnit(String type, Player owner) {
-        return null;
-    }
-
-    public boolean setProduction(String production, CityImpl city) {
-        return false;
-    }
-
     public boolean moveUnit(Position from, Position to) {
         return false;
     }
@@ -53,18 +45,6 @@ public class Servant implements Role {
     }
 
     public void performUnitActionAt(Position pos) {
-
-    }
-
-    public boolean setUnitAt(Position pos, UnitImpl unit) {
-        return false;
-    }
-
-    public void setTypeAt(Position pos, String type) {
-
-    }
-
-    public void setCityAt(CityImpl city) {
 
     }
 

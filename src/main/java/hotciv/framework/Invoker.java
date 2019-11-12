@@ -26,7 +26,6 @@ public class Invoker {
                 case OperationNames.addObserver:
                 case OperationNames.changeProductionInCityAt:
                 case OperationNames.changeWorkForceFocusInCityAt:
-                case OperationNames.createUnit:
                 case OperationNames.endOfTurn:
                 case OperationNames.getAge:
                     reply = new ReplyObject(0, gson.toJson(servant.getAge()));
@@ -53,15 +52,11 @@ public class Invoker {
                     reply = new ReplyObject(0, gson.toJson(servant.moveUnit(from, to)));
                     break;
                 case OperationNames.performUnitActionAt:
-                case OperationNames.setCityAt:
-                case OperationNames.setProduction:
                 case OperationNames.setTileFocus:
                     pos = gson.fromJson(array.get(0), Position.class);
                     servant.setTileFocus(pos);
                     reply = new ReplyObject(0, "");
                     break;
-                case OperationNames.setTypeAt:
-                case OperationNames.setUnitAt:
             }
         }
         catch (Exception e) {
