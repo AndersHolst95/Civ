@@ -20,6 +20,7 @@ public class Invoker {
 
         JsonParser parser = new JsonParser();
         JsonArray array = parser.parse(payload).getAsJsonArray();
+        Position pos;
         try {
             switch (operationName) {
                 case OperationNames.addObserver:
@@ -31,12 +32,18 @@ public class Invoker {
                     reply = new ReplyObject(0, gson.toJson(servant.getAge()));
                     break;
                 case OperationNames.getCityAt:
+                    pos = gson.fromJson(array.get(0), Position.class);
+                    reply = new ReplyObject(0, gson.toJson(servant.getCityAt(pos)));
+                    break;
                 case OperationNames.getPlayerInTurn:
                 case OperationNames.getTileAt:
-                    Position pos = gson.fromJson(array.get(0), Position.class);
+                    pos = gson.fromJson(array.get(0), Position.class);
                     reply = new ReplyObject(0, gson.toJson(servant.getTileAt(pos)));
                     break;
                 case OperationNames.getUnitAt:
+                    pos = gson.fromJson(array.get(0), Position.class);
+                    reply = new ReplyObject(0, gson.toJson(servant.getUnitAt(pos)));
+                    break;
                 case OperationNames.getWinner:
                 case OperationNames.moveUnit:
                     Position from = gson.fromJson(array.get(0), Position.class);
@@ -47,6 +54,10 @@ public class Invoker {
                 case OperationNames.setCityAt:
                 case OperationNames.setProduction:
                 case OperationNames.setTileFocus:
+                    pos = gson.fromJson(array.get(0), Position.class);
+                    servant.setTileFocus(pos);
+                    reply = new ReplyObject(0, "");
+                    break;
                 case OperationNames.setTypeAt:
                 case OperationNames.setUnitAt:
             }

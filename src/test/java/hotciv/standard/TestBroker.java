@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 
 public class TestBroker {
     ClientProxy client;
-    Game servant = new GameStub();
+    GameStub servant = new GameStub();
 
     @Before
     public void setup() {
@@ -26,10 +26,12 @@ public class TestBroker {
     }
 
     private static class GameStub implements Game, frds.broker.Servant {
+        boolean changeMe = false;
+
         TileImpl tile = new TileImpl(new Position(7, 7), "oasis", null, null);
         public Tile getTileAt(Position pos) { return tile; }
-        public Unit getUnitAt(Position pos) { return null; }
-        public City getCityAt(Position pos) { return null; }
+        public Unit getUnitAt(Position pos) { return new UnitImpl(GameConstants.ARCHER, Player.YELLOW);}
+        public City getCityAt(Position pos) { return new CityImpl(Player.YELLOW, null); }
         public Player getPlayerInTurn() { return null; }
         public Player getWinner() { return null; }
         public int getAge() { return 16; }
@@ -44,7 +46,7 @@ public class TestBroker {
         public void setTypeAt(Position pos, String type) { }
         public void setCityAt(CityImpl city) { }
         public void addObserver(GameObserver observer) { }
-        public void setTileFocus(Position pos) { }
+        public void setTileFocus(Position pos) {changeMe = true;}
     }
 
     @Test
@@ -57,9 +59,29 @@ public class TestBroker {
         assertEquals("oasis", client.getTileAt(null).getTypeString());
     }
 
+
+    @Test
+    public void getUnitAtCall(){
+        assertThat(client.getUnitAt(null).getOwner(), is(Player.YELLOW));
+    }
+
+    @Test
+    public void getCityAtCall(){
+        assertThat(client.getCityAt(null).getOwner(), is(Player.YELLOW));
+    }
+
+
+
     @Test
     public void moveUnitCall() {
         assertTrue(client.moveUnit(null, null));
     }
+
+    @Test
+    public void setTileFocus() {
+        client.setTileFocus(null);
+        assertTrue(servant.changeMe);
+    }
+
 }
 
