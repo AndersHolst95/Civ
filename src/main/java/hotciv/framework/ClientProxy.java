@@ -82,6 +82,6 @@ public class ClientProxy implements Role {
     }
 
     public void setTileFocus(Position pos) {
-
+        requestor.sendRequestAndAwaitReply(objectId, OperationNames.setTileFocus, Void.class, pos);
     }
 }
