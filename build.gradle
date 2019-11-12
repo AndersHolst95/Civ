@@ -31,10 +31,12 @@ repositories {
         url 'https://dl.bintray.com/henrikbaerbak/maven'
     }
 }
-    
+
 dependencies {
     compile 'com.baerbak.maven:hotciv-fractal:1.0'
     compile 'com.baerbak.maven:minidraw:1.13'
+    compile 'com.baerbak.maven:broker:1.7'
+
     testCompile 'junit:junit:4.12'
     testCompile 'org.hamcrest:hamcrest-library:1.3'
 }

@@ -26,7 +26,7 @@ import hotciv.standard.workforce.WorkforceStrategy;
 public class SemiFactory implements StrategyFactory {
     public AgeStrategy createAgeStrategy() { return new GradualAging(); }
     public VictoryStrategy createVictoryStrategy() { return new ThreeCombatVictories();}
-    public LayoutStrategy createLayoutStrategy() { return new StandardLayout(); }
+    public LayoutStrategy createLayoutStrategy() { return new DeltaLayout(); }
     public ResolveAttackStrategy createAttackStrategy() { return new ActualCombat(); }
     public UnitActionStrategy createActionStrategy() { return new ThetaAction(); }
     public WorkforceStrategy createWorkforceStrategy() { return new WorkableTiles(); }
