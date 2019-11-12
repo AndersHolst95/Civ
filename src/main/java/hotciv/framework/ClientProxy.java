@@ -56,10 +56,11 @@ public class ClientProxy implements Role {
     }
 
     public void performUnitActionAt(Position pos) {
-
+        requestor.sendRequestAndAwaitReply(objectId, OperationNames.performUnitActionAt, Void.class, pos);
     }
 
     public void addObserver(GameObserver observer) {
+        requestor.sendRequestAndAwaitReply(objectId, OperationNames.addObserver, Void.class, observer);
 
     }
 

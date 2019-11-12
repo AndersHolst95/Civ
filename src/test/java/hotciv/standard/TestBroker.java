@@ -26,7 +26,9 @@ public class TestBroker {
     }
 
     private static class GameStub implements Game, frds.broker.Servant {
+        GameObserver observer = null;
         boolean changeMe = false;
+        Position unitActionPerformedAt = null;
 
         TileImpl tile = new TileImpl(new Position(7, 7), "oasis", null, null);
         public Tile getTileAt(Position pos) { return tile; }
@@ -39,8 +41,8 @@ public class TestBroker {
         public void endOfTurn() {changeMe = true;}
         public void changeWorkForceFocusInCityAt(Position pos, String balance) {changeMe = true;}
         public void changeProductionInCityAt(Position pos, String unitType) { changeMe = true;}
-        public void performUnitActionAt(Position pos) { }
-        public void addObserver(GameObserver observer) { }
+        public void performUnitActionAt(Position pos) { unitActionPerformedAt = pos;}
+        public void addObserver(GameObserver observer) { changeMe = true;}
         public void setTileFocus(Position pos) {changeMe = true;}
     }
 
@@ -100,11 +102,23 @@ public class TestBroker {
     }
 
     @Test
+    public void addObserver() {
+        GameObserver observer = new NullObserver();
+        client.addObserver(observer);
+        assertTrue(servant.changeMe);
+    }
+
+    @Test
+    public void performUnitAction() {
+        Position pos = new Position(2, 1);
+        client.performUnitActionAt(pos);
+        assertEquals(servant.unitActionPerformedAt, pos);
+    }
+
+    @Test
     public void setTileFocus() {
         client.setTileFocus(null);
         assertTrue(servant.changeMe);
     }
-
-
 }
 

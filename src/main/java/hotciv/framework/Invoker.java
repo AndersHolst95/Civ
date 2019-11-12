@@ -24,6 +24,9 @@ public class Invoker {
         try {
             switch (operationName) {
                 case OperationNames.addObserver:
+                    GameObserver observer = gson.fromJson(array.get(0), NullObserver.class);
+                    servant.addObserver(observer);
+                    reply = new ReplyObject(0, "");
                     break;
                 case OperationNames.changeProductionInCityAt:
                     pos = gson.fromJson(array.get(0), Position.class);
@@ -68,6 +71,9 @@ public class Invoker {
                     reply = new ReplyObject(0, gson.toJson(servant.moveUnit(from, to)));
                     break;
                 case OperationNames.performUnitActionAt:
+                    pos = gson.fromJson(array.get(0), Position.class);
+                    servant.performUnitActionAt(pos);
+                    reply = new ReplyObject(0, "");
                     break;
                 case OperationNames.setTileFocus:
                     pos = gson.fromJson(array.get(0), Position.class);
