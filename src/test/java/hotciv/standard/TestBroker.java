@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 
 public class TestBroker {
     ClientProxy client;
-    Game servant = new GameStub();
+    GameStub servant = new GameStub();
 
     @Before
     public void setup() {
@@ -26,6 +26,11 @@ public class TestBroker {
     }
 
     private static class GameStub implements Game, frds.broker.Servant {
+        boolean changeme = false;
+        public boolean isChanged() {
+            return changeme;
+        }
+
         TileImpl tile = new TileImpl(new Position(7, 7), "oasis", null, null);
         public Tile getTileAt(Position pos) { return tile; }
         public Unit getUnitAt(Position pos) { return null; }
@@ -44,7 +49,9 @@ public class TestBroker {
         public void setTypeAt(Position pos, String type) { }
         public void setCityAt(CityImpl city) { }
         public void addObserver(GameObserver observer) { }
-        public void setTileFocus(Position pos) { }
+        public void setTileFocus(Position pos) {
+            changeme = true;
+        }
     }
 
     @Test
@@ -60,6 +67,12 @@ public class TestBroker {
     @Test
     public void moveUnitCall() {
         assertTrue(client.moveUnit(null, null));
+    }
+
+    @Test
+    public void setTileFocus() {
+        client.setTileFocus(null);
+        assertTrue(servant.isChanged());
     }
 }
 
