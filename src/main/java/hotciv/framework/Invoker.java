@@ -36,6 +36,7 @@ public class Invoker {
                     reply = new ReplyObject(0, gson.toJson(servant.getCityAt(pos)));
                     break;
                 case OperationNames.getPlayerInTurn:
+                    reply = new ReplyObject(0, gson.toJson(servant.getPlayerInTurn()));
                 case OperationNames.getTileAt:
                     pos = gson.fromJson(array.get(0), Position.class);
                     reply = new ReplyObject(0, gson.toJson(servant.getTileAt(pos)));
@@ -45,6 +46,7 @@ public class Invoker {
                     reply = new ReplyObject(0, gson.toJson(servant.getUnitAt(pos)));
                     break;
                 case OperationNames.getWinner:
+                    reply = new ReplyObject(0, gson.toJson(servant.getWinner()));
                 case OperationNames.moveUnit:
                     Position from = gson.fromJson(array.get(0), Position.class);
                     Position to = gson.fromJson(array.get(1), Position.class);

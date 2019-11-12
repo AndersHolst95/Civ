@@ -32,8 +32,8 @@ public class TestBroker {
         public Tile getTileAt(Position pos) { return tile; }
         public Unit getUnitAt(Position pos) { return new UnitImpl(GameConstants.ARCHER, Player.YELLOW);}
         public City getCityAt(Position pos) { return new CityImpl(Player.YELLOW, null); }
-        public Player getPlayerInTurn() { return null; }
-        public Player getWinner() { return null; }
+        public Player getPlayerInTurn() { return Player.YELLOW; }
+        public Player getWinner() { return Player.YELLOW; }
         public int getAge() { return 16; }
         public UnitImpl createUnit(String type, Player owner) { return null; }
         public boolean setProduction(String production, CityImpl city) { return false; }
@@ -70,6 +70,15 @@ public class TestBroker {
         assertThat(client.getCityAt(null).getOwner(), is(Player.YELLOW));
     }
 
+    @Test
+    public void getPlayerInTurnCall(){
+        assertThat(client.getPlayerInTurn(), is(Player.YELLOW));
+    }
+
+    @Test
+    public void getWinnerCall(){
+        assertThat(client.getWinner(), is(Player.YELLOW));
+    }
 
 
     @Test
@@ -82,6 +91,7 @@ public class TestBroker {
         client.setTileFocus(null);
         assertTrue(servant.changeMe);
     }
+
 
 }
 

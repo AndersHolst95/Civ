@@ -26,11 +26,12 @@ public class ClientProxy implements Role {
     }
 
     public Player getPlayerInTurn() {
-        return null;
+
+        return requestor.sendRequestAndAwaitReply(objectId, OperationNames.getPlayerInTurn, Player.class);
     }
 
     public Player getWinner() {
-        return null;
+        return requestor.sendRequestAndAwaitReply(objectId, OperationNames.getWinner, Player.class);
     }
 
     public int getAge() {
