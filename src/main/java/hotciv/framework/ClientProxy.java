@@ -2,8 +2,8 @@ package hotciv.framework;
 
 import frds.broker.Requestor;
 import hotciv.standard.CityImpl;
+import hotciv.standard.TileImpl;
 import hotciv.standard.UnitImpl;
-import hotciv.standard.OperationNames;
 
 public class ClientProxy implements Role {
     private Requestor requestor;
@@ -14,7 +14,7 @@ public class ClientProxy implements Role {
     }
 
     public Tile getTileAt(Position pos) {
-        return null;
+        return requestor.sendRequestAndAwaitReply(objectId, OperationNames.getTileAt, TileImpl.class, pos);
     }
 
     public Unit getUnitAt(Position pos) {
@@ -34,7 +34,7 @@ public class ClientProxy implements Role {
     }
 
     public int getAge() {
-        return requestor.sendRequestAndAwaitReply(objectId, OperationNames.getAge, "int");
+        return requestor.sendRequestAndAwaitReply(objectId, OperationNames.getAge, Integer.class);
     }
 
     public UnitImpl createUnit(String type, Player owner) {
@@ -46,7 +46,7 @@ public class ClientProxy implements Role {
     }
 
     public boolean moveUnit(Position from, Position to) {
-        return false;
+        return requestor.sendRequestAndAwaitReply(objectId, OperationNames.moveUnit, Boolean.class, from, to);
     }
 
     public void endOfTurn() {
