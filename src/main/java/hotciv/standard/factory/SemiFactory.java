@@ -2,6 +2,7 @@ package hotciv.standard.factory;
 
 
 import hotciv.standard.age.AgeStrategy;
+import hotciv.standard.age.ConstantAging;
 import hotciv.standard.age.GradualAging;
 import hotciv.standard.availableUnit.AvailableUnitStrategy;
 import hotciv.standard.availableUnit.B52Expansion;
@@ -24,7 +25,7 @@ import hotciv.standard.workforce.WorkableTiles;
 import hotciv.standard.workforce.WorkforceStrategy;
 
 public class SemiFactory implements StrategyFactory {
-    public AgeStrategy createAgeStrategy() { return new GradualAging(); }
+    public AgeStrategy createAgeStrategy() { return new GradualAging();}
     public VictoryStrategy createVictoryStrategy() { return new ThreeCombatVictories();}
     public LayoutStrategy createLayoutStrategy() { return new DeltaLayout(); }
     public ResolveAttackStrategy createAttackStrategy() { return new ActualCombat(); }

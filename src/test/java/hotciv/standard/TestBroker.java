@@ -28,8 +28,8 @@ public class TestBroker {
     private static class GameStub implements Game, frds.broker.Servant {
         TileImpl tile = new TileImpl(new Position(7, 7), "oasis", null, null);
         public Tile getTileAt(Position pos) { return tile; }
-        public Unit getUnitAt(Position pos) { return null; }
-        public City getCityAt(Position pos) { return null; }
+        public Unit getUnitAt(Position pos) { return new UnitImpl(GameConstants.ARCHER, Player.YELLOW); }
+        public City getCityAt(Position pos) { return new CityImpl(Player.YELLOW, null); }
         public Player getPlayerInTurn() { return null; }
         public Player getWinner() { return null; }
         public int getAge() { return 16; }
@@ -61,5 +61,11 @@ public class TestBroker {
     public void moveUnitCall() {
         assertTrue(client.moveUnit(null, null));
     }
+
+    @Test
+    public void getUnitCall(){assertThat(client.getUnitAt(null).getOwner(), is(Player.YELLOW));}
+
+    @Test
+    public void getCityAtCall(){assertThat(client.getCityAt(null).getOwner(), is(Player.YELLOW));}
 }
 

@@ -18,11 +18,11 @@ public class ClientProxy implements Role {
     }
 
     public Unit getUnitAt(Position pos) {
-        return null;
+        return requestor.sendRequestAndAwaitReply(objectId, OperationNames.getUnitAt, UnitImpl.class, pos);
     }
 
     public City getCityAt(Position pos) {
-        return null;
+        return requestor.sendRequestAndAwaitReply(objectId,OperationNames.getCityAt, CityImpl.class, pos);
     }
 
     public Player getPlayerInTurn() {
