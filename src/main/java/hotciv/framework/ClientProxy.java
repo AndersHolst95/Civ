@@ -44,15 +44,15 @@ public class ClientProxy implements Role {
     }
 
     public void endOfTurn() {
-
+        requestor.sendRequestAndAwaitReply(objectId, OperationNames.endOfTurn, Void.class);
     }
 
     public void changeWorkForceFocusInCityAt(Position pos, String balance) {
-
+        requestor.sendRequestAndAwaitReply(objectId, OperationNames.changeWorkForceFocusInCityAt, Void.class, pos, balance);
     }
 
     public void changeProductionInCityAt(Position pos, String unitType) {
-
+        requestor.sendRequestAndAwaitReply(objectId, OperationNames.changeProductionInCityAt, Void.class, pos, unitType);
     }
 
     public void performUnitActionAt(Position pos) {

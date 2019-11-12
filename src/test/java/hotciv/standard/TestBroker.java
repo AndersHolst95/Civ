@@ -35,10 +35,10 @@ public class TestBroker {
         public Player getPlayerInTurn() { return Player.YELLOW; }
         public Player getWinner() { return Player.YELLOW; }
         public int getAge() { return 16; }
-        public boolean moveUnit(Position from, Position to) { return true; }
-        public void endOfTurn() { }
-        public void changeWorkForceFocusInCityAt(Position pos, String balance) { }
-        public void changeProductionInCityAt(Position pos, String unitType) { }
+        public boolean moveUnit(Position from, Position to) { return true;}
+        public void endOfTurn() {changeMe = true;}
+        public void changeWorkForceFocusInCityAt(Position pos, String balance) {changeMe = true;}
+        public void changeProductionInCityAt(Position pos, String unitType) { changeMe = true;}
         public void performUnitActionAt(Position pos) { }
         public void addObserver(GameObserver observer) { }
         public void setTileFocus(Position pos) {changeMe = true;}
@@ -79,6 +79,24 @@ public class TestBroker {
     @Test
     public void moveUnitCall() {
         assertTrue(client.moveUnit(null, null));
+    }
+
+    @Test
+    public void endOfturnCall(){
+        client.endOfTurn();
+        assertTrue(servant.changeMe);
+    }
+
+    @Test
+    public void changeWorkForceFocusInCityAtCall(){
+        client.changeWorkForceFocusInCityAt(null, null);
+        assertTrue(servant.changeMe);
+    }
+
+    @Test
+    public void changeProductionInCityAtCall(){
+        client.changeProductionInCityAt(null, null);
+        assertTrue(servant.changeMe);
     }
 
     @Test

@@ -24,9 +24,23 @@ public class Invoker {
         try {
             switch (operationName) {
                 case OperationNames.addObserver:
+                    break;
                 case OperationNames.changeProductionInCityAt:
+                    pos = gson.fromJson(array.get(0), Position.class);
+                    String unitType = gson.fromJson(array.get(1), String.class);
+                    servant.changeProductionInCityAt(pos, unitType);
+                    reply = new ReplyObject(0, "");
+                    break;
                 case OperationNames.changeWorkForceFocusInCityAt:
+                    pos = gson.fromJson(array.get(0), Position.class);
+                    String balance = gson.fromJson(array.get(1), String.class);
+                    servant.changeWorkForceFocusInCityAt(pos, balance);
+                    reply = new ReplyObject(0, "");
+                    break;
                 case OperationNames.endOfTurn:
+                    servant.endOfTurn();
+                    reply = new ReplyObject(0, "");
+                    break;
                 case OperationNames.getAge:
                     reply = new ReplyObject(0, gson.toJson(servant.getAge()));
                     break;
@@ -36,6 +50,7 @@ public class Invoker {
                     break;
                 case OperationNames.getPlayerInTurn:
                     reply = new ReplyObject(0, gson.toJson(servant.getPlayerInTurn()));
+                    break;
                 case OperationNames.getTileAt:
                     pos = gson.fromJson(array.get(0), Position.class);
                     reply = new ReplyObject(0, gson.toJson(servant.getTileAt(pos)));
@@ -46,12 +61,14 @@ public class Invoker {
                     break;
                 case OperationNames.getWinner:
                     reply = new ReplyObject(0, gson.toJson(servant.getWinner()));
+                    break;
                 case OperationNames.moveUnit:
                     Position from = gson.fromJson(array.get(0), Position.class);
                     Position to = gson.fromJson(array.get(1), Position.class);
                     reply = new ReplyObject(0, gson.toJson(servant.moveUnit(from, to)));
                     break;
                 case OperationNames.performUnitActionAt:
+                    break;
                 case OperationNames.setTileFocus:
                     pos = gson.fromJson(array.get(0), Position.class);
                     servant.setTileFocus(pos);
