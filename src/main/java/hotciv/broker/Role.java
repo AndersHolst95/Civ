@@ -1,5 +1,6 @@
-package hotciv.framework;
+package hotciv.broker;
 
+import hotciv.framework.*;
 import hotciv.standard.CityImpl;
 import hotciv.standard.UnitImpl;
 

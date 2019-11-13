@@ -1,6 +1,7 @@
-package hotciv.framework;
+package hotciv.broker;
 
 import frds.broker.Requestor;
+import hotciv.framework.*;
 import hotciv.standard.CityImpl;
 import hotciv.standard.TileImpl;
 import hotciv.standard.UnitImpl;

@@ -1,4 +1,4 @@
-package hotciv.framework;
+package hotciv.broker;
 
 public class OperationNames {
     public static final String getTileAt = "getTileAt";

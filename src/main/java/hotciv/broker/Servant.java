@@ -1,7 +1,6 @@
-package hotciv.framework;
+package hotciv.broker;
 
-import hotciv.standard.CityImpl;
-import hotciv.standard.UnitImpl;
+import hotciv.framework.*;
 
 public class Servant implements Role {
     public Tile getTileAt(Position pos) {
