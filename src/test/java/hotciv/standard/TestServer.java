@@ -4,39 +4,36 @@ import frds.broker.ClientRequestHandler;
 import frds.broker.Requestor;
 import frds.broker.marshall.json.StandardJSONRequestor;
 import hotciv.broker.*;
-import hotciv.framework.*;
-import hotciv.framework.*;
-import hotciv.standard.factory.AlphaFactory;
+import hotciv.framework.Player;
+import hotciv.framework.Position;
 import org.junit.*;
 import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
 
 
 
 public class TestServer {
-    ClientProxy client;
 
-    @Before
-    public void setup() {
-        ClientRequestHandler crh = new NetworkClientRequestHandler();
-        Requestor requestor = new StandardJSONRequestor(crh);
-        client = new ClientProxy(requestor);
-    }
+    private ClientRequestHandler crh = new NetworkClientRequestHandler();
+    private Requestor requestor = new StandardJSONRequestor(crh);
+    private ClientProxy client = new ClientProxy(requestor);
 
     @Test
-    public void callGetAge() {
+    public void checkServerCalls() {
+
+        // Check getAge call
         assertEquals(19, client.getAge());
-    }
 
-    @Test
-    public void callGetPlayerInTurn() {
+        // Check playerInTurn call
         assertEquals(Player.GREEN, client.getPlayerInTurn());
-    }
 
-    @Test
-    public void callMoveAndGetUnit() {
+        // Check getAge call
+        assertEquals(19, client.getAge());
+
+        // Check moveUnit call
         Position pos = new Position(2, 2);
         client.moveUnit(null, pos);
-        //assertNotNull(client.getUnitAt(pos));
+
+        // Check getUnitAt call
+        assertNotNull(client.getUnitAt(pos));
     }
 }

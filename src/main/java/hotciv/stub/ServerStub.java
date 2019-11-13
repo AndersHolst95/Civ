@@ -10,7 +10,7 @@ public class ServerStub implements Game {
     }
 
     public Unit getUnitAt(Position p) {
-        System.out.println("called getUnitAt");
+        System.out.println("called getUnitAt: RED ARCHER");
         if (p.equals(archer))
             return new UnitImpl(GameConstants.ARCHER, Player.RED);
         return null;
@@ -21,7 +21,7 @@ public class ServerStub implements Game {
     }
 
     public Player getPlayerInTurn() {
-        System.out.println("I have now called the getPLayerInTurn!");
+        System.out.println("Called getPLayerInTurn: PLAYER GREEN");
         return Player.GREEN;
     }
 
@@ -30,12 +30,12 @@ public class ServerStub implements Game {
     }
 
     public int getAge() {
-        System.out.println("Called get age!");
+        System.out.println("Called getAge: AGE 19");
         return 19;
     }
 
     public boolean moveUnit(Position from, Position to) {
-        System.out.println("called moveUnit");
+        System.out.println("Called moveUnit: UNIT HAS BEEN MOOVED");
         archer = to;
         return false;
     }

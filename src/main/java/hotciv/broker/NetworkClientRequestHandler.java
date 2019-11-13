@@ -20,7 +20,7 @@ public class NetworkClientRequestHandler implements ClientRequestHandler {
 
 
     public NetworkClientRequestHandler() {
-        setServer("localhost", 2800);
+        setServer("10.192.131.144", 2800);
     }
 
     public ReplyObject sendToServer(RequestObject requestObject) {
@@ -34,6 +34,7 @@ public class NetworkClientRequestHandler implements ClientRequestHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("We return null in requesthandler");
         return null;
     }
 
