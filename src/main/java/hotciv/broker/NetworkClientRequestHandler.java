@@ -19,8 +19,8 @@ public class NetworkClientRequestHandler implements ClientRequestHandler {
     private BufferedReader serverIn;
 
 
-    public NetworkClientRequestHandler() {
-        setServer("10.192.131.144", 2800);
+    public NetworkClientRequestHandler(String ip) {
+        setServer(ip, 2800);
     }
 
     public ReplyObject sendToServer(RequestObject requestObject) {

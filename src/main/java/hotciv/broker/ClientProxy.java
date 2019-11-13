@@ -6,7 +6,7 @@ import hotciv.standard.CityImpl;
 import hotciv.standard.TileImpl;
 import hotciv.standard.UnitImpl;
 
-public class ClientProxy implements Role {
+public class ClientProxy implements Game {
     private Requestor requestor;
     private final String objectId = "lol";
 

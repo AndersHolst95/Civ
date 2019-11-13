@@ -12,8 +12,9 @@ import static org.junit.Assert.*;
 
 
 public class TestServer {
+    String ip = "10.192.131.144";
 
-    private ClientRequestHandler crh = new NetworkClientRequestHandler();
+    private ClientRequestHandler crh = new NetworkClientRequestHandler(ip);
     private Requestor requestor = new StandardJSONRequestor(crh);
     private ClientProxy client = new ClientProxy(requestor);
 
@@ -25,9 +26,6 @@ public class TestServer {
 
         // Check playerInTurn call
         assertEquals(Player.GREEN, client.getPlayerInTurn());
-
-        // Check getAge call
-        assertEquals(19, client.getAge());
 
         // Check moveUnit call
         Position pos = new Position(2, 2);
