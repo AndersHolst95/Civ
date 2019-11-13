@@ -15,15 +15,22 @@ public class Server {
         Gson gson = new Gson();
 
         try {
-            ServerSocket serverSocket = new ServerSocket(portNumber);
-            Socket clientSocket = serverSocket.accept();
-            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            String inputLine;
-            while((inputLine = in.readLine()) != null) {
-                RequestObject request = gson.fromJson(inputLine, RequestObject.class);
-                ReplyObject reply = invoker.handleRequest(request.getObjectId(), request.getOperationName(), request.getPayload());
-                out.println(gson.toJson(reply));
+            while(true) {
+                ServerSocket serverSocket = new ServerSocket(portNumber);
+                Socket clientSocket = serverSocket.accept();
+                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+                BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                String inputLine;
+
+                while ((inputLine = in.readLine()) != null) {
+                    RequestObject request = gson.fromJson(inputLine, RequestObject.class);
+                    ReplyObject reply = invoker.handleRequest(request.getObjectId(), request.getOperationName(), request.getPayload());
+                    out.println(gson.toJson(reply));
+                }
+                // Closing the streams and the server socket
+                serverSocket.close();
+                out.close();
+                in.close();
             }
         } catch (IOException e) {
             System.err.println("I/O exception on the server side...");

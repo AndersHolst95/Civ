@@ -20,7 +20,6 @@ public class TestServer {
 
     @Test
     public void checkServerCalls() {
-
         // Check getAge call
         assertEquals(19, client.getAge());
 
@@ -33,5 +32,28 @@ public class TestServer {
 
         // Check getUnitAt call
         assertNotNull(client.getUnitAt(pos));
+    }
+
+    @Test
+    public void tt(){
+        // Check getAge call
+        assertEquals(19, client.getAge());
+    }
+    @Test
+    public void ttt(){
+        // Check getAge call
+        assertEquals(19, client.getAge());
+    }
+
+    @Test
+    public void tttt(){
+        // Check getAge call
+        assertEquals(19, client.getAge());
+    }
+
+    @Test
+    public void ttttt(){
+        // Check getAge call
+        assertEquals(19, client.getAge());
     }
 }

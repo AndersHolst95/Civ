@@ -17,19 +17,24 @@ public class NetworkClientRequestHandler implements ClientRequestHandler {
     private Socket socket;
     private PrintWriter out;
     private BufferedReader serverIn;
+    private String ip;
+    private int port= 2800;
 
 
     public NetworkClientRequestHandler(String ip) {
-        setServer(ip, 2800);
+        this.ip = ip;
     }
 
     public ReplyObject sendToServer(RequestObject requestObject) {
+        setServer(ip, port);
         String payload = gson.toJson(requestObject);
         out.println(payload);
         String inputLine;
         try {
             inputLine = serverIn.readLine();
-            return gson.fromJson(inputLine, ReplyObject.class);
+            ReplyObject reply = gson.fromJson(inputLine, ReplyObject.class);
+            close();
+            return reply;
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -51,6 +56,12 @@ public class NetworkClientRequestHandler implements ClientRequestHandler {
     }
 
     public void close() {
-
+        try {
+            socket.close();
+            out.close();
+            serverIn.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
