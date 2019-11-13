@@ -29,8 +29,6 @@ public class Server {
                 }
                 // Closing the streams and the server socket
                 serverSocket.close();
-                out.close();
-                in.close();
             }
         } catch (IOException e) {
             System.err.println("I/O exception on the server side...");
