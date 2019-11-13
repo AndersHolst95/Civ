@@ -77,7 +77,6 @@ public class TestBroker {
         assertThat(client.getWinner(), is(Player.YELLOW));
     }
 
-
     @Test
     public void moveUnitCall() {
         assertTrue(client.moveUnit(null, null));
