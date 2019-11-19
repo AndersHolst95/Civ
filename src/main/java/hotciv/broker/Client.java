@@ -1,30 +1,24 @@
 package hotciv.broker;
-import java.net.*;
-import java.io.*;
+
+import frds.broker.Requestor;
+import frds.broker.ipc.socket.SocketClientRequestHandler;
+import frds.broker.marshall.json.StandardJSONRequestor;
+import hotciv.broker.proxies.*;
 
 public class Client {
-    public static void main(String[] args) {
-        if (args.length != 2) {
-            System.err.println("Usage: java Client <host name> <port number>");
-            System.exit(1);
-        }
-        String hostName = args[0];
-        int portNumber = Integer.parseInt(args[1]);
+    private SocketClientRequestHandler requestHandler;
+    private Requestor requestor;
+    public GameProxy gameProxy;
+    public CityProxy cityProxy;
+    public UnitProxy unitProxy;
+    public TileProxy tileProxy;
 
-        try {
-            Socket socket = new Socket(hostName, portNumber);
-            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-            String userInput;
-            while ((userInput = stdIn.readLine()) != null) {
-                out.println(userInput);
-                System.out.println("echo: " + in.readLine());
-            }
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public Client(String host, int port) {
+        requestHandler = new SocketClientRequestHandler(host, port);
+        requestor = new StandardJSONRequestor(requestHandler);
+        gameProxy = new GameProxy(requestor);
+        cityProxy = new CityProxy(requestor);
+        unitProxy = new UnitProxy(requestor);
+        tileProxy = new TileProxy(requestor);
     }
 }

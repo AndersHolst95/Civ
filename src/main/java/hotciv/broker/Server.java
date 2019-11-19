@@ -1,38 +1,31 @@
 package hotciv.broker;
-import com.google.gson.Gson;
-import frds.broker.ReplyObject;
-import frds.broker.RequestObject;
+
+import frds.broker.ipc.socket.SocketServerRequestHandler;
 import hotciv.broker.invokers.Invoker;
-import hotciv.stub.ServerStub;
-import java.net.*;
-import java.io.*;
+import hotciv.framework.Game;
+import hotciv.standard.GameImpl;
+import hotciv.standard.factory.SemiFactory;
 
 public class Server {
+    SocketServerRequestHandler requestHandler;
+    Invoker invoker;
+
+    public Server(Game game, int port) {
+        invoker = new Invoker(game);
+        requestHandler = new SocketServerRequestHandler(port, invoker);
+    }
+
+    public void start() {
+//        requestHandler.start();
+        requestHandler.run();
+    }
+
+    public void stop() {
+        requestHandler.stop();
+    }
+
     public static void main(String[] args) {
-        int portNumber = 2800;
-        Invoker invoker = new Invoker(new ServerStub());
-        Gson gson = new Gson();
-
-        try {
-            while(true) {
-                ServerSocket serverSocket = new ServerSocket(portNumber);
-                Socket clientSocket = serverSocket.accept();
-                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-                BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                String inputLine;
-
-                while ((inputLine = in.readLine()) != null) {
-                    RequestObject request = gson.fromJson(inputLine, RequestObject.class);
-                    ReplyObject reply = invoker.handleRequest(request.getObjectId(), request.getOperationName(), request.getPayload());
-                    out.println(gson.toJson(reply));
-                }
-                // Closing the streams and the server socket
-                serverSocket.close();
-            }
-        } catch (IOException e) {
-            System.err.println("I/O exception on the server side...");
-            e.printStackTrace();
-            System.exit(1);
-        }
+        Server server = new Server(new GameImpl(new SemiFactory()), 2800);
+        server.start();
     }
 }

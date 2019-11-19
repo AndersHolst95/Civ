@@ -9,13 +9,10 @@ import hotciv.framework.Game;
 import hotciv.framework.Position;
 
 public class CityInvoker implements frds.broker.Invoker {
-
-    private Invoker invoker;
     private Game servant;
 
-    public CityInvoker(hotciv.broker.invokers.Invoker invoker) {
-        this.invoker = invoker;
-        servant = invoker.getServant();
+    public CityInvoker(Game servant) {
+        this.servant = servant;
     }
 
     public ReplyObject handleRequest(String objectId, String operationName, String payload) {

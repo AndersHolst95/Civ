@@ -11,12 +11,10 @@ import hotciv.framework.NullObserver;
 import hotciv.framework.Position;
 
 public class GameInvoker implements frds.broker.Invoker{
-    private Invoker invoker;
     private Game servant;
 
-    public GameInvoker(Invoker invoker) {
-        this.invoker = invoker;
-        servant = invoker.getServant();
+    public GameInvoker(Game servant) {
+        this.servant = servant;
     }
 
     public ReplyObject handleRequest(String objectId, String operationName, String payload) {
