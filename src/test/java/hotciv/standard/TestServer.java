@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 
 
 public class TestServer {
-    String ip = "localhost";
+    String ip = "10.192.157.114";
     Client client;
 
     @Before
@@ -37,25 +37,48 @@ public class TestServer {
     }
 
     @Test
-    public void tt(){
+    public void game1(){
         // Check getAge call
         assertEquals(19, client.gameProxy.getAge());
     }
     @Test
-    public void ttt(){
-        // Check getAge call
-        assertEquals(19, client.gameProxy.getAge());
-    }
-
-    @Test
-    public void tttt(){
+    public void game2(){
         // Check getAge call
         assertEquals(19, client.gameProxy.getAge());
     }
 
     @Test
-    public void ttttt(){
+    public void game3(){
         // Check getAge call
         assertEquals(19, client.gameProxy.getAge());
+    }
+
+    @Test
+    public void game4(){
+        // Check getAge call
+        assertEquals(19, client.gameProxy.getAge());
+    }
+
+    @Test
+    public void city1(){
+        client.cityProxy.getProduction();
+        client.cityProxy.getOwner();
+        client.cityProxy.getWorkforceFocus();
+        client.cityProxy.getTreasury();
+        client.cityProxy.getSize();
+    }
+
+    @Test
+    public void unit1(){
+        client.unitProxy.getMoveCount();
+        client.unitProxy.getAttackingStrength();
+        client.unitProxy.getDefensiveStrength();
+        client.unitProxy.getTypeString();
+        client.unitProxy.getOwner();
+    }
+
+    @Test
+    public void tile1(){
+        client.tileProxy.getTypeString();
     }
 }
