@@ -4,7 +4,7 @@ import frds.broker.ClientRequestHandler;
 import frds.broker.Requestor;
 import frds.broker.marshall.json.StandardJSONRequestor;
 import hotciv.broker.ClientProxy;
-import hotciv.broker.Invoker;
+import hotciv.broker.invokers.Invoker;
 import hotciv.broker.LocalMethodClientRequestHandler;
 import hotciv.framework.*;
 import org.junit.Before;

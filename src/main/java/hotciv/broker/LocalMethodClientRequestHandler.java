@@ -3,6 +3,7 @@ package hotciv.broker;
 import frds.broker.ClientRequestHandler;
 import frds.broker.ReplyObject;
 import frds.broker.RequestObject;
+import hotciv.broker.invokers.Invoker;
 
 public class LocalMethodClientRequestHandler implements ClientRequestHandler {
     private final Invoker invoker;

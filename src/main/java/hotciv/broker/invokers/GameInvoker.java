@@ -1,21 +1,23 @@
-package hotciv.broker;
+package hotciv.broker.invokers;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import frds.broker.ReplyObject;
+import hotciv.broker.OperationNames;
 import hotciv.framework.Game;
 import hotciv.framework.GameObserver;
 import hotciv.framework.NullObserver;
 import hotciv.framework.Position;
 
-public class Invoker {
-    Game servant;
+public class GameInvoker implements frds.broker.Invoker{
+    private Invoker invoker;
+    private Game servant;
 
-    public Invoker(Game servant) {
-        this.servant = servant;
+    public GameInvoker(Invoker invoker) {
+        this.invoker = invoker;
+        servant = invoker.getServant();
     }
-
 
     public ReplyObject handleRequest(String objectId, String operationName, String payload) {
         ReplyObject reply = null;
