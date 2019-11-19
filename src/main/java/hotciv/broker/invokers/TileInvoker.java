@@ -26,7 +26,7 @@ public class TileInvoker implements frds.broker.Invoker {
             switch (operationName) {
                 case OperationNames.getTypeStringTile:
                     System.out.println("--> getTypeStringTile called");
-                    break;
+                    return new ReplyObject(0, "Heaven");
             }
         }
         catch (Exception e) {

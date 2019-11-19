@@ -5,10 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import frds.broker.ReplyObject;
 import hotciv.broker.OperationNames;
-import hotciv.framework.Game;
-import hotciv.framework.GameObserver;
-import hotciv.framework.NullObserver;
-import hotciv.framework.Position;
+import hotciv.framework.*;
 
 public class UnitInvoker implements frds.broker.Invoker{
     private Game servant;
@@ -28,22 +25,19 @@ public class UnitInvoker implements frds.broker.Invoker{
             switch (operationName) {
                 case OperationNames.getTypeStringUnit:
                     System.out.println("--> getTypeStringUnit called");
-                    break;
+                    return new ReplyObject(0, "AndersAnd");
                 case OperationNames.getOwnerUnit:
                     System.out.println("--> getOwnerUnit called");
-                    break;
+                    return new ReplyObject(0, gson.toJson(Player.GREEN));
                 case OperationNames.getMoveCount:
                     System.out.println("--> getMoveCount called");
-                    reply = new ReplyObject(0, gson.toJson(0));
-                    break;
+                    reply = new ReplyObject(0, gson.toJson(100));
                 case OperationNames.getDefensiveStrength:
                     System.out.println("--> getDefensiveStrength called");
-                    reply = new ReplyObject(0, gson.toJson(0));
-                    break;
+                    reply = new ReplyObject(0, gson.toJson(100));
                 case OperationNames.getAttackingStrength:
                     System.out.println("--> getAttackingStrength called");
-                    reply = new ReplyObject(0, gson.toJson(0));
-                    break;
+                    reply = new ReplyObject(0, gson.toJson(100));
 
             }
         }

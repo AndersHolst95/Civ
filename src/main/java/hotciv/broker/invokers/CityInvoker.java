@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 import frds.broker.ReplyObject;
 import hotciv.broker.OperationNames;
 import hotciv.framework.Game;
+import hotciv.framework.Player;
 import hotciv.framework.Position;
 
 public class CityInvoker implements frds.broker.Invoker {
@@ -26,21 +27,19 @@ public class CityInvoker implements frds.broker.Invoker {
             switch (operationName) {
                 case OperationNames.getOwnerCity:
                     System.out.println("--> getOwnerCity called");
-                    break;
+                    return new ReplyObject(0, gson.toJson(Player.YELLOW));
                 case OperationNames.getSize:
                     System.out.println("--> getSize called");
-                    reply = new ReplyObject(0, gson.toJson(0));
-                    break;
+                    return new ReplyObject(0,gson.toJson(100));
                 case OperationNames.getTreasury:
                     System.out.println("--> getTreasury called");
-                    reply = new ReplyObject(0, gson.toJson(0));
-                    break;
+                    return new ReplyObject(0, gson.toJson(100));
                 case OperationNames.getProduction:
                     System.out.println("--> getProduction called");
-                    break;
+                    return new ReplyObject(0, gson.toJson("Women"));
                 case OperationNames.getWorkforceFocus:
                     System.out.println("--> getWorkforceFocus called");
-                    break;
+                    return new ReplyObject(0, gson.toJson("Women"));
             }
         }
         catch (Exception e) {
