@@ -16,7 +16,7 @@ public class CityInvoker implements frds.broker.Invoker {
     }
 
     public ReplyObject handleRequest(String objectId, String operationName, String payload) {
-        ReplyObject reply = null;
+        ReplyObject reply = new ReplyObject(0, "");
         Gson gson = new Gson();
 
         JsonParser parser = new JsonParser();
@@ -29,9 +29,11 @@ public class CityInvoker implements frds.broker.Invoker {
                     break;
                 case OperationNames.getSize:
                     System.out.println("--> getSize called");
+                    reply = new ReplyObject(0, gson.toJson(0));
                     break;
                 case OperationNames.getTreasury:
                     System.out.println("--> getTreasury called");
+                    reply = new ReplyObject(0, gson.toJson(0));
                     break;
                 case OperationNames.getProduction:
                     System.out.println("--> getProduction called");

@@ -3,9 +3,9 @@ package hotciv.standard;
 import frds.broker.ClientRequestHandler;
 import frds.broker.Requestor;
 import frds.broker.marshall.json.StandardJSONRequestor;
-import hotciv.broker.ClientProxy;
 import hotciv.broker.invokers.Invoker;
 import hotciv.broker.LocalMethodClientRequestHandler;
+import hotciv.broker.proxies.GameProxy;
 import hotciv.framework.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +14,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 public class TestBroker {
-    ClientProxy client;
+    GameProxy client;
     GameStub servant = new GameStub();
 
     @Before
@@ -25,7 +25,7 @@ public class TestBroker {
         Invoker invoker = new Invoker(servant);
         ClientRequestHandler crh = new LocalMethodClientRequestHandler(invoker);
         Requestor requestor = new StandardJSONRequestor(crh);
-        client = new ClientProxy(requestor);
+        client = new GameProxy(requestor);
     }
 
     private static class GameStub implements Game, frds.broker.Servant {

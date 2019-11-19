@@ -18,7 +18,7 @@ public class GameInvoker implements frds.broker.Invoker{
     }
 
     public ReplyObject handleRequest(String objectId, String operationName, String payload) {
-        ReplyObject reply = null;
+        ReplyObject reply = new ReplyObject(0, "");
         Gson gson = new Gson();
 
         JsonParser parser = new JsonParser();

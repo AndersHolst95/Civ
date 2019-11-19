@@ -20,7 +20,7 @@ public class Invoker implements frds.broker.Invoker {
     }
 
     public ReplyObject handleRequest(String objectId, String operationName, String payload) {
-        String fromClass = operationName.substring(0, operationName.indexOf('_'));
+        String fromClass = operationName.substring(0, operationName.indexOf('_')+1);
         switch(fromClass) {
             case OperationNames.game:
                 return gameInvoker.handleRequest(objectId, operationName, payload);

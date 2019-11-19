@@ -5,6 +5,7 @@ import hotciv.broker.invokers.Invoker;
 import hotciv.framework.Game;
 import hotciv.standard.GameImpl;
 import hotciv.standard.factory.SemiFactory;
+import hotciv.stub.ServerStub;
 
 public class Server {
     SocketServerRequestHandler requestHandler;
@@ -25,7 +26,7 @@ public class Server {
     }
 
     public static void main(String[] args) {
-        Server server = new Server(new GameImpl(new SemiFactory()), 2800);
+        Server server = new Server(new ServerStub(), 2800);
         server.start();
     }
 }
