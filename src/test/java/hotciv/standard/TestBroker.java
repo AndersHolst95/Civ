@@ -148,27 +148,27 @@ public class TestBroker {
 
     @Test
     public void getTypeStringUnit(){
-        assertEquals(unitProxy.getTypeString(), "AndersAnd");
+        assertEquals(unitProxy.getTypeString("unit"), "AndersAnd");
     }
 
     @Test
     public void getOwnerUnit(){
-        assertEquals(unitProxy.getOwner(), Player.GREEN);
+        assertEquals(unitProxy.getOwner("unit"), Player.GREEN);
     }
 
     @Test
     public void getMovecountUnit(){
-        assertEquals(unitProxy.getMoveCount(), 100);
+        assertEquals(unitProxy.getMoveCount("unit"), 100);
     }
 
     @Test
     public void getDefensiveStrengthUnit(){
-        assertEquals(unitProxy.getMoveCount(), 100);
+        assertEquals(unitProxy.getMoveCount("unit"), 100);
     }
 
     @Test
     public void getAttackingStrengthUnit(){
-        assertEquals(unitProxy.getAttackingStrength(), 100);
+        assertEquals(unitProxy.getAttackingStrength("unit"), 100);
     }
 }
 

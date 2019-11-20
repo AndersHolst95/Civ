@@ -69,11 +69,12 @@ public class TestServer {
 
     @Test
     public void unit1(){
-        assertEquals(client.unitProxy.getMoveCount(), 9);
-        assertEquals(client.unitProxy.getAttackingStrength(), 1337);
-        assertEquals(client.unitProxy.getDefensiveStrength(), 64);
-        assertEquals(client.unitProxy.getTypeString(), "BigBoy");
-        assertEquals(client.unitProxy.getOwner(), Player.GREEN);
+        client.gameProxy.getUnitAt(null);
+        assertEquals(9, client.unitProxy.getMoveCount("unit"));
+        assertEquals(1337, client.unitProxy.getAttackingStrength("unit"));
+        assertEquals(64, client.unitProxy.getDefensiveStrength("unit"));
+        assertEquals("BigBoy", client.unitProxy.getTypeString("unit"));
+        assertEquals(Player.GREEN, client.unitProxy.getOwner("unit"));
     }
 
     @Test

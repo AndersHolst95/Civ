@@ -10,25 +10,26 @@ public class GameStub implements Game, frds.broker.Servant {
     public boolean changeMe = false;
     public Position unitActionPerformedAt = null;
     private CityStub city = new CityStub(null, null);
+    private UnitStub unit = new UnitStub(GameConstants.LEGION, null);
 
     private class UnitStub extends UnitImpl {
-        private String id = "unit";
+        private String objectId = "unit";
 
         public UnitStub(String type, Player owner) {
             super(type, owner);
         }
 
         public String getId() {
-            return id;
+            return objectId;
         }
         public Player getOwner() {
             return Player.GREEN;
         }
-        public int getAttackingStrength() {
-            return 1337;
-        }
         public int getDefensiveStrength() {
             return 64;
+        }
+        public int getAttackingStrength() {
+            return 1337;
         }
         public int getMoveCount() {
             return 9;
@@ -87,7 +88,7 @@ public class GameStub implements Game, frds.broker.Servant {
 
     TileStub tile = new TileStub(null, "oasis", null, null);
     public Tile getTileAt(Position pos) { return tile; }
-    public Unit getUnitAt(Position pos) { return new UnitImpl(GameConstants.ARCHER, Player.YELLOW);}
+    public Unit getUnitAt(Position pos) { return unit;}
     public City getCityAt(Position pos) { return city; }
     public Player getPlayerInTurn() { return Player.YELLOW; }
     public Player getWinner() { return Player.YELLOW; }

@@ -18,7 +18,6 @@ public class UnitInvoker implements frds.broker.Invoker{
     }
 
     public ReplyObject handleRequest(String objectId, String operationName, String payload) {
-        ReplyObject reply = new ReplyObject(0, "");
         Gson gson = new Gson();
         UnitImpl unit = Invoker.getUnit(objectId);
 
@@ -32,17 +31,16 @@ public class UnitInvoker implements frds.broker.Invoker{
                 case OperationNames.getOwnerUnit:
                     return new ReplyObject(0, gson.toJson(unit.getOwner()));
                 case OperationNames.getMoveCount:
-                    reply = new ReplyObject(0, gson.toJson(unit.getMoveCount()));
+                    return new ReplyObject(0, gson.toJson(unit.getMoveCount()));
                 case OperationNames.getDefensiveStrength:
-                    reply = new ReplyObject(0, gson.toJson(unit.getDefensiveStrength()));
+                    return new ReplyObject(0, gson.toJson(unit.getDefensiveStrength()));
                 case OperationNames.getAttackingStrength:
-                    reply = new ReplyObject(0, gson.toJson(unit.getAttackingStrength()));
-
+                    return new ReplyObject(0, gson.toJson(unit.getAttackingStrength()));
             }
         }
         catch (Exception e) {
             e.printStackTrace();
         }
-        return reply;
+        return new ReplyObject(0, "");
     }
 }
