@@ -135,3 +135,11 @@ task hotcivServer(type: JavaExec) {
     classpath sourceSets.test.runtimeClasspath
     main = 'hotciv.broker.Server'
 }
+
+task magic(type: JavaExec) {
+    group 'SWEA Distribution'
+    description 'Run HotCiv server (Socket)'
+
+    classpath sourceSets.test.runtimeClasspath
+    main = 'hotciv.broker.ServerSetup'
+}
