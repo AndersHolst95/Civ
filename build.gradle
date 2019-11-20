@@ -133,5 +133,5 @@ task hotcivServer(type: JavaExec) {
     description 'Run HotCiv server (Socket)'
 
     classpath sourceSets.test.runtimeClasspath
-    main = 'hotciv.broker.main.HotCivServer'
+    main = 'hotciv.broker.Server'
 }

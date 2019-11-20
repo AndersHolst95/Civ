@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 
 
 public class TestServer {
-    String ip = "10.192.157.114";
+    String ip = "localhost";
     Client client;
 
     @Before
