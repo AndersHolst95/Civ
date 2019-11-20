@@ -75,8 +75,9 @@ public class TestServer {
         client.unitProxy.getOwner();
     }
 
-    @Test
-    public void tile1(){
-        assertEquals(client.tileProxy.getTypeString("tile"), "oasis");
-    }
+   // @Test
+    //public void tile1(){
+    //    client.gameProxy.getTileAt(null);
+    //    assertEquals("oasis", client.tileProxy.getTypeString("tile"));
+    //}
 }
