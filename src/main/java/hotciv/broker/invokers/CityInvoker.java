@@ -8,6 +8,7 @@ import hotciv.broker.OperationNames;
 import hotciv.framework.Game;
 import hotciv.framework.Player;
 import hotciv.framework.Position;
+import hotciv.standard.CityImpl;
 
 public class CityInvoker implements frds.broker.Invoker {
     private Game servant;
@@ -19,6 +20,7 @@ public class CityInvoker implements frds.broker.Invoker {
     public ReplyObject handleRequest(String objectId, String operationName, String payload) {
         ReplyObject reply = new ReplyObject(0, "");
         Gson gson = new Gson();
+        CityImpl city = Invoker.getCity(objectId);
 
         JsonParser parser = new JsonParser();
         JsonArray array = parser.parse(payload).getAsJsonArray();
@@ -26,20 +28,15 @@ public class CityInvoker implements frds.broker.Invoker {
         try {
             switch (operationName) {
                 case OperationNames.getOwnerCity:
-                    System.out.println("--> getOwnerCity called");
-                    return new ReplyObject(0, gson.toJson(Player.YELLOW));
+                    return new ReplyObject(0, gson.toJson(city.getOwner()));
                 case OperationNames.getSize:
-                    System.out.println("--> getSize called");
-                    return new ReplyObject(0,gson.toJson(100));
+                    return new ReplyObject(0,gson.toJson(city.getSize()));
                 case OperationNames.getTreasury:
-                    System.out.println("--> getTreasury called");
-                    return new ReplyObject(0, gson.toJson(100));
+                    return new ReplyObject(0, gson.toJson(city.getTreasury()));
                 case OperationNames.getProduction:
-                    System.out.println("--> getProduction called");
-                    return new ReplyObject(0, gson.toJson("Women"));
+                    return new ReplyObject(0, gson.toJson(city.getProduction()));
                 case OperationNames.getWorkforceFocus:
-                    System.out.println("--> getWorkforceFocus called");
-                    return new ReplyObject(0, gson.toJson("Women"));
+                    return new ReplyObject(0, gson.toJson(city.getWorkforceFocus()));
             }
         }
         catch (Exception e) {

@@ -6,7 +6,9 @@ import com.google.gson.JsonParser;
 import frds.broker.ReplyObject;
 import hotciv.broker.OperationNames;
 import hotciv.framework.*;
+import hotciv.standard.CityImpl;
 import hotciv.standard.TileImpl;
+import hotciv.standard.UnitImpl;
 
 public class GameInvoker implements frds.broker.Invoker{
     private Game servant;
@@ -50,6 +52,8 @@ public class GameInvoker implements frds.broker.Invoker{
                     break;
                 case OperationNames.getCityAt:
                     pos = gson.fromJson(array.get(0), Position.class);
+                    City city = servant.getCityAt(pos);
+                    Invoker.addCity(((CityImpl) city));
                     reply = new ReplyObject(0, gson.toJson(servant.getCityAt(pos)));
                     break;
                 case OperationNames.getPlayerInTurn:
@@ -63,6 +67,8 @@ public class GameInvoker implements frds.broker.Invoker{
                     break;
                 case OperationNames.getUnitAt:
                     pos = gson.fromJson(array.get(0), Position.class);
+                    Unit unit = servant.getUnitAt(pos);
+                    Invoker.addUnit(((UnitImpl) unit));
                     reply = new ReplyObject(0, gson.toJson(servant.getUnitAt(pos)));
                     break;
                 case OperationNames.getWinner:

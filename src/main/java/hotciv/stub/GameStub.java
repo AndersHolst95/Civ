@@ -9,38 +9,75 @@ public class GameStub implements Game, frds.broker.Servant {
     private GameObserver observer = null;
     public boolean changeMe = false;
     public Position unitActionPerformedAt = null;
-    private CityStub city = new CityStub();
+    private CityStub city = new CityStub(null, null);
 
-    private class CityStub implements City {
+    private class UnitStub extends UnitImpl {
+        private String id = "unit";
 
-        private String id = "1";
+        public UnitStub(String type, Player owner) {
+            super(type, owner);
+        }
+
+        public String getId() {
+            return id;
+        }
+        public Player getOwner() {
+            return Player.GREEN;
+        }
+        public int getAttackingStrength() {
+            return 1337;
+        }
+        public int getDefensiveStrength() {
+            return 64;
+        }
+        public int getMoveCount() {
+            return 9;
+        }
+        public String getTypeString() {
+            return "BigBoy";
+        }
+    }
+
+    private class CityStub extends CityImpl {
+        private String id = "city";
+
+        public CityStub(Player owner, Position loc) {
+            super(owner, loc);
+        }
+
+        public CityStub(int size, int treasury, Player owner, String production, String workforceFocus, Position loc) {
+            super(size, treasury, owner, production, workforceFocus, loc);
+        }
 
         public Player getOwner() {
-            return null;
+            return Player.YELLOW;
         }
-
         public int getSize() {
-            return 0;
+            return 82;
         }
-
         public int getTreasury() {
-            return 0;
+            return 119;
         }
-
         public String getProduction() {
-            return null;
+            return "dragon";
         }
-
         public String getWorkforceFocus() {
-            return null;
+            return "vandland";
         }
         public String getId(){return id;}
     }
 
-    public class TileStub implements Tile{
+    public class TileStub extends TileImpl {
         private String id = "tile";
+        private String type;
+
+        public TileStub(Position position, String type, CityImpl city, UnitImpl unit) {
+            super(position, type, city, unit);
+            this.type = type;
+        }
+
         public String getTypeString() {
-            return "oasis";
+            return type;
         }
 
         public String getId() {
@@ -48,10 +85,10 @@ public class GameStub implements Game, frds.broker.Servant {
         }
     }
 
-    TileStub tile = new TileStub();
+    TileStub tile = new TileStub(null, "oasis", null, null);
     public Tile getTileAt(Position pos) { return tile; }
     public Unit getUnitAt(Position pos) { return new UnitImpl(GameConstants.ARCHER, Player.YELLOW);}
-    public City getCityAt(Position pos) { return new CityImpl(Player.YELLOW, null); }
+    public City getCityAt(Position pos) { return city; }
     public Player getPlayerInTurn() { return Player.YELLOW; }
     public Player getWinner() { return Player.YELLOW; }
     public int getAge() { return 16; }

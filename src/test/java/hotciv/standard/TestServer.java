@@ -10,7 +10,7 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 public class TestServer {
-    String ip = "localhost";
+    String ip = "10.192.141.139";
     Client client;
 
     @Before
@@ -59,25 +59,26 @@ public class TestServer {
 
     @Test
     public void city1(){
-        client.cityProxy.getProduction("1");
-        client.cityProxy.getOwner("1");
-        client.cityProxy.getWorkforceFocus("1");
-        client.cityProxy.getTreasury("1");
-        client.cityProxy.getSize("1");
+        client.gameProxy.getCityAt(null);
+        assertEquals(client.cityProxy.getProduction("city"), "dragon");
+        assertEquals(client.cityProxy.getOwner("city"), Player.YELLOW);
+        assertEquals(client.cityProxy.getWorkforceFocus("city"), "vandland");
+        assertEquals(client.cityProxy.getTreasury("city"), 119);
+        assertEquals(client.cityProxy.getSize("city"), 82);
     }
 
     @Test
     public void unit1(){
-        client.unitProxy.getMoveCount();
-        client.unitProxy.getAttackingStrength();
-        client.unitProxy.getDefensiveStrength();
-        client.unitProxy.getTypeString();
-        client.unitProxy.getOwner();
+        assertEquals(client.unitProxy.getMoveCount(), 9);
+        assertEquals(client.unitProxy.getAttackingStrength(), 1337);
+        assertEquals(client.unitProxy.getDefensiveStrength(), 64);
+        assertEquals(client.unitProxy.getTypeString(), "BigBoy");
+        assertEquals(client.unitProxy.getOwner(), Player.GREEN);
     }
 
-   // @Test
-    //public void tile1(){
-    //    client.gameProxy.getTileAt(null);
-    //    assertEquals("oasis", client.tileProxy.getTypeString("tile"));
-    //}
+    @Test
+    public void tile1(){
+        client.gameProxy.getTileAt(null);
+        assertEquals("oasis", client.tileProxy.getTypeString("tile"));
+    }
 }
