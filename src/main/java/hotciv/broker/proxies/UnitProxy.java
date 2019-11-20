@@ -7,7 +7,7 @@ import hotciv.framework.Unit;
 
 public class UnitProxy implements Unit {
     private Requestor requestor;
-    private final String objectId = "lol";
+    private String objectId = "lol";
 
     public UnitProxy(Requestor requestor) {
         this.requestor = requestor;

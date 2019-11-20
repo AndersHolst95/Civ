@@ -7,6 +7,10 @@ import frds.broker.ReplyObject;
 import hotciv.broker.OperationNames;
 import hotciv.framework.Game;
 import hotciv.framework.Position;
+import hotciv.framework.Tile;
+import hotciv.standard.TileImpl;
+
+import java.util.HashMap;
 
 public class TileInvoker implements frds.broker.Invoker {
     private Game servant;
@@ -16,22 +20,18 @@ public class TileInvoker implements frds.broker.Invoker {
     }
 
     public ReplyObject handleRequest(String objectId, String operationName, String payload) {
-        ReplyObject reply = new ReplyObject(0, "");
+        Tile tile =  Invoker.getTile(objectId);
         Gson gson = new Gson();
 
-        JsonParser parser = new JsonParser();
-        JsonArray array = parser.parse(payload).getAsJsonArray();
-        Position pos;
         try {
             switch (operationName) {
                 case OperationNames.getTypeStringTile:
-                    System.out.println("--> getTypeStringTile called");
-                    return new ReplyObject(0, "Heaven");
+                    return new ReplyObject(0, gson.toJson(tile.getTypeString()));
             }
         }
         catch (Exception e) {
             e.printStackTrace();
         }
-        return reply;
+        return new ReplyObject(0, "");
     }
 }

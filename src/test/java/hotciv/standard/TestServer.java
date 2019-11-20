@@ -9,10 +9,8 @@ import hotciv.framework.Position;
 import org.junit.*;
 import static org.junit.Assert.*;
 
-
-
 public class TestServer {
-    String ip = "10.192.157.114";
+    String ip = "localhost";
     Client client;
 
     @Before
@@ -23,10 +21,10 @@ public class TestServer {
     @Test
     public void checkServerCalls() {
         // Check getAge call
-        assertEquals(19, client.gameProxy.getAge());
+        assertEquals(16, client.gameProxy.getAge());
 
         // Check playerInTurn call
-        assertEquals(Player.GREEN, client.gameProxy.getPlayerInTurn());
+        assertEquals(Player.YELLOW, client.gameProxy.getPlayerInTurn());
 
         // Check moveUnit call
         Position pos = new Position(2, 2);
@@ -39,33 +37,33 @@ public class TestServer {
     @Test
     public void game1(){
         // Check getAge call
-        assertEquals(19, client.gameProxy.getAge());
+        assertEquals(16, client.gameProxy.getAge());
     }
     @Test
     public void game2(){
         // Check getAge call
-        assertEquals(19, client.gameProxy.getAge());
+        assertEquals(16, client.gameProxy.getAge());
     }
 
     @Test
     public void game3(){
         // Check getAge call
-        assertEquals(19, client.gameProxy.getAge());
+        assertEquals(16, client.gameProxy.getAge());
     }
 
     @Test
     public void game4(){
         // Check getAge call
-        assertEquals(19, client.gameProxy.getAge());
+        assertEquals(16, client.gameProxy.getAge());
     }
 
     @Test
     public void city1(){
-        client.cityProxy.getProduction();
-        client.cityProxy.getOwner();
-        client.cityProxy.getWorkforceFocus();
-        client.cityProxy.getTreasury();
-        client.cityProxy.getSize();
+        client.cityProxy.getProduction("1");
+        client.cityProxy.getOwner("1");
+        client.cityProxy.getWorkforceFocus("1");
+        client.cityProxy.getTreasury("1");
+        client.cityProxy.getSize("1");
     }
 
     @Test
@@ -79,6 +77,6 @@ public class TestServer {
 
     @Test
     public void tile1(){
-        client.tileProxy.getTypeString();
+        assertEquals(client.tileProxy.getTypeString("tile"), "oasis");
     }
 }

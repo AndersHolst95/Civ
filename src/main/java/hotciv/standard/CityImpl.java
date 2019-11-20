@@ -3,6 +3,7 @@ package hotciv.standard;
 import hotciv.framework.*;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 public class CityImpl implements City {
     private int size;
@@ -14,6 +15,11 @@ public class CityImpl implements City {
     private int productionCost;
     private int food;
     private Position location;
+    private String id = UUID.randomUUID().toString();
+
+    public String getId() {
+        return id;
+    }
 
     public CityImpl(Player owner, Position loc) {
         this(1, 0, owner, GameConstants.ARCHER, GameConstants.foodFocus, loc);

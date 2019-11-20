@@ -1,6 +1,8 @@
 package hotciv.standard;
 import hotciv.framework.*;
 
+import java.util.UUID;
+
 public class UnitImpl implements Unit {
     private String type;
     private Player owner;
@@ -11,6 +13,11 @@ public class UnitImpl implements Unit {
     private int cost;
     private boolean isFortified = false; // is the unit fortified
     private boolean usedAction = false;
+    private String id = UUID.randomUUID().toString();
+
+    public String getId() {
+        return id;
+    }
 
     public UnitImpl(String type, Player owner){
         this.type = type;

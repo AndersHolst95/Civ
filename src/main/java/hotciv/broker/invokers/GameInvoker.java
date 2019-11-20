@@ -5,10 +5,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import frds.broker.ReplyObject;
 import hotciv.broker.OperationNames;
-import hotciv.framework.Game;
-import hotciv.framework.GameObserver;
-import hotciv.framework.NullObserver;
-import hotciv.framework.Position;
+import hotciv.framework.*;
+import hotciv.standard.TileImpl;
 
 public class GameInvoker implements frds.broker.Invoker{
     private Game servant;
@@ -59,7 +57,9 @@ public class GameInvoker implements frds.broker.Invoker{
                     break;
                 case OperationNames.getTileAt:
                     pos = gson.fromJson(array.get(0), Position.class);
-                    reply = new ReplyObject(0, gson.toJson(servant.getTileAt(pos)));
+                    Tile tile = servant.getTileAt(pos);
+                    Invoker.addTile(((TileImpl) tile));
+                    reply = new ReplyObject(0, gson.toJson(tile));
                     break;
                 case OperationNames.getUnitAt:
                     pos = gson.fromJson(array.get(0), Position.class);

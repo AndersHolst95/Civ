@@ -10,6 +10,7 @@ import hotciv.broker.proxies.GameProxy;
 import hotciv.broker.proxies.TileProxy;
 import hotciv.broker.proxies.UnitProxy;
 import hotciv.framework.*;
+import hotciv.stub.GameStub;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -39,27 +40,6 @@ public class TestBroker {
         tileProxy = new TileProxy(requestor);
     }
 
-    private static class GameStub implements Game, frds.broker.Servant {
-        GameObserver observer = null;
-        boolean changeMe = false;
-        Position unitActionPerformedAt = null;
-
-
-        TileImpl tile = new TileImpl(new Position(7, 7), "oasis", null, null);
-        public Tile getTileAt(Position pos) { return tile; }
-        public Unit getUnitAt(Position pos) { return new UnitImpl(GameConstants.ARCHER, Player.YELLOW);}
-        public City getCityAt(Position pos) { return new CityImpl(Player.YELLOW, null); }
-        public Player getPlayerInTurn() { return Player.YELLOW; }
-        public Player getWinner() { return Player.YELLOW; }
-        public int getAge() { return 16; }
-        public boolean moveUnit(Position from, Position to) { return true;}
-        public void endOfTurn() {changeMe = true;}
-        public void changeWorkForceFocusInCityAt(Position pos, String balance) {changeMe = true;}
-        public void changeProductionInCityAt(Position pos, String unitType) { changeMe = true;}
-        public void performUnitActionAt(Position pos) { unitActionPerformedAt = pos;}
-        public void addObserver(GameObserver observer) { changeMe = true;}
-        public void setTileFocus(Position pos) {changeMe = true;}
-    }
 
     @Test
     public void getAgeCall() {
@@ -137,33 +117,33 @@ public class TestBroker {
 
     @Test
     public void getOwnerCity(){
-        assertThat(cityProxy.getOwner(), is(Player.YELLOW));
+        assertThat(cityProxy.getOwner("1"), is(Player.YELLOW));
     }
 
 
     @Test
     public void getSizeCity(){
-        assertThat(cityProxy.getSize(), is(100));
+        assertThat(cityProxy.getSize("1"), is(100));
     }
 
     @Test
     public void getTreasuryCity(){
-        assertThat(cityProxy.getTreasury(), is(100));
+        assertThat(cityProxy.getTreasury("1"), is(100));
     }
 
     @Test
     public void getProductionCity(){
-        assertEquals(cityProxy.getProduction(), "Women");
+        assertEquals(cityProxy.getProduction("1"), "Women");
     }
 
     @Test
     public void getWorkForceFocus(){
-        assertEquals(cityProxy.getWorkforceFocus(), "Women");
+        assertEquals(cityProxy.getWorkforceFocus("1"), "Women");
     }
 
     @Test
     public void getTypeStringTile(){
-        assertEquals(tileProxy.getTypeString(), "Heaven");
+        assertEquals(tileProxy.getTypeString("1"), "Heaven");
     }
 
     @Test

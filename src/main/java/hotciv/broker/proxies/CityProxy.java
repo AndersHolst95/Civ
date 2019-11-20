@@ -6,31 +6,30 @@ import hotciv.framework.City;
 import hotciv.framework.Player;
 import hotciv.standard.TileImpl;
 
-public class CityProxy implements City {
+public class CityProxy {
     private Requestor requestor;
-    private final String objectId = "lol";
 
     public CityProxy(Requestor requestor) {
         this.requestor = requestor;
     }
 
-    public Player getOwner() {
+    public Player getOwner(String objectId) {
         return requestor.sendRequestAndAwaitReply(objectId, OperationNames.getOwnerCity, Player.class);
     }
 
-    public int getSize() {
+    public int getSize(String objectId) {
         return requestor.sendRequestAndAwaitReply(objectId, OperationNames.getSize, Integer.class);
     }
 
-    public int getTreasury() {
+    public int getTreasury(String objectId) {
         return requestor.sendRequestAndAwaitReply(objectId, OperationNames.getTreasury, Integer.class);
     }
 
-    public String getProduction() {
+    public String getProduction(String objectId) {
         return requestor.sendRequestAndAwaitReply(objectId, OperationNames.getProduction, String.class);
     }
 
-    public String getWorkforceFocus() {
+    public String getWorkforceFocus(String objectId) {
         return requestor.sendRequestAndAwaitReply(objectId, OperationNames.getWorkforceFocus, String.class);
     }
 }
