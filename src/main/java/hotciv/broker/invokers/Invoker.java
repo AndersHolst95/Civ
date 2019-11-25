@@ -40,6 +40,7 @@ public class Invoker implements frds.broker.Invoker {
     public static CityImpl getCity(String id) {
         return cityMap.get(id);
     }
+
     public static void addCity(CityImpl city){
         cityMap.put(city.getId(), city);
     }

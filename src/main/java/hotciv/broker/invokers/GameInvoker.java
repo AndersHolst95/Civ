@@ -31,19 +31,22 @@ public class GameInvoker implements frds.broker.Invoker{
                 case OperationNames.getCityAt:
                     pos = gson.fromJson(array.get(0), Position.class);
                     City city = game.getCityAt(pos);
-                    Invoker.addCity(((CityImpl) city));
+                    if (city != null)
+                        Invoker.addCity(((CityImpl) city));
                     return new ReplyObject(0, gson.toJson(city));
                 case OperationNames.getPlayerInTurn:
                     return new ReplyObject(0, gson.toJson(game.getPlayerInTurn()));
                 case OperationNames.getTileAt:
                     pos = gson.fromJson(array.get(0), Position.class);
                     Tile tile = game.getTileAt(pos);
-                    Invoker.addTile(((TileImpl) tile));
+                    if (tile != null)
+                        Invoker.addTile(((TileImpl) tile));
                     return new ReplyObject(0, gson.toJson(tile));
                 case OperationNames.getUnitAt:
                     pos = gson.fromJson(array.get(0), Position.class);
                     Unit unit = game.getUnitAt(pos);
-                    Invoker.addUnit(((UnitImpl) unit));
+                    if (unit != null)
+                        Invoker.addUnit(((UnitImpl) unit));
                     return new ReplyObject(0, gson.toJson(unit));
                 case OperationNames.getWinner:
                     return new ReplyObject(0, gson.toJson(game.getWinner()));
