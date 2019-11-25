@@ -9,7 +9,7 @@ import hotciv.framework.Position;
 
 
 public class StoryTest {
-    private static String ip = "localhost";
+    private static String ip = "10.192.138.211";
     private static Client client;
 
     public static void main(String[] args) {

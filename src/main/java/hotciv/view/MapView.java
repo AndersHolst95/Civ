@@ -1,5 +1,6 @@
 package hotciv.view;
 
+import hotciv.standard.TileImpl;
 import minidraw.framework.*;
 import minidraw.standard.*;
 import java.awt.*;
@@ -69,21 +70,19 @@ public class MapView
 
     ImageManager im = ImageManager.getSingleton();
     Image img;
-    Position p;
-    
+    TileImpl[][] map = game.getTileMap();
     // draw the map as a matrix of tiles with cities on top
     for ( int r = 0; r < GameConstants.WORLDSIZE; r++ ) {
       for ( int c = 0; c < GameConstants.WORLDSIZE; c++ ) {
-        p = new Position(r,c);
         int xpos = GfxConstants.getXFromColumn(c);
         int ypos = GfxConstants.getYFromRow(r);
         // Draw proper terrain
-        Tile t = game.getTileAt(p);
+        Tile t = map[r][c];
         String image_name = t.getTypeString();
         // special handling of ocean coasts
         if ( image_name.equals(GameConstants.OCEANS) ) {
           image_name = image_name + 
-            MapAlgorithms.getCoastlineCoding(game, p );
+            MapAlgorithms.getCoastlineCoding(game, new Position(r, c));
         }
         img = im.getImage( image_name );
         g.drawImage( img, xpos, ypos, null );
