@@ -120,6 +120,14 @@ task comp(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
 }
 
+task hotcivStoryTest(type: JavaExec) {
+    group 'SWEA Distribution'
+    description 'StoryTest'
+
+    main = 'hotciv.broker.StoryTest'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
 task semi(type: JavaExec) {
     group 'SWEA Mandatory'
     description ' Play SemiCiv using the GUI :-)'
