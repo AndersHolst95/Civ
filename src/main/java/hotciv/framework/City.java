@@ -31,6 +31,8 @@ Responsibilities:
 
 */
 public interface City {
+  public String getId();
+
   /** return the owner of this city.
    * @return the player that controls this city.
    */

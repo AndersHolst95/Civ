@@ -15,10 +15,6 @@ public class UnitImpl implements Unit {
     private boolean usedAction = false;
     private String id = UUID.randomUUID().toString();
 
-    public String getId() {
-        return id;
-    }
-
     public UnitImpl(String type, Player owner){
         this.type = type;
         this.owner = owner;
@@ -28,28 +24,26 @@ public class UnitImpl implements Unit {
         this.cost = GameConstants.UNITS.toClass(type).getCost();
         moveCount = movement;
     }
+    public String getId() {
+        return id;
+    }
 
-    @Override
     public Player getOwner() {
         return owner;
     }
 
-    @Override
     public int getAttackingStrength() {
         return attStrength;
     }
 
-    @Override
     public int getDefensiveStrength() {
         return defStrength;
     }
 
-    @Override
     public int getMoveCount() {
         return moveCount;
     }
 
-    @Override
     public String getTypeString() {
         return type;
     }

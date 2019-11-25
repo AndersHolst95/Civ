@@ -26,6 +26,18 @@ public class OperationNames {
     public static final String getTreasury = city + "getTreasury";
     public static final String getProduction = city + "getProduction";
     public static final String getWorkforceFocus = city + "getWorkforceFocus";
+    public static final String getFood = city + "getFood";
+    public static final String getLocation = city + "getLocation";
+    public static final String getProductionValue = city + "getProductionValue";
+    public static final String getProductionCost = city + "getProductionCost";
+    public static final String decrementSize = city + "decrementSize";
+    public static final String addProductionValue = city + "addProductionValue";
+    public static final String setProduction = city + "setProduction";
+    public static final String setOwner = city + "setOwner";
+    public static final String resetFood = city + "resetFood";
+    public static final String increaseSize = city + "increaseSize";
+    public static final String addFood = city + "addFood";
+    public static final String setWorkforceFocus = city + "setWorkforceFocus";
 
     // Unit methods
     public static final String unit = "unit_";
@@ -34,10 +46,18 @@ public class OperationNames {
     public static final String getMoveCount = unit + "getMoveCount";
     public static final String getDefensiveStrength = unit + "getDefensiveStrength";
     public static final String getAttackingStrength = unit + "getAttackingStrength";
+    public static final String refreshMoveCount = unit + "refreshMoveCount";
+    public static final String setMoveCount = unit + "setMoveCount";
+    public static final String toggleFortify = unit + "toggleFortify";
+    public static final String setUsedAction = unit + "setUsedAction";
+    public static final String getUsedAction = unit + "getUsedAction";
 
     // Tile methods
     public static final String tile = "tile_";
     public static final String getTypeStringTile = tile + "getTypeString";
-
-
+    public static final String setType = tile + "setType";
+    public static final String setCity = tile + "setCity";
+    public static final String setUnit = tile + "setUnit";
+    public static final String getUnit = tile + "getUnit";
+    public static final String getCity = tile + "getCity";
 }

@@ -32,6 +32,8 @@ package hotciv.framework;
 
 public interface Tile {
 
+  public String getId();
+
   /** return the tile type as a string. The set of
    * valid strings are defined by the graphics
    * engine, as they correspond to named image files.

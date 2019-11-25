@@ -31,4 +31,24 @@ public class UnitProxy {
     public int getAttackingStrength(String objectId) {
         return requestor.sendRequestAndAwaitReply(objectId, OperationNames.getAttackingStrength, Integer.class);
     }
+
+    public void refreshMoveCount(String objectId) {
+        requestor.sendRequestAndAwaitReply(objectId, OperationNames.refreshMoveCount, void.class);
+    }
+
+    public void toggleFortify(String objectId) {
+        requestor.sendRequestAndAwaitReply(objectId, OperationNames.toggleFortify, void.class);
+    }
+
+    public void setUsedAction(String objectId, boolean usedAction) {
+        requestor.sendRequestAndAwaitReply(objectId, OperationNames.setUsedAction, void.class, usedAction);
+    }
+
+    public boolean getUsedAction(String objectId) {
+        return requestor.sendRequestAndAwaitReply(objectId, OperationNames.getUsedAction, boolean.class);
+    }
+
+    public void setMoveCount(String objectId, int i) {
+        requestor.sendRequestAndAwaitReply(objectId, OperationNames.setMoveCount, void.class, i);
+    }
 }

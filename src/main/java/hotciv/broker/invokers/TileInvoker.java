@@ -5,28 +5,39 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import frds.broker.ReplyObject;
 import hotciv.broker.OperationNames;
-import hotciv.framework.Game;
-import hotciv.framework.Position;
-import hotciv.framework.Tile;
+import hotciv.standard.CityImpl;
 import hotciv.standard.TileImpl;
-
-import java.util.HashMap;
+import hotciv.standard.UnitImpl;
 
 public class TileInvoker implements frds.broker.Invoker {
-    private Game servant;
-
-    public TileInvoker(Game servant) {
-        this.servant = servant;
-    }
+    public TileInvoker() {}
 
     public ReplyObject handleRequest(String objectId, String operationName, String payload) {
-        Tile tile =  Invoker.getTile(objectId);
+        TileImpl tile =  Invoker.getTile(objectId);
         Gson gson = new Gson();
+        JsonParser parser = new JsonParser();
+        JsonArray array = parser.parse(payload).getAsJsonArray();
 
         try {
             switch (operationName) {
                 case OperationNames.getTypeStringTile:
                     return new ReplyObject(0, gson.toJson(tile.getTypeString()));
+                case OperationNames.setType:
+                    String type = gson.fromJson(array.get(0), String.class);
+                    tile.setType(type);
+                    break;
+                case OperationNames.setCity:
+                    CityImpl city = gson.fromJson(array.get(0), CityImpl.class);
+                    tile.setCity(city);
+                    break;
+                case OperationNames.setUnit:
+                    UnitImpl unit = gson.fromJson(array.get(0), UnitImpl.class);
+                    tile.setUnit(unit);
+                    break;
+                case OperationNames.getUnit:
+                    return new ReplyObject(0, gson.toJson(tile.getUnit()));
+                case OperationNames.getCity:
+                    return new ReplyObject(0, gson.toJson(tile.getCity()));
             }
         }
         catch (Exception e) {
