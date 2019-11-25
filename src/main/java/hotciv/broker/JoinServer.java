@@ -15,6 +15,7 @@ public class JoinServer {
         client = new Client(ip, 2800);
         DrawingEditor editor = new MiniDrawApplication("HotCiv", new HotCivFactory4(client.getGameProxy()));
         editor.open();
+        System.out.println("Vi er glade");
         editor.setTool(new CompositeTool(editor, client.getGameProxy()));
     }
 }

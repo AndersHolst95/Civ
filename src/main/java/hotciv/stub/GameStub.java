@@ -5,6 +5,8 @@ import hotciv.standard.CityImpl;
 import hotciv.standard.TileImpl;
 import hotciv.standard.UnitImpl;
 
+import java.util.ArrayList;
+
 public class GameStub implements Game, frds.broker.Servant {
     private GameObserver observer = null;
     public boolean changeMe = false;
@@ -104,5 +106,10 @@ public class GameStub implements Game, frds.broker.Servant {
     @Override
     public void requestUpdate() {
 
+    }
+
+    @Override
+    public ArrayList<String> getAvailableUnits() {
+        return null;
     }
 }

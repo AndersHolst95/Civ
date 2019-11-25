@@ -50,6 +50,8 @@ public class GameInvoker implements frds.broker.Invoker{
                     return new ReplyObject(0, gson.toJson(unit));
                 case OperationNames.getWinner:
                     return new ReplyObject(0, gson.toJson(game.getWinner()));
+                case OperationNames.getAvailableUnits:
+                    return new ReplyObject(0, gson.toJson(game.getAvailableUnits()));
                 case OperationNames.moveUnit:
                     Position from = gson.fromJson(array.get(0), Position.class);
                     Position to = gson.fromJson(array.get(1), Position.class);
@@ -82,6 +84,7 @@ public class GameInvoker implements frds.broker.Invoker{
                 case OperationNames.requestUpdate:
                     game.requestUpdate();
                     break;
+
             }
         }
         catch (Exception e) {

@@ -136,6 +136,11 @@ public class StubGame2 implements Game {
 
   }
 
+  @Override
+  public ArrayList<String> getAvailableUnits() {
+    return null;
+  }
+
   private void notifyWorldChange(Position pos) {
     gameObserver.worldChangedAt(pos);
   }

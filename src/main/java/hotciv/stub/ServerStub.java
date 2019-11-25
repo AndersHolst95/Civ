@@ -3,6 +3,8 @@ package hotciv.stub;
 import hotciv.framework.*;
 import hotciv.standard.UnitImpl;
 
+import java.util.ArrayList;
+
 public class ServerStub implements Game {
     Position archer = new Position(1, 1);
     public Tile getTileAt(Position p) {
@@ -67,5 +69,10 @@ public class ServerStub implements Game {
     @Override
     public void requestUpdate() {
 
+    }
+
+    @Override
+    public ArrayList<String> getAvailableUnits() {
+        return null;
     }
 }

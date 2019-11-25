@@ -28,7 +28,7 @@ public class CompositeTool extends NullTool {
         focusTool = new FocusTool(editor, game);
         endTurnTool = new EndTurnTool(editor, game);
         actionTool = new ActionTool(editor, game);
-        availableUnits = ((GameImpl)game).getAvailableUnits();
+        availableUnits = game.getAvailableUnits();
     }
 
     public void mouseDown(MouseEvent e, int x, int y) {

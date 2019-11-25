@@ -7,6 +7,8 @@ import hotciv.standard.CityImpl;
 import hotciv.standard.TileImpl;
 import hotciv.standard.UnitImpl;
 
+import java.util.ArrayList;
+
 public class GameProxy implements Game {
     private Requestor requestor;
     private final String objectId = "lol";
@@ -72,5 +74,10 @@ public class GameProxy implements Game {
 
     public void requestUpdate() {
         requestor.sendRequestAndAwaitReply(objectId, OperationNames.requestUpdate, Void.class);
+    }
+
+    @Override
+    public ArrayList<String> getAvailableUnits() {
+        return requestor.sendRequestAndAwaitReply(objectId, OperationNames.getAvailableUnits, ArrayList.class);
     }
 }
