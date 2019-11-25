@@ -63,4 +63,9 @@ public class ServerStub implements Game {
     public void setTileFocus(Position position) {
 
     }
+
+    @Override
+    public void requestUpdate() {
+
+    }
 }

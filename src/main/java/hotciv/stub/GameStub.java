@@ -100,4 +100,9 @@ public class GameStub implements Game, frds.broker.Servant {
     public void performUnitActionAt(Position pos) { unitActionPerformedAt = pos;}
     public void addObserver(GameObserver observer) { changeMe = true;}
     public void setTileFocus(Position pos) {changeMe = true;}
+
+    @Override
+    public void requestUpdate() {
+
+    }
 }

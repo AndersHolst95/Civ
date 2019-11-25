@@ -69,4 +69,9 @@ public class GameProxy implements Game {
     public void setTileFocus(Position pos) {
         requestor.sendRequestAndAwaitReply(objectId, OperationNames.setTileFocus, Void.class, pos);
     }
+
+    @Override
+    public void requestUpdate() {
+        requestor.sendRequestAndAwaitReply(objectId, OperationNames.requestUpdate, Void.class);
+    }
 }

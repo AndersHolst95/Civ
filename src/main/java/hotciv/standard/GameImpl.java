@@ -252,4 +252,9 @@ public class GameImpl implements Game {
     public ArrayList<String> getAvailableUnits(){
         return availableUnitsStrategy.getAvailableUnits();
     }
+
+    public void requestUpdate(){
+        for(GameObserver observer : observers)
+            observer.requestUpdate();
+    }
 }

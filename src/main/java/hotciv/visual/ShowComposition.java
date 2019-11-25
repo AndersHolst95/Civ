@@ -84,6 +84,8 @@ class CompositeTool extends NullTool {
                 && GfxConstants.REFRESH_BUTTON_Y < y && y < GfxConstants.REFRESH_BUTTON_Y + 18) {
             selectedPos = null;
             selectedUnit = false;
+
+
             return;
         }
 

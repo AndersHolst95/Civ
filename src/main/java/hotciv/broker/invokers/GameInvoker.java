@@ -76,6 +76,9 @@ public class GameInvoker implements frds.broker.Invoker{
                 case OperationNames.endOfTurn:
                     game.endOfTurn();
                     break;
+                case OperationNames.requestUpdate:
+                    game.requestUpdate();
+                    break;
             }
         }
         catch (Exception e) {

@@ -50,4 +50,6 @@ public interface GameObserver {
    * now inspected/has focus.
    */
   public void tileFocusChangedAt(Position position);
+
+  public void requestUpdate();
 }

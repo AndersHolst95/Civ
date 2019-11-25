@@ -34,5 +34,11 @@ public class StubTile implements Tile {
   public StubTile(String type) {
     this.type = type;
   }
+
+  @Override
+  public String getId() {
+    return null;
+  }
+
   public String getTypeString() { return type; }
 }

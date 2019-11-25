@@ -2,6 +2,7 @@ package hotciv.broker.invokers;
 
 import frds.broker.ReplyObject;
 import hotciv.broker.OperationNames;
+import hotciv.broker.Servant;
 import hotciv.framework.Game;
 import hotciv.framework.Tile;
 import hotciv.standard.CityImpl;
@@ -11,7 +12,7 @@ import hotciv.standard.UnitImpl;
 import java.util.HashMap;
 
 public class Invoker implements frds.broker.Invoker {
-    Game servant;
+    Servant servant;
     GameInvoker gameInvoker;
     UnitInvoker unitInvoker;
     CityInvoker cityInvoker;
@@ -43,13 +44,14 @@ public class Invoker implements frds.broker.Invoker {
         cityMap.put(city.getId(), city);
     }
 
-    public Invoker(Game servant) {
-        this.servant = servant;
+    public Invoker(Game game) {
+        this.servant = new Servant(game);
         gameInvoker = new GameInvoker(servant);
-        unitInvoker = new UnitInvoker(servant);
-        cityInvoker = new CityInvoker(servant);
-        tileInvoker = new TileInvoker(servant);
+        unitInvoker = new UnitInvoker();
+        cityInvoker = new CityInvoker();
+        tileInvoker = new TileInvoker();
     }
+
 
     public ReplyObject handleRequest(String objectId, String operationName, String payload) {
         String fromClass = operationName.substring(0, operationName.indexOf('_')+1);

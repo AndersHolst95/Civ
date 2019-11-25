@@ -131,6 +131,11 @@ public class StubGame2 implements Game {
     gameObserver.tileFocusChangedAt(pos);
   }
 
+  @Override
+  public void requestUpdate() {
+
+  }
+
   private void notifyWorldChange(Position pos) {
     gameObserver.worldChangedAt(pos);
   }
@@ -150,6 +155,11 @@ public class StubGame2 implements Game {
     public StubUnit(String type, Player owner) {
       this.type = type;
       this.owner = owner;
+    }
+
+    @Override
+    public String getId() {
+      return null;
     }
 
     public String getTypeString() {

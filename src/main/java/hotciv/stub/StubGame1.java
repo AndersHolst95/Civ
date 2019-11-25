@@ -51,6 +51,11 @@ public class StubGame1 implements Game {
   public void addObserver(GameObserver observer) {} 
   public void setTileFocus(Position position) {}
 
+  @Override
+  public void requestUpdate() {
+
+  }
+
   // A simple implementation to draw the map of DeltaCiv
   protected Map<Position,Tile> world; 
   public Tile getTileAt( Position p ) { return world.get(p); }
