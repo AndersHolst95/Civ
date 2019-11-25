@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class GameProxy implements Game {
     private Requestor requestor;
     private final String objectId = "lol";
+    private ArrayList<GameObserver> observers;
 
     public GameProxy(Requestor requestor) {
         this.requestor = requestor;
@@ -44,36 +45,47 @@ public class GameProxy implements Game {
 
 
     public boolean moveUnit(Position from, Position to) {
-        return requestor.sendRequestAndAwaitReply(objectId, OperationNames.moveUnit, Boolean.class, from, to);
+        boolean hasMooved = requestor.sendRequestAndAwaitReply(objectId, OperationNames.moveUnit, Boolean.class, from, to);
+        Utility.notifyWorldChange(from, observers);
+        Utility.notifyWorldChange(to, observers);
+        return hasMooved;
     }
 
     public void endOfTurn() {
         requestor.sendRequestAndAwaitReply(objectId, OperationNames.endOfTurn, Void.class);
+        Player currentPlayer = getPlayerInTurn();
+        if(currentPlayer.equals(Player.RED))
+            Utility.notifyTurnChange(Player.BLUE, observers);
+        else Utility.notifyTurnChange(Player.RED, observers);
     }
 
     public void changeWorkForceFocusInCityAt(Position pos, String balance) {
         requestor.sendRequestAndAwaitReply(objectId, OperationNames.changeWorkForceFocusInCityAt, Void.class, pos, balance);
+        Utility.notifyWorldChange(pos, observers);
     }
 
     public void changeProductionInCityAt(Position pos, String unitType) {
         requestor.sendRequestAndAwaitReply(objectId, OperationNames.changeProductionInCityAt, Void.class, pos, unitType);
+        Utility.notifyWorldChange(pos, observers);
     }
 
     public void performUnitActionAt(Position pos) {
         requestor.sendRequestAndAwaitReply(objectId, OperationNames.performUnitActionAt, Void.class, pos);
+        Utility.notifyWorldChange(pos, observers);
     }
 
     public void addObserver(GameObserver observer) {
-        requestor.sendRequestAndAwaitReply(objectId, OperationNames.addObserver, Void.class, observer);
-
+        observers.add(observer);
     }
 
     public void setTileFocus(Position pos) {
         requestor.sendRequestAndAwaitReply(objectId, OperationNames.setTileFocus, Void.class, pos);
+        Utility.notifyTileFocusChange(pos, observers);
     }
 
     public void requestUpdate() {
-        requestor.sendRequestAndAwaitReply(objectId, OperationNames.requestUpdate, Void.class);
+        for(GameObserver observer : observers)
+            observer.requestUpdate();
     }
 
     @Override

@@ -64,10 +64,6 @@ public class GameInvoker implements frds.broker.Invoker{
                     pos = gson.fromJson(array.get(0), Position.class);
                     game.setTileFocus(pos);
                     break;
-                case OperationNames.addObserver:
-                    GameObserver observer = gson.fromJson(array.get(0), NullObserver.class);
-                    game.addObserver(observer);
-                    break;
                 case OperationNames.changeProductionInCityAt:
                     pos = gson.fromJson(array.get(0), Position.class);
                     String unitType = gson.fromJson(array.get(1), String.class);
