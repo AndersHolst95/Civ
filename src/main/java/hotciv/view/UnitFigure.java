@@ -67,6 +67,8 @@ public class UnitFigure extends ImageFigure {
     g.setColor(Color.black);
     g.drawOval(fDisplayBox.x, fDisplayBox.y+7, 8, 6);
   }
-  
-  
+
+  public Unit getAssociatedUnit() {
+    return associatedUnit;
+  }
 }

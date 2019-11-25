@@ -1,5 +1,7 @@
 package hotciv.framework;
 
+import hotciv.standard.TileImpl;
+
 import java.util.ArrayList;
 
 /**
@@ -178,4 +180,6 @@ public interface Game {
     public void requestUpdate();
 
     public ArrayList<String> getAvailableUnits();
+
+    public TileImpl[][] getTileMap();
 }

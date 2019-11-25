@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class GameProxy implements Game {
     private Requestor requestor;
     private final String objectId = "lol";
-    private ArrayList<GameObserver> observers;
+    private ArrayList<GameObserver> observers = new ArrayList<>();
 
     public GameProxy(Requestor requestor) {
         this.requestor = requestor;
@@ -45,10 +45,10 @@ public class GameProxy implements Game {
 
 
     public boolean moveUnit(Position from, Position to) {
-        boolean hasMooved = requestor.sendRequestAndAwaitReply(objectId, OperationNames.moveUnit, Boolean.class, from, to);
+        boolean hasMoved = requestor.sendRequestAndAwaitReply(objectId, OperationNames.moveUnit, Boolean.class, from, to);
         Utility.notifyWorldChange(from, observers);
         Utility.notifyWorldChange(to, observers);
-        return hasMooved;
+        return hasMoved;
     }
 
     public void endOfTurn() {
