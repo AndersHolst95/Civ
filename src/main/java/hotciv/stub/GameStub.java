@@ -40,7 +40,7 @@ public class GameStub implements Game, frds.broker.Servant {
     }
 
     private class CityStub extends CityImpl {
-        private String id = "city";
+        private String objectId = "city";
 
         public CityStub(Player owner, Position loc) {
             super(owner, loc);
@@ -65,24 +65,24 @@ public class GameStub implements Game, frds.broker.Servant {
         public String getWorkforceFocus() {
             return "vandland";
         }
-        public String getId(){return id;}
+        public String getId(){return objectId;}
     }
 
     public class TileStub extends TileImpl {
-        private String id = "tile";
-        private String type;
+        private String objectId = "tile";
+        private String type2;
 
         public TileStub(Position position, String type, CityImpl city, UnitImpl unit) {
             super(position, type, city, unit);
-            this.type = type;
+            this.type2 = type;
         }
 
         public String getTypeString() {
-            return type;
+            return type2;
         }
 
         public String getId() {
-            return id;
+            return objectId;
         }
     }
 

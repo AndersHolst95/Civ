@@ -38,28 +38,16 @@ public class TestBroker {
         cityProxy = new CityProxy(requestor);
         unitProxy = new UnitProxy(requestor);
         tileProxy = new TileProxy(requestor);
+
+        gameProxy.getCityAt(null);
+        gameProxy.getUnitAt(null);
+        gameProxy.getTileAt(null);
     }
 
 
     @Test
     public void getAgeCall() {
         assertEquals(16, gameProxy.getAge());
-    }
-
-    @Test
-    public void getTileAtCall() {
-        assertEquals("oasis", gameProxy.getTileAt(null).getTypeString());
-    }
-
-
-    @Test
-    public void getUnitAtCall(){
-        assertThat(gameProxy.getUnitAt(null).getOwner(), is(Player.YELLOW));
-    }
-
-    @Test
-    public void getCityAtCall(){
-        assertThat(gameProxy.getCityAt(null).getOwner(), is(Player.YELLOW));
     }
 
     @Test
@@ -117,38 +105,38 @@ public class TestBroker {
 
     @Test
     public void getOwnerCity(){
-        assertThat(cityProxy.getOwner("1"), is(Player.YELLOW));
+        assertThat(cityProxy.getOwner("city"), is(Player.YELLOW));
     }
 
 
     @Test
     public void getSizeCity(){
-        assertThat(cityProxy.getSize("1"), is(100));
+        assertThat(cityProxy.getSize("city"), is(82));
     }
 
     @Test
     public void getTreasuryCity(){
-        assertThat(cityProxy.getTreasury("1"), is(100));
+        assertThat(cityProxy.getTreasury("city"), is(119));
     }
 
     @Test
     public void getProductionCity(){
-        assertEquals(cityProxy.getProduction("1"), "Women");
+        assertEquals(cityProxy.getProduction("city"), "dragon");
     }
 
     @Test
     public void getWorkForceFocus(){
-        assertEquals(cityProxy.getWorkforceFocus("1"), "Women");
+        assertEquals(cityProxy.getWorkforceFocus("city"), "vandland");
     }
 
     @Test
     public void getTypeStringTile(){
-        assertEquals(tileProxy.getTypeString("1"), "Heaven");
+        assertEquals(tileProxy.getTypeString("tile"), "oasis");
     }
 
     @Test
     public void getTypeStringUnit(){
-        assertEquals(unitProxy.getTypeString("unit"), "AndersAnd");
+        assertEquals(unitProxy.getTypeString("unit"), "BigBoy");
     }
 
     @Test
@@ -158,17 +146,17 @@ public class TestBroker {
 
     @Test
     public void getMovecountUnit(){
-        assertEquals(unitProxy.getMoveCount("unit"), 100);
+        assertEquals(unitProxy.getMoveCount("unit"), 9);
     }
 
     @Test
     public void getDefensiveStrengthUnit(){
-        assertEquals(unitProxy.getMoveCount("unit"), 100);
+        assertEquals(unitProxy.getDefensiveStrength("unit"), 64);
     }
 
     @Test
     public void getAttackingStrengthUnit(){
-        assertEquals(unitProxy.getAttackingStrength("unit"), 100);
+        assertEquals(unitProxy.getAttackingStrength("unit"), 1337);
     }
 }
 

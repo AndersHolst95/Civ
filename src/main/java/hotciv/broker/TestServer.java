@@ -3,7 +3,7 @@ package hotciv.broker;
 import hotciv.framework.Player;
 
 public class TestServer {
-    private static String ip = "localhost";
+    private static String ip = "10.192.138.211";
     private static Client client;
 
     public static void main(String[] args) {

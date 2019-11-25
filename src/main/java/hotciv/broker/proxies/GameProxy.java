@@ -70,7 +70,6 @@ public class GameProxy implements Game {
         requestor.sendRequestAndAwaitReply(objectId, OperationNames.setTileFocus, Void.class, pos);
     }
 
-    @Override
     public void requestUpdate() {
         requestor.sendRequestAndAwaitReply(objectId, OperationNames.requestUpdate, Void.class);
     }
