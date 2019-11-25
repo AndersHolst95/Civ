@@ -238,6 +238,10 @@ public class GameImpl implements Game {
         return availableUnitsStrategy.getAvailableUnits();
     }
 
+    public TileImpl[][] getTileMap() {
+        return World.getMap();
+    }
+
     public void requestUpdate(){
         for(GameObserver observer : observers)
             observer.requestUpdate();

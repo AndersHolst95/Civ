@@ -92,4 +92,9 @@ public class GameProxy implements Game {
     public ArrayList<String> getAvailableUnits() {
         return requestor.sendRequestAndAwaitReply(objectId, OperationNames.getAvailableUnits, ArrayList.class);
     }
+
+    @Override
+    public TileImpl[][] getTileMap() {
+        return requestor.sendRequestAndAwaitReply(objectId, OperationNames.getTileMap, TileImpl[][].class);
+    }
 }

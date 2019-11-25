@@ -20,6 +20,7 @@ public class OperationNames {
     public static final String addObserver = game + "addObserver";
     public static final String requestUpdate = game + "requestUpdate";
     public static final String getAvailableUnits = game + "getAvailableUnits";
+    public static final String getTileMap = game + "getTileMap";
 
     // City methods
     public static final String city = "city_";

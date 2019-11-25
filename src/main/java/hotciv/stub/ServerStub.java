@@ -1,6 +1,7 @@
 package hotciv.stub;
 
 import hotciv.framework.*;
+import hotciv.standard.TileImpl;
 import hotciv.standard.UnitImpl;
 
 import java.util.ArrayList;
@@ -74,5 +75,10 @@ public class ServerStub implements Game {
     @Override
     public ArrayList<String> getAvailableUnits() {
         return null;
+    }
+
+    @Override
+    public TileImpl[][] getTileMap() {
+        return new TileImpl[0][];
     }
 }

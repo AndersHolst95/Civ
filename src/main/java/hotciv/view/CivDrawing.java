@@ -6,6 +6,7 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
+import hotciv.standard.TileImpl;
 import minidraw.framework.*;
 import minidraw.standard.*;
 
@@ -43,8 +44,9 @@ public class CivDrawing implements Drawing, GameObserver {
         game.addObserver(this);
         // ... and build up the set of figures associated with
         // units in the game
-        defineCityMap();
-        defineUnitMap();
+        TileImpl[][] map = game.getTileMap();
+        defineCityMap(map);
+        defineUnitMap(map);
         // and the set of 'icons' in the status panel
         defineIcons();
 
@@ -65,7 +67,7 @@ public class CivDrawing implements Drawing, GameObserver {
      * one from scratch by iterating over the game world and add
      * Figure instances for each unit in the world.
      */
-    protected void defineUnitMap() {
+    protected void defineUnitMap(TileImpl[][] map) {
         // ensure no units of the old list are accidental in
         // the selection!
         clearSelection();
@@ -77,16 +79,14 @@ public class CivDrawing implements Drawing, GameObserver {
         // each unit in the game world, as well as
         // create an association between the unit and
         // the unitFigure in 'unitFigureMap'.
-        Position p;
         for ( int r = 0; r < GameConstants.WORLDSIZE; r++ ) {
             for ( int c = 0; c < GameConstants.WORLDSIZE; c++ ) {
-                p = new Position(r,c);
-                Unit unit = game.getUnitAt(p);
+                Unit unit = map[r][c].getUnit();
                 if ( unit != null ) {
                     String type = unit.getTypeString();
                     // convert the unit's Position to (x,y) coordinates
-                    Point point = new Point( GfxConstants.getXFromColumn(p.getColumn()),
-                            GfxConstants.getYFromRow(p.getRow()) );
+                    Point point = new Point( GfxConstants.getXFromColumn(c),
+                            GfxConstants.getYFromRow(r) );
                     UnitFigure unitFigure =
                             new UnitFigure( type, point, unit );
                     unitFigure.addFigureChangeListener(this);
@@ -101,7 +101,7 @@ public class CivDrawing implements Drawing, GameObserver {
         }
     }
 
-    protected void defineCityMap() {
+    protected void defineCityMap(TileImpl[][] map) {
         // ensure no units of the old list are accidental in
         // the selection!
         clearSelection();
@@ -111,15 +111,13 @@ public class CivDrawing implements Drawing, GameObserver {
 
         // iterate world, and create a city figure for each city in the game world, as well as
         // create an association between the city and the cityFigure in 'cityFigureMap'.
-        Position p;
         for ( int r = 0; r < GameConstants.WORLDSIZE; r++ ) {
             for ( int c = 0; c < GameConstants.WORLDSIZE; c++ ) {
-                p = new Position(r,c);
-                City city = game.getCityAt(p);
+                City city = map[r][c].getCity();
                 if ( city != null ) {
 
                     // convert the unit's Position to (x,y) coordinates
-                    Point point = new Point( GfxConstants.getXFromColumn(p.getColumn()), GfxConstants.getYFromRow(p.getRow()) );
+                    Point point = new Point( GfxConstants.getXFromColumn(c), GfxConstants.getYFromRow(r) );
                     CityFigure cityFigure = new CityFigure(city, point);
                     cityFigure.addFigureChangeListener(this);
                     cityFigureMap.put(city, cityFigure);
@@ -241,8 +239,9 @@ public class CivDrawing implements Drawing, GameObserver {
         // all known units and build up the entire set again
 
         // TODO: Cities may change on position as well - DONE
-        defineCityMap();
-        defineUnitMap();
+        TileImpl[][] map = game.getTileMap();
+        defineCityMap(map);
+        defineUnitMap(map);
         updateIcons();
     }
 
@@ -296,9 +295,10 @@ public class CivDrawing implements Drawing, GameObserver {
     @Override
     public void requestUpdate() {
         // A request has been issued to repaint everything. We simply rebuild the entire Drawing.
+        TileImpl[][] map = game.getTileMap();
         updateIcons();
-        defineCityMap();
-        defineUnitMap();
+        defineCityMap(map);
+        defineUnitMap(map);
         // TODO: Cities pending - DONE
     }
 

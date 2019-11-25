@@ -112,4 +112,9 @@ public class GameStub implements Game, frds.broker.Servant {
     public ArrayList<String> getAvailableUnits() {
         return null;
     }
+
+    @Override
+    public TileImpl[][] getTileMap() {
+        return new TileImpl[0][];
+    }
 }

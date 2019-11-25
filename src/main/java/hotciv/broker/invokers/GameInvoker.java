@@ -48,6 +48,8 @@ public class GameInvoker implements frds.broker.Invoker{
                     if (unit != null)
                         Invoker.addUnit(((UnitImpl) unit));
                     return new ReplyObject(0, gson.toJson(unit));
+                case OperationNames.getTileMap:
+                    return new ReplyObject(0, gson.toJson(game.getTileMap()));
                 case OperationNames.getWinner:
                     return new ReplyObject(0, gson.toJson(game.getWinner()));
                 case OperationNames.getAvailableUnits:
@@ -77,6 +79,7 @@ public class GameInvoker implements frds.broker.Invoker{
                 case OperationNames.endOfTurn:
                     game.endOfTurn();
                     break;
+
             }
         }
         catch (Exception e) {

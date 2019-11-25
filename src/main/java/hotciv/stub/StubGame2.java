@@ -2,6 +2,7 @@ package hotciv.stub;
 
 import hotciv.framework.*;
 import hotciv.standard.CityImpl;
+import hotciv.standard.TileImpl;
 
 import java.util.*;
 
@@ -139,6 +140,11 @@ public class StubGame2 implements Game {
   @Override
   public ArrayList<String> getAvailableUnits() {
     return null;
+  }
+
+  @Override
+  public TileImpl[][] getTileMap() {
+    return new TileImpl[0][];
   }
 
   private void notifyWorldChange(Position pos) {
