@@ -2,6 +2,7 @@ package hotciv.stub;
 
 import hotciv.framework.*;
 import hotciv.standard.CityImpl;
+import hotciv.standard.TileImpl;
 
 import java.util.*;
 
@@ -131,6 +132,21 @@ public class StubGame2 implements Game {
     gameObserver.tileFocusChangedAt(pos);
   }
 
+  @Override
+  public void requestUpdate() {
+
+  }
+
+  @Override
+  public ArrayList<String> getAvailableUnits() {
+    return null;
+  }
+
+  @Override
+  public TileImpl[][] getTileMap() {
+    return new TileImpl[0][];
+  }
+
   private void notifyWorldChange(Position pos) {
     gameObserver.worldChangedAt(pos);
   }
@@ -150,6 +166,11 @@ public class StubGame2 implements Game {
     public StubUnit(String type, Player owner) {
       this.type = type;
       this.owner = owner;
+    }
+
+    @Override
+    public String getId() {
+      return null;
     }
 
     public String getTypeString() {

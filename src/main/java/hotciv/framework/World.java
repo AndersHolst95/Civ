@@ -10,6 +10,10 @@ import java.util.ArrayList;
 public class World {
     private static TileImpl[][] map;
 
+    public static void setTileMap(TileImpl[][] newMap) {
+        map = newMap;
+    }
+
     public static void setMap(String[][] layout) {
         map = LayoutStrategy.generateMap(layout);
     }

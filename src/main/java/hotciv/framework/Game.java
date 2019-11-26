@@ -1,5 +1,9 @@
 package hotciv.framework;
 
+import hotciv.standard.TileImpl;
+
+import java.util.ArrayList;
+
 /**
  * Game is the central interface allowing a client to access and
  * modify the state of a HotCiv game.
@@ -172,4 +176,10 @@ public interface Game {
      * has focus.
      */
     public void setTileFocus(Position position);
+
+    public void requestUpdate();
+
+    public ArrayList<String> getAvailableUnits();
+
+    public TileImpl[][] getTileMap();
 }

@@ -5,45 +5,50 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import frds.broker.ReplyObject;
 import hotciv.broker.OperationNames;
-import hotciv.framework.*;
+import hotciv.standard.UnitImpl;
 
 public class UnitInvoker implements frds.broker.Invoker{
-    private Game servant;
-
-    public UnitInvoker(Game servant) {
-        this.servant = servant;
-    }
+    public UnitInvoker() {}
 
     public ReplyObject handleRequest(String objectId, String operationName, String payload) {
-        ReplyObject reply = new ReplyObject(0, "");
         Gson gson = new Gson();
+        UnitImpl unit = Invoker.getUnit(objectId);
 
         JsonParser parser = new JsonParser();
         JsonArray array = parser.parse(payload).getAsJsonArray();
-        Position pos;
         try {
             switch (operationName) {
                 case OperationNames.getTypeStringUnit:
-                    System.out.println("--> getTypeStringUnit called");
-                    return new ReplyObject(0, "AndersAnd");
+                    return new ReplyObject(0, gson.toJson(unit.getTypeString()));
                 case OperationNames.getOwnerUnit:
-                    System.out.println("--> getOwnerUnit called");
-                    return new ReplyObject(0, gson.toJson(Player.GREEN));
+                    return new ReplyObject(0, gson.toJson(unit.getOwner()));
                 case OperationNames.getMoveCount:
-                    System.out.println("--> getMoveCount called");
-                    reply = new ReplyObject(0, gson.toJson(100));
+                    return new ReplyObject(0, gson.toJson(unit.getMoveCount()));
                 case OperationNames.getDefensiveStrength:
-                    System.out.println("--> getDefensiveStrength called");
-                    reply = new ReplyObject(0, gson.toJson(100));
+                    return new ReplyObject(0, gson.toJson(unit.getDefensiveStrength()));
                 case OperationNames.getAttackingStrength:
-                    System.out.println("--> getAttackingStrength called");
-                    reply = new ReplyObject(0, gson.toJson(100));
-
+                    return new ReplyObject(0, gson.toJson(unit.getAttackingStrength()));
+                case OperationNames.getUsedAction:
+                    return new ReplyObject(0, gson.toJson(unit.getUsedAction()));
+                case OperationNames.setMoveCount:
+                    int i = gson.fromJson(array.get(0), Integer.class);
+                    unit.setMoveCount(i);
+                    break;
+                case OperationNames.toggleFortify:
+                    unit.toggleFortify();
+                    break;
+                case OperationNames.setUsedAction:
+                    boolean usedAction = gson.fromJson(array.get(0), boolean.class);
+                    unit.setUsedAction(usedAction);
+                    break;
+                case OperationNames.refreshMoveCount:
+                    unit.refreshMoveCount();
+                    break;
             }
         }
         catch (Exception e) {
             e.printStackTrace();
         }
-        return reply;
+        return new ReplyObject(0, "");
     }
 }

@@ -88,6 +88,12 @@ class CityStub implements City {
   public void  makeAChange() {
     redOwns = ! redOwns;
   }
+
+  @Override
+  public String getId() {
+    return null;
+  }
+
   public Player getOwner() {
     return (redOwns ? Player.RED : Player.BLUE);
   }

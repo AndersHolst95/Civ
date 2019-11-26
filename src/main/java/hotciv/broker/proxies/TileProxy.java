@@ -4,14 +4,13 @@ import frds.broker.Requestor;
 import hotciv.broker.OperationNames;
 import hotciv.framework.Tile;
 
-public class TileProxy implements Tile {
+public class TileProxy{
     private Requestor requestor;
-    private final String objectId = "lol";
 
     public TileProxy(Requestor requestor) {
         this.requestor = requestor;
     }
-    public String getTypeString() {
+    public String getTypeString(String objectId) {
         return requestor.sendRequestAndAwaitReply(objectId, OperationNames.getTypeStringTile, String.class);
     }
 }

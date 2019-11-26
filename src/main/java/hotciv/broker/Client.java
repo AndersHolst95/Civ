@@ -21,4 +21,8 @@ public class Client {
         unitProxy = new UnitProxy(requestor);
         tileProxy = new TileProxy(requestor);
     }
+
+    public GameProxy getGameProxy() {
+        return gameProxy;
+    }
 }

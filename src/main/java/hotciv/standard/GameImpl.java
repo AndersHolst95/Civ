@@ -90,14 +90,14 @@ public class GameImpl implements Game {
          if(! availableUnitsStrategy.validUnitType(production))
              return false;
          city.setProduction(production);
-         notifyWorldChange(city.getLocation());
+         Utility.notifyWorldChange(city.getLocation(), observers);
          return true;
     }
 
     public boolean moveUnit(Position from, Position to) {
         boolean hasMoved = World.moveUnit(from, to, attackStrategy, unitMovementDistinctionStrategy);
-        notifyWorldChange(from);
-        notifyWorldChange(to);
+        Utility.notifyWorldChange(from, observers);
+        Utility.notifyWorldChange(to, observers);
         return hasMoved;
     }
 
@@ -107,12 +107,12 @@ public class GameImpl implements Game {
     public void endOfTurn() {
         if (GameVariables.currentPlayer == Player.RED) {
             GameVariables.setCurrentPlayer(Player.BLUE);
-            notifyTurnChange(GameVariables.currentPlayer);
+            Utility.notifyTurnChange(GameVariables.currentPlayer, observers);
         }
         else { // resolve end-of-turn stuff and begin the next turn
             endOfRound();
             GameVariables.setCurrentPlayer(Player.RED);
-            notifyTurnChange(GameVariables.currentPlayer);
+            Utility.notifyTurnChange(GameVariables.currentPlayer, observers);
         }
     }
 
@@ -140,14 +140,14 @@ public class GameImpl implements Game {
                     CityImpl city = ((CityImpl) getCityAt(pos));
                     workforceStrategy.workTiles(city); // Work the tiles around the city to add extra production and food
                     produceUnit(pos, city); // produce eventual units
-                    notifyWorldChange(pos);
+                    Utility.notifyWorldChange(pos, observers);
                 }
                 // If the tile contains a unit..
                 if (getUnitAt(pos) != null){
                     UnitImpl unit = ((UnitImpl) getUnitAt(pos));
                     unit.refreshMoveCount(); // refresh its movement
                     unit.setUsedAction(false);
-                    notifyWorldChange(pos);
+                    Utility.notifyWorldChange(pos, observers);
                 }
             }
         }
@@ -165,7 +165,7 @@ public class GameImpl implements Game {
             Position nearestTile = World.getNearestAvailableTile(pos, city.getProduction(), unitMovementDistinctionStrategy);
             if (World.setUnitAt(nearestTile, new UnitImpl(city.getProduction(), city.getOwner()), unitMovementDistinctionStrategy)) {
                 city.addProductionValue(-city.getProductionCost());
-                notifyWorldChange(nearestTile);
+                Utility.notifyWorldChange(nearestTile, observers);
             }
         }
     }
@@ -181,7 +181,7 @@ public class GameImpl implements Game {
         CityImpl city = (CityImpl) getCityAt(p);
         if (city != null) {
             city.setWorkforceFocus(balance);
-            notifyWorldChange(p);
+            Utility.notifyWorldChange(p, observers);
         }
     }
 
@@ -189,7 +189,7 @@ public class GameImpl implements Game {
         CityImpl city = (CityImpl) getCityAt(p);
         if (city != null) {
             city.setProduction(unitType);
-            notifyWorldChange(p);
+            Utility.notifyWorldChange(p, observers);
         }
     }
 
@@ -206,24 +206,24 @@ public class GameImpl implements Game {
             return;
         ((UnitImpl) World.getUnitAt(pos)).setUsedAction(true);
         unitActionStrategy.doAction(pos);
-        notifyWorldChange(pos);
+        Utility.notifyWorldChange(pos, observers);
     }
 
     public boolean setUnitAt(Position pos, UnitImpl unit) {
         boolean placedUnit = World.setUnitAt(pos, unit, unitMovementDistinctionStrategy);
         if (placedUnit)
-            notifyWorldChange(pos);
+            Utility.notifyWorldChange(pos, observers);
         return placedUnit;
     }
 
     public void setTypeAt(Position pos, String type) {
         World.setTypeAt(pos, type);
-        notifyWorldChange(pos);
+        Utility.notifyWorldChange(pos, observers);
     }
 
     public void setCityAt(CityImpl city) {
         World.setCityAt(city);
-        notifyWorldChange(city.getLocation());
+        Utility.notifyWorldChange(city.getLocation(), observers);
     }
 
     public void addObserver(GameObserver observer){
@@ -231,25 +231,19 @@ public class GameImpl implements Game {
     };
 
     public void setTileFocus(Position pos){
-        notifyTileFocusChange(pos);
+        Utility.notifyTileFocusChange(pos, observers);
     };
-
-    private void notifyWorldChange(Position pos){
-        for(GameObserver observer : observers)
-            observer.worldChangedAt(pos);
-    }
-
-    private void notifyTurnChange(Player nextPlayer){
-        for(GameObserver observer : observers)
-            observer.turnEnds(nextPlayer);
-    }
-
-    private void notifyTileFocusChange(Position pos){
-        for(GameObserver observer : observers)
-            observer.tileFocusChangedAt(pos);
-    }
 
     public ArrayList<String> getAvailableUnits(){
         return availableUnitsStrategy.getAvailableUnits();
+    }
+
+    public TileImpl[][] getTileMap() {
+        return World.getMap();
+    }
+
+    public void requestUpdate(){
+        for(GameObserver observer : observers)
+            observer.requestUpdate();
     }
 }

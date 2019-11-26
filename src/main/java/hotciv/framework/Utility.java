@@ -38,4 +38,19 @@ public class Utility {
         return posList;
     }
 
+    public static void notifyWorldChange(Position pos, ArrayList<GameObserver> observers){
+        for(GameObserver observer : observers)
+            observer.worldChangedAt(pos);
+    }
+
+    public static void notifyTurnChange(Player nextPlayer, ArrayList<GameObserver> observers){
+        for(GameObserver observer : observers)
+            observer.turnEnds(nextPlayer);
+    }
+
+    public static void notifyTileFocusChange(Position pos, ArrayList<GameObserver> observers){
+        for(GameObserver observer : observers)
+            observer.tileFocusChangedAt(pos);
+    }
+
 }

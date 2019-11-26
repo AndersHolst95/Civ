@@ -32,6 +32,11 @@ public class TestGUI {
         public void turnEnds(Player nextPlayer) {latestPlayer = nextPlayer;}
         public void tileFocusChangedAt(Position position) {latestPos = position;}
 
+        @Override
+        public void requestUpdate() {
+
+        }
+
         public Player getLatestPlayer() {return latestPlayer;}
         public Position getLatestPos() {return latestPos;}
     }

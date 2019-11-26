@@ -1,43 +1,46 @@
 package hotciv.broker;
 
-import frds.broker.ClientRequestHandler;
-import frds.broker.Requestor;
-import frds.broker.marshall.json.StandardJSONRequestor;
-import hotciv.broker.*;
 import hotciv.framework.Player;
-import hotciv.framework.Position;
-
 
 public class TestServer {
-    private static String ip = "localhost";
+    private static String ip = "10.192.138.211";
     private static Client client;
 
     public static void main(String[] args) {
         int counter = 0;
         client = new Client(ip, 2800);
 
-        // Check getAge call
-        int value = client.gameProxy.getAge();
-        if(value == 19) counter++;
-        System.out.println("Age is: " + value);
+        // CITY //
+        client.gameProxy.getCityAt(null);
+        if (client.cityProxy.getProduction("city").equals("dragon"))
+            counter++;
+        if (client.cityProxy.getOwner("city").equals(Player.YELLOW))
+            counter++;
+        if (client.cityProxy.getWorkforceFocus("city").equals("vandland"))
+            counter++;
+        if (client.cityProxy.getTreasury("city") == 119)
+            counter++;
+        if (client.cityProxy.getSize("city") == 82)
+            counter++;
 
-        // Check playerInTurn call
-        Player player = client.gameProxy.getPlayerInTurn();
-        if(player.equals(Player.GREEN)) counter++;
-        System.out.println("Player in turn is: " + player);
+        // UNIT //
+        client.gameProxy.getUnitAt(null);
+        if (client.unitProxy.getMoveCount("unit") == 9)
+            counter++;
+        if (client.unitProxy.getAttackingStrength("unit") == 1337)
+            counter++;
+        if (client.unitProxy.getDefensiveStrength("unit") == 64)
+            counter++;
+        if (client.unitProxy.getTypeString("unit").equals("BigBoy"))
+            counter++;
+        if (client.unitProxy.getOwner("unit").equals(Player.GREEN))
+            counter++;
 
-        // Check moveUnit call and get unit at
-        Position pos = new Position(2, 2);
-        client.gameProxy.moveUnit(null, pos);
-        boolean moved = client.gameProxy.getUnitAt(pos) != null;
-        if(moved) counter++;
-        System.out.println("A unit has been moved: " + moved);
+        // TILE //
+        client.gameProxy.getTileAt(null);
+        if (client.tileProxy.getTypeString("tile").equals("oasis"))
+            counter++;
 
-        // Check getAge call
-        int gameAge= client.gameProxy.getAge();
-        if(gameAge == 19) counter++;
-        System.out.println("Age is: " + gameAge);
-
-        System.out.println(counter + "/4 test successful");
+        System.out.println(counter + "/11 test successful");
     }
 }

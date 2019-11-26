@@ -1,6 +1,7 @@
 package hotciv.stub;
 
 import hotciv.framework.*;
+import hotciv.standard.TileImpl;
 
 import java.util.*;
 
@@ -50,6 +51,21 @@ public class StubGame1 implements Game {
   public void performUnitActionAt( Position p ) {}  
   public void addObserver(GameObserver observer) {} 
   public void setTileFocus(Position position) {}
+
+  @Override
+  public void requestUpdate() {
+
+  }
+
+  @Override
+  public ArrayList<String> getAvailableUnits() {
+    return null;
+  }
+
+  @Override
+  public TileImpl[][] getTileMap() {
+    return new TileImpl[0][];
+  }
 
   // A simple implementation to draw the map of DeltaCiv
   protected Map<Position,Tile> world; 

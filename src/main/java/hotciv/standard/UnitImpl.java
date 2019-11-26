@@ -1,6 +1,8 @@
 package hotciv.standard;
 import hotciv.framework.*;
 
+import java.util.UUID;
+
 public class UnitImpl implements Unit {
     private String type;
     private Player owner;
@@ -11,6 +13,7 @@ public class UnitImpl implements Unit {
     private int cost;
     private boolean isFortified = false; // is the unit fortified
     private boolean usedAction = false;
+    private String id = UUID.randomUUID().toString();
 
     public UnitImpl(String type, Player owner){
         this.type = type;
@@ -21,28 +24,26 @@ public class UnitImpl implements Unit {
         this.cost = GameConstants.UNITS.toClass(type).getCost();
         moveCount = movement;
     }
+    public String getId() {
+        return id;
+    }
 
-    @Override
     public Player getOwner() {
         return owner;
     }
 
-    @Override
     public int getAttackingStrength() {
         return attStrength;
     }
 
-    @Override
     public int getDefensiveStrength() {
         return defStrength;
     }
 
-    @Override
     public int getMoveCount() {
         return moveCount;
     }
 
-    @Override
     public String getTypeString() {
         return type;
     }
