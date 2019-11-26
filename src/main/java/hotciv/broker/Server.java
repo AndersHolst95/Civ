@@ -28,7 +28,7 @@ public class Server {
     }
 
     public static void main(String[] args) {
-        Server server = new Server(new GameStub(), 2800);
+        Server server = new Server(new GameImpl(new SemiFactory()), 2800);
         server.start();
     }
 }
