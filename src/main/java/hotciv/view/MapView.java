@@ -70,14 +70,13 @@ public class MapView
 
     ImageManager im = ImageManager.getSingleton();
     Image img;
-    TileImpl[][] map = game.getTileMap();
     // draw the map as a matrix of tiles with cities on top
     for ( int r = 0; r < GameConstants.WORLDSIZE; r++ ) {
       for ( int c = 0; c < GameConstants.WORLDSIZE; c++ ) {
         int xpos = GfxConstants.getXFromColumn(c);
         int ypos = GfxConstants.getYFromRow(r);
         // Draw proper terrain
-        Tile t = map[r][c];
+        Tile t = World.getMap()[r][c];
         String image_name = t.getTypeString();
         // special handling of ocean coasts
         if ( image_name.equals(GameConstants.OCEANS) ) {

@@ -44,9 +44,9 @@ public class CivDrawing implements Drawing, GameObserver {
         game.addObserver(this);
         // ... and build up the set of figures associated with
         // units in the game
-        TileImpl[][] map = game.getTileMap();
-        defineCityMap(map);
-        defineUnitMap(map);
+        World.setTileMap(game.getTileMap());
+        defineCityMap(World.getMap());
+        defineUnitMap(World.getMap());
         // and the set of 'icons' in the status panel
         defineIcons();
 
@@ -233,15 +233,9 @@ public class CivDrawing implements Drawing, GameObserver {
     // === Observer Methods ===
 
     public void worldChangedAt(Position pos) {
-        // TODO: Remove system.out debugging output
-        System.out.println( "CivDrawing: world changes at "+pos);
-        // this is a really brute-force algorithm: destroy
-        // all known units and build up the entire set again
-
-        // TODO: Cities may change on position as well - DONE
-        TileImpl[][] map = game.getTileMap();
-        defineCityMap(map);
-        defineUnitMap(map);
+        World.setTileMap(game.getTileMap());
+        defineCityMap(World.getMap());
+        defineUnitMap(World.getMap());
         updateIcons();
     }
 
@@ -249,9 +243,8 @@ public class CivDrawing implements Drawing, GameObserver {
         resetIcons();
         String playerName = playerHashMap.get(nextPlayer);
         turnShieldIcon.set( playerName+"shield", new Point( GfxConstants.TURN_SHIELD_X, GfxConstants.TURN_SHIELD_Y ));
-
         ageText.setText(((Integer) game.getAge()).toString());
-
+        World.setTileMap(game.getTileMap());
     }
 
     public void tileFocusChangedAt(Position pos) {
@@ -291,11 +284,10 @@ public class CivDrawing implements Drawing, GameObserver {
     @Override
     public void requestUpdate() {
         // A request has been issued to repaint everything. We simply rebuild the entire Drawing.
-        TileImpl[][] map = game.getTileMap();
+        World.setTileMap(game.getTileMap());
         updateIcons();
-        defineCityMap(map);
-        defineUnitMap(map);
-        // TODO: Cities pending - DONE
+        defineCityMap(World.getMap());
+        defineUnitMap(World.getMap());
     }
 
     @Override
