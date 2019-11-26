@@ -8,7 +8,7 @@ import minidraw.framework.DrawingEditor;
 import minidraw.standard.MiniDrawApplication;
 
 public class JoinServer {
-    private static String ip = "10.192.134.89";
+    private static String ip = "localhost";
     private static Client client;
 
     public static void main(String[] args) {
