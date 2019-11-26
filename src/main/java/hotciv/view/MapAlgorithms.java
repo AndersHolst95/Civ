@@ -1,6 +1,7 @@
 package hotciv.view;
 
 import hotciv.framework.*;
+import hotciv.standard.TileImpl;
 
 /** A library of algorithms used to draw a FreeCiv like map, that
  * is, a map that draws coastlines properly for the oceans to avoid
@@ -60,11 +61,12 @@ class MapAlgorithms {
     // iterate over the four compas directions
     //   for each find the proper tile p and
     //   check if there is a coastline
+    TileImpl[][] map = game.getTileMap();
     for ( int i = 0; i < 4; i++ ) {
       p = new Position( row+offsetRow[i], col+offsetCol[i]);
       if ( p.getRow() >= 0 && p.getRow() < GameConstants.WORLDSIZE &&
            p.getColumn() >= 0 && p.getColumn() < GameConstants.WORLDSIZE &&
-           !game.getTileAt(p).getTypeString().equals(GameConstants.OCEANS) ) {
+           !map[p.getRow()][p.getColumn()].getTypeString().equals(GameConstants.OCEANS) ) {
         coding[i] = '1';
       }
     }

@@ -53,10 +53,8 @@ public class GameProxy implements Game {
 
     public void endOfTurn() {
         requestor.sendRequestAndAwaitReply(objectId, OperationNames.endOfTurn, Void.class);
-        Player currentPlayer = getPlayerInTurn();
-        if(currentPlayer.equals(Player.RED))
-            Utility.notifyTurnChange(Player.BLUE, observers);
-        else Utility.notifyTurnChange(Player.RED, observers);
+        Utility.notifyTurnChange(getPlayerInTurn(), observers);
+        System.out.println(observers);
     }
 
     public void changeWorkForceFocusInCityAt(Position pos, String balance) {
