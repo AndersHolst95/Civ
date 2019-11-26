@@ -16,11 +16,9 @@ public class GameStub implements Game, frds.broker.Servant {
 
     private class UnitStub extends UnitImpl {
         private String objectId = "unit";
-
         public UnitStub(String type, Player owner) {
             super(type, owner);
         }
-
         public String getId() {
             return objectId;
         }
@@ -30,9 +28,7 @@ public class GameStub implements Game, frds.broker.Servant {
         public int getDefensiveStrength() {
             return 64;
         }
-        public int getAttackingStrength() {
-            return 1337;
-        }
+        public int getAttackingStrength() { return 1337; }
         public int getMoveCount() {
             return 9;
         }
