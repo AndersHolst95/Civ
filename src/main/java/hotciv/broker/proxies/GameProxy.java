@@ -8,6 +8,8 @@ import hotciv.standard.TileImpl;
 import hotciv.standard.UnitImpl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class GameProxy implements Game {
     private Requestor requestor;
@@ -54,7 +56,6 @@ public class GameProxy implements Game {
     public void endOfTurn() {
         requestor.sendRequestAndAwaitReply(objectId, OperationNames.endOfTurn, Void.class);
         Utility.notifyTurnChange(getPlayerInTurn(), observers);
-        System.out.println(observers);
     }
 
     public void changeWorkForceFocusInCityAt(Position pos, String balance) {
@@ -88,7 +89,9 @@ public class GameProxy implements Game {
 
     @Override
     public ArrayList<String> getAvailableUnits() {
-        return requestor.sendRequestAndAwaitReply(objectId, OperationNames.getAvailableUnits, ArrayList.class);
+        String[] asArray = requestor.sendRequestAndAwaitReply(objectId, OperationNames.getAvailableUnits, String[].class);
+        List<String> arraylist = Arrays.asList(asArray);
+        return new ArrayList<String>(arraylist);
     }
 
     @Override

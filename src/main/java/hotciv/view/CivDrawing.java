@@ -217,6 +217,9 @@ public class CivDrawing implements Drawing, GameObserver {
     }
 
     protected void updateIcons(){
+        String playerName = playerHashMap.get(game.getPlayerInTurn());
+        turnShieldIcon.set( playerName+"shield", new Point( GfxConstants.TURN_SHIELD_X, GfxConstants.TURN_SHIELD_Y ));
+        ageText.setText(((Integer) game.getAge()).toString());
         clearSelection();
         removeAlImageFigures();
         removeAllTextFigures();
@@ -245,6 +248,8 @@ public class CivDrawing implements Drawing, GameObserver {
         turnShieldIcon.set( playerName+"shield", new Point( GfxConstants.TURN_SHIELD_X, GfxConstants.TURN_SHIELD_Y ));
         ageText.setText(((Integer) game.getAge()).toString());
         World.setTileMap(game.getTileMap());
+        defineCityMap(World.getMap());
+        defineUnitMap(World.getMap());
     }
 
     public void tileFocusChangedAt(Position pos) {

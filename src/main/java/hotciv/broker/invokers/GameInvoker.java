@@ -11,6 +11,8 @@ import hotciv.standard.CityImpl;
 import hotciv.standard.TileImpl;
 import hotciv.standard.UnitImpl;
 
+import java.util.ArrayList;
+
 public class GameInvoker implements frds.broker.Invoker{
     private Game game;
 
@@ -53,7 +55,9 @@ public class GameInvoker implements frds.broker.Invoker{
                 case OperationNames.getWinner:
                     return new ReplyObject(0, gson.toJson(game.getWinner()));
                 case OperationNames.getAvailableUnits:
-                    return new ReplyObject(0, gson.toJson(game.getAvailableUnits()));
+                    ArrayList<String> arrayList = game.getAvailableUnits();
+                    String[] asList = arrayList.toArray(new String[arrayList.size()]);
+                    return new ReplyObject(0, gson.toJson(asList));
                 case OperationNames.moveUnit:
                     Position from = gson.fromJson(array.get(0), Position.class);
                     Position to = gson.fromJson(array.get(1), Position.class);
